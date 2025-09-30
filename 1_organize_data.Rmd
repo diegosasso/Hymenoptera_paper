@@ -1,0 +1,96 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+### Initial setup
+```{r}
+# Load packages.
+library(phytools)
+library(tidyverse)
+```
+
+### Organize raw data
+```{r}
+# Import a modified (pruned) dated tree from Blaimer et al. (2023). Topology C1.
+hym_tree <- readRDS("data/hym_tree.RDS")
+
+# Plot tree to check.
+plot.phylo(hym_tree, show.tip.label = F)
+
+# Check if tree is ultrametric.
+is.ultrametric(hym_tree)
+
+# Check for zero length branches.
+any(hym_tree$edge.length == 0)
+
+# Check number of taxa.
+length(hym_tree$tip.label)
+
+# Import the adult character matrix modified from Sharkey et al. (2012).
+hym_adult <- readRDS("data/adult_matrix.RDS")
+
+# Import the larval characters modified from Ronquist et al. (2012).
+hym_larval <- readRDS("data/larval_matrix.RDS")
+
+# Import the taxonomy data from Sharkey et al (2012) and Blaimer et al. (2023).
+hym_data <- readRDS("data/taxon_data.RDS")
+
+# Import character data on ontology annotations and dependencies.
+hym_annot <- readRDS("data/char_annot.RDS")
+
+# Check matching of taxon and character labels across all data inputs.
+identical(hym_tree$tip.label, hym_data$Blaimer_taxa)
+identical(hym_data$Genus_Sharkey, hym_adult$taxa)
+identical(hym_data$Genus_Sharkey, hym_larval$taxa)
+identical(hym_annot$char_id, colnames(hym_adult)[-1])
+
+# Rename tip labels to match character matrices.
+hym_tree$tip.label <- hym_data$Genus_Sharkey
+
+# Remove non-informative and polymorphic characters.
+# Get list of characters to remove.
+drop_chars <- hym_annot %>% filter(hym_annot$dep_tag == "remove") %>% select(char_id)
+
+# Remove from annotations.
+hym_annot <- hym_annot %>% filter(hym_annot$dep_tag != "remove")
+
+# Remove from matrix.
+hym_adult <- hym_adult %>% select(c("taxa", hym_annot$char_id))
+```
+
+### Annotate character statements with terms from HAO
+```{r}
+### SOME NOTES ###
+# This code chunk is optional since it relies on the interactive functionality of ontoFAST.
+# It can be used to produce the ontology annotations shown in columns 
+# 'onto_id', 'onto_id1', and 'onto_id2' from the object 'hym_annot'.
+# See main text for explanations on individual annotation decisions.
+
+# Load package.
+library(ontoFAST)
+library(ontologyIndex)
+
+# Import HAO ontology.
+onto <- get_OBO("data/HAO.obo", extract_tags = "everything", propagate_relationships = c("BFO:0000050", "is_a"))
+
+# Extract character statements.
+char_data <- hym_annot$char
+
+# Pre-process character data.
+hao_obo <- onto_process(onto, char_data, do.annot = FALSE)
+
+# Start a new shiny environment.
+ontofast <- new.env(parent = emptyenv())
+ontofast$shiny_in <- make_shiny_in(hao_obo)
+runOntoFast(is_a = c("is_a"), part_of = c("BFO:0000050"), shiny_in = "shiny_in" )
+```
+
+### Save data
+```{r}
+# Create folder to store output data.
+suppressWarnings(dir.create("data_out"))
+
+# Save data.
+save(hym_tree, hym_adult, hym_larval, hym_data, hym_annot, drop_chars, file = "data_out/hym_dataset.RDA")
+```

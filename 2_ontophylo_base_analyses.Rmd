@@ -1,0 +1,776 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+### Initial setup
+```{r}
+# Load packages.
+library(corHMM)
+library(geiger)
+library(rphenoscate)
+library(ontophylo)
+library(tidyverse)
+
+# Import some helper functions.
+source("R/helpers.R")
+source("R/utils-maddfitz-root.R")
+```
+
+-----
+
+### ADULT CHARACTERS
+
+-----
+
+### Adult characters: Some comments on character dependencies and decisions
+
+#### Character groups (G1-G6)
+#### G1: non-dependent characters: 306 in total
+- Note: analyses can be run directly
+
+#### G2: characters with simple dependencies
+- Note: a binary controlling character and a single dependent character (two or more states): 34 in total
+- Dependency pairs: CH14+CH15, CH18+CH19, CH55+CH56 CH78+CH79, CH113+CH114,  
+CH134+CH135, CH143+CH144, CH151+CH152, CH194+CH195, CH207+CH208, CH212+CH213,  
+CH238+CH239, CH259+CH260, CH273+CH276, CH325+CH326, CH330+CH331, CH375+CH376
+
+#### G3: characters with non-hierarchical complex dependencies
+- Note: a binary controlling character and two binary dependent characters: 12 in total
+- Dependency triples: CH64-CH69-CH70, CH131-CH132-CH133, CH166-CH167-CH168, CH221-CH222-CH223
+
+#### G4: characters with non-hierarchical complex dependencies, but:
+(1) controlling characters with several dependent characters (or many dependent states)
+- Note: CH25, CH91, CH107, CH138: 4 in total
+(2) non-binary controlling characters
+- Note: CH227, CH272, CH295: 3 in total
+
+- These characters will be removed. Justifications:
+(1) too many states to properly estimate rates with the amount of data available (77 taxa only)
+(2) no models available to properly model non-binary controlling characters
+
+- Final notes:
+- G4 controlling characters will be deleted to 'release' dependent characters; 
+inapplicable states in dependent characters (-) must be recoded as missing (?)
+
+#### G5: dependent characters 'released' from the previous controlling characters: 21 in total
+(1) dependent characters: CH23-24, CH26, CH32-35, CH92-94, CH108, CH139-140, CH298-300
+(2) dependent characters: CH232, CH277, CH281-282, CH296
+
+#### G6: characters with hierarchical complex dependencies: 3 in total
+- Note: CH199-201
+- These characters will be removed. Justifications: too complex to be properly modeled
+
+-----
+
+### Adult characters: Organize trait data
+```{r}
+# Import organized raw data.
+load("data_out/hym_dataset.RDA")
+
+# Recode some inapplicable states as missing.
+# OBS: due to taxon or character removal from initial dataset.
+recode_miss <- c("CH23", "CH24", "CH26", "CH32", "CH33", "CH34", "CH35", "CH78", 
+                 "CH92", "CH93", "CH94", "CH108", "CH113", "CH139", "CH140", 
+                 "CH166", "CH212", "CH232", "CH277", "CH281", "CH282", "CH296", 
+                 "CH298", "CH299", "CH300", "CH325", "CH330")
+
+i = 1
+for (i in recode_miss) { hym_adult[[i]] <- gsub(hym_adult[[i]], pattern = "-", replacement = "?") }
+
+# Remove characters of groups G4 and G6.
+# Add to list of removed characters.
+drop_chars <- bind_rows(drop_chars, hym_annot %>% filter(hym_annot$char_group %in% c("G4", "G6")) %>% select(char_id))
+
+# Remove from annotations.
+hym_annot <- hym_annot %>% filter(hym_annot$char_group != "G4")
+hym_annot <- hym_annot %>% filter(hym_annot$char_group != "G6")
+
+# Remove from matrix.
+hym_adult <- hym_adult %>% select(c("taxa", hym_annot$char_id))
+```
+
+### Adult characters: Model fitting and stochastic character mapping
+```{r}
+# Create folders to save stochastic maps (uncomment if saving stochastic maps to folders).
+suppressWarnings(dir.create("stmaps"))
+#suppressWarnings(dir.create("stmaps_discr"))
+
+# Set some parameters.
+n_stm = 1000
+res = 500
+```
+
+```{r, message = FALSE}
+######################
+## GROUPS G1 AND G5 ##
+######################
+
+# Non-dependent characters and dependent characters 'released' from dependency.
+
+# Get subset of annotations for non-dependent characters.
+hym_annot_nondep <- hym_annot %>% filter(char_group %in% c("G1", "G5"))
+
+# Extract sub-matrix with non-dependent characters.
+hym_adult_nondep <- hym_adult %>% select(all_of(c("taxa", hym_annot_nondep$char_id)))
+
+#----------#
+
+# Pre-organize data.
+# Extract matrix only.
+mat <- hym_adult_nondep[-1]
+
+# Recode characters (just to standardize tokens and remove inapplicable states).
+mat <- recode_simple(mat)
+
+#----------#
+
+# Create a list to store fitted models.
+fitted_models <- set_names(vector(mode = "list", length = dim(mat)[2]), colnames(mat))
+
+i = 1
+# Fit all models for non-dependent characters.
+for (i in 1:length(fitted_models)) {
+  
+  cat(paste0("\n", "Working on: ", colnames(mat)[[i]], ": ", Sys.time(), "\n"))
+  
+  # Model fitting (with corHMM).
+  fitted_models[[i]] <- fit_models(tree = hym_tree, ch = mat[[i]], root_p = "maddfitz")
+  
+}
+```
+
+```{r, message = FALSE}
+# Quick quality control of model fitting: check if any estimated rates were suspiciously high (> 1).
+q_check <- model_fit_qc(tree = hym_tree, mat = mat, fitted_models = fitted_models, thres = 1, trials = 5)
+
+# Check putative outliers (comment/uncomment if necessary).
+drop_chars_out <- q_check$outliers
+drop_chars_out
+
+# Replace fitted models object (comment/uncomment if necessary).
+fitted_models <- q_check$fitted_models
+```
+
+```{r}
+# Organize temporary objects.
+hym_adult_nondep <- bind_cols(hym_adult_nondep[1], mat)
+fitted_models_nondep <- fitted_models
+
+# Save temporary data.
+#save(hym_tree, hym_data, hym_adult_nondep, hym_annot_nondep, fitted_models_nondep, drop_chars_out, file = "data_out/paramo_stm_nondep.RDA")
+```
+
+```{r, message = FALSE}
+# STOCHASTIC MAPPING. GROUPS G1 AND G5.
+
+# Get list of models to run.
+models_to_run <- fitted_models_nondep[!names(fitted_models_nondep) %in% drop_chars_out]
+
+# Stochastic mapping.
+paramo_stm(tree = hym_tree, fitted_models = models_to_run, start = 1, n_stm = n_stm, outdir = "stmaps")
+```
+
+```{r, message = FALSE}
+##############
+## GROUP G2 ##
+##############
+
+# Characters with simple dependencies.
+
+# Get subset of annotations for dependent characters.
+hym_annot_dep_s <- hym_annot %>% filter(char_group == "G2")
+
+# Extract sub-matrix with dependent characters.
+hym_adult_dep_s <- hym_adult %>% select(all_of(c("taxa", hym_annot_dep_s$char_id)))
+
+#----------#
+
+# Pre-organize data: (simple) dependent characters.
+dep_s_data_org <- process_dep_data(mat = hym_adult_dep_s[-1], char_annot = hym_annot_dep_s)
+
+# Extract matrix only.
+mat <- dep_s_data_org$matrix_merged
+
+#----------#
+
+# Create a list to store fitted models.
+fitted_models_dep_s <- set_names(vector(mode = "list", length = dim(mat)[2]), colnames(mat))
+
+i = 1
+# Fit all models for (simple) dependent characters.
+for (i in 1:length(fitted_models_dep_s)) {
+  
+  cat(paste0("\n", "Working on: ", colnames(mat)[[i]], ": ", Sys.time(), "\n"))
+  
+  # Model fitting (with corHMM).
+  fitted_models_dep_s[[i]] <- fit_models(tree = hym_tree, ch = mat[[i]], root_p = "maddfitz", 
+                                         dep_char = T, model = dep_s_data_org$Q_index[[i]])
+  
+}
+```
+
+```{r, message = FALSE}
+# Quick quality control of model fitting: check if any estimated rates were suspiciously high (> 1).
+q_check_dep_s <- model_fit_qc(tree = hym_tree, mat = mat, fitted_models = fitted_models_dep_s, 
+                              thres = 1, trials = 5, dep_char = T, Q_index = dep_s_data_org$Q_index)
+
+# Check putative outliers (comment/uncomment if necessary).
+#drop_chars_out_dep_s <- q_check_dep_s$outliers
+#drop_chars_out_dep_s
+
+# Replace fitted models object (comment/uncomment if necessary).
+#fitted_models_dep_s <- q_check_dep_s$fitted_models
+```
+
+```{r}
+# Organize temporary objects.
+hym_adult_dep_s <- bind_cols(hym_adult_dep_s[1], mat)
+
+# Save temporary data.
+#save(hym_tree, hym_data, hym_adult_dep_s, hym_annot_dep_s, fitted_models_dep_s, dep_s_data_org, file = "data_out/paramo_stm_dep_s.RDA")
+```
+
+```{r, message = FALSE}
+# STOCHASTIC MAPPING. GROUP G2.
+
+# Stochastic mapping.
+paramo_stm(tree = hym_tree, fitted_models = fitted_models_dep_s, start = 1, n_stm = n_stm, outdir = "stmaps")
+```
+
+```{r, message = FALSE}
+##############
+## GROUP G3 ##
+##############
+
+# Characters with complex dependencies.
+
+# Get subset of annotations for dependent characters.
+hym_annot_dep_c <- hym_annot %>% filter(char_group == "G3")
+
+# Extract sub-matrix with dependent characters.
+hym_adult_dep_c <- hym_adult %>% select(all_of(c("taxa", hym_annot_dep_c$char_id)))
+
+#----------#
+
+# Pre-organize data: (simple) dependent characters.
+dep_c_data_org <- process_dep_data(mat = hym_adult_dep_c[-1], char_annot = hym_annot_dep_c, complex_dep = T)
+
+# Extract matrix only.
+mat <- dep_c_data_org$matrix_merged
+
+#----------#
+
+# Create a list to store fitted models.
+fitted_models_dep_c <- set_names(vector(mode = "list", length = dim(mat)[2]), colnames(mat))
+
+i = 1
+# Fit all models for (simple) dependent characters.
+for (i in 1:length(fitted_models_dep_c)) {
+  
+  cat(paste0("\n", "Working on: ", colnames(mat)[[i]], ": ", Sys.time(), "\n"))
+  
+  # Model fitting (with corHMM).
+  fitted_models_dep_c[[i]] <- fit_models(tree = hym_tree, ch = mat[[i]], root_p = "maddfitz", 
+                                         dep_char = T, model = dep_c_data_org$Q_index[[i]])
+  
+}
+```
+
+```{r, message = FALSE}
+# Quick quality control of model fitting: check if any estimated rates were suspiciously high (> 1).
+q_check_dep_c <- model_fit_qc(tree = hym_tree, mat = mat, fitted_models = fitted_models_dep_c, 
+                              thres = 1, trials = 5, dep_char = T, Q_index = dep_c_data_org$Q_index)
+
+# Check putative outliers (comment/uncomment if necessary).
+#drop_chars_out_dep_c <- q_check_dep_c$outliers
+#drop_chars_out_dep_c
+
+# Replace fitted models object (comment/uncomment if necessary).
+#fitted_models_dep_c <- q_check_dep_c$fitted_models
+```
+
+```{r}
+# Organize temporary objects.
+hym_adult_dep_c <- bind_cols(hym_adult_dep_c[1], mat)
+
+# Save temporary data.
+#save(hym_tree, hym_data, hym_adult_dep_c, hym_annot_dep_c, fitted_models_dep_c, dep_c_data_org, file = "data_out/paramo_stm_dep_c.RDA")
+
+```
+
+```{r, message = FALSE}
+# STOCHASTIC MAPPING. GROUP G3.
+
+# Stochastic mapping.
+paramo_stm(tree = hym_tree, fitted_models = fitted_models_dep_c, start = 1, n_stm = n_stm, outdir = "stmaps")
+```
+
+```{r}
+## ORGANIZE DATA FOR PARAMO AMALGAMATIONS ##
+
+# Join final character matrices.
+hym_adult_final <- bind_cols(hym_adult_nondep, dep_s_data_org$matrix_merged, dep_c_data_org$matrix_merged)
+
+# Join final character annotations.
+hym_annot_final <- bind_rows(hym_annot_nondep %>% select(char_id, onto_id, label, type),
+                             dep_s_data_org$dep_char_info, 
+                             dep_c_data_org$dep_char_info)
+
+# Join final list of fitted models.
+fitted_models_final <- c(fitted_models_nondep, fitted_models_dep_s, fitted_models_dep_c)
+
+# Save data set.
+save(hym_tree, hym_data, hym_adult_final, hym_annot_final, fitted_models_final, 
+     drop_chars_out, n_stm, res, file = "data_out/paramo_stm_adult.RDA")
+```
+
+### Adult characters: Quality control
+```{r}
+# Import adult data.
+load("data_out/paramo_stm_adult.RDA")
+
+# Remove outliers from previous check.
+# From character matrix.
+hym_adult_final <- hym_adult_final[!names(hym_adult_final) %in% drop_chars_out]
+
+# From character annotations.
+hym_annot_final <- hym_annot_final[!hym_annot_final$char_id %in% drop_chars_out,]
+
+# From fitted models.
+fitted_models_final <- fitted_models_final[!names(fitted_models_final) %in% drop_chars_out]
+```
+
+```{r}
+# Plot one sample of stochastic map per character (adult).
+# Use the code below to save a single pdf.
+pdf("stmaps_chars.pdf", width = 10, height = 8)
+for (i in 1:length(hym_annot_final$char_id)) {
+  
+  stm <- readRDS(paste0("stmaps/", hym_annot_final$char_id[[i]], ".RDS"))
+  
+  plotSimmap(stm[[10]], ftype = "off", lwd = 3)
+  title(paste0(hym_annot_final$char_id[[i]]), line = -1)
+  
+}
+dev.off()
+
+### Check overall rates based on observed changes on stochastic maps ###
+
+# Get total branch lengths.
+t_brlen <- sum(hym_tree$edge.length)
+
+# Create a list to store values.
+n_changes <- set_names(vector(mode = "list", length = length(hym_annot_final$char_id)), hym_annot_final$char_id)
+
+# Get number of changes.
+for (i in 1:length(n_changes)) {
+  
+  #cat(paste0("\n", "Working on: ", names(n_changes)[[i]], "\n"))
+  
+  stm <- readRDS(paste0("stmaps/", hym_annot_final$char_id[[i]], ".RDS"))
+  
+  n_changes[[i]] <- countSimmap(stm)$Tr[,1]
+  
+}
+
+# Calculate rates for every stochastic map and character.
+all_rates <- lapply(n_changes, function(x) x/t_brlen )
+all_rates <- tibble(rates = do.call(c, all_rates), char_id = rep(names(all_rates), each = n_stm))
+
+# Calculate mean rates for every character (accross all stochastic maps).
+all_rates_mean <- sapply(n_changes, function(x) mean(x/t_brlen) )
+all_rates_mean <- tibble(rates = all_rates_mean, char_id = names(all_rates_mean))
+
+# Check mean rates.
+summary(all_rates_mean[[1]])
+
+# Plot mean rates.
+#hist(all_rates_mean[[1]], xlab = "Rates", main = "", xlim = c(0, 0.2))
+hist(log10(all_rates_mean[[1]]), xlab = "Rates", main = "", xlim = c(-5, 0))
+
+# Check for outliers: values 10x the IQ range above the upper IQ limit.
+thres <- summary(all_rates_mean[[1]])[5] + diff(summary(all_rates_mean[[1]])[c(2,5)])*10
+drop_chars_out <- c(drop_chars_out, which(all_rates_mean[[1]] > thres) %>% names)
+drop_chars_out
+```
+
+```{r}
+# MAKE PLOT: RAW DATASET #
+
+# Create folders to store figures (uncomment if saving pngs to folders)
+dir.create("figures/analyses_checks", recursive = T)
+
+# Plot rates by character.
+base_plot <- all_rates %>% ggplot(., aes(y = rates, x = char_id)) + geom_point(color = "purple", alpha = 0.6, size = 0.5)
+
+base_plot + geom_point(data = all_rates_mean[all_rates_mean$char_id %in% drop_chars_out,],
+                       aes(y = rates,  x = char_id), color = "red", alpha = 0.6, size = 2.0) +
+  geom_text(data = all_rates_mean[all_rates_mean$char_id %in% drop_chars_out,], aes(y = rates,  x = char_id, label = char_id),
+            hjust = -0.2, nudge_x = 0.05) +
+  geom_hline(yintercept =  thres, linetype = "dotted", color = "red", alpha = 0.6, linewidth = 1) + 
+  cowplot::theme_cowplot() +
+  xlab("Characters") + ylab("Rates") +
+  ggtitle("") +
+  theme(axis.text.x = element_blank(), axis.ticks.x = element_blank(),
+        axis.title.x = element_text(size = 18),
+        axis.text.y = element_text(size = 16),
+        axis.title.y = element_text(size = 18))
+
+# Save png.
+cowplot::ggsave2(paste0("figures/analyses_checks/char_rates_initial.png"),  width = 10, height = 8, units = "in", bg = "white")
+```
+
+```{r}
+# MAKE PLOT: FINAL DATASET #
+
+# Plot rates by character (final data set).
+base_plot_mod <- all_rates[!all_rates$char_id %in% drop_chars_out,] %>% ggplot(., aes(y = rates, x = char_id)) + 
+  geom_point(color = "purple", alpha = 0.6, size = 0.5)
+
+base_plot_mod +
+  geom_point(data = all_rates_mean[!all_rates_mean$char_id %in% drop_chars_out,], 
+             aes(y = rates,  x = char_id), color = "red", alpha = 0.6, size = 2.0) +
+  geom_hline(yintercept =  thres, linetype = "dotted", color = "red", alpha = 0.6, linewidth = 1) + 
+  cowplot::theme_cowplot() +
+  xlab("Characters") + ylab("Rates") +
+  ggtitle("") +
+  theme(axis.text.x = element_blank(), axis.ticks.x = element_blank(),
+        axis.title.x = element_text(size = 18),
+        axis.text.y = element_text(size = 16),
+        axis.title.y = element_text(size = 18))
+
+# Save png.
+cowplot::ggsave2(paste0("figures/analyses_checks/char_rates_final.png"),  width = 10, height = 8, units = "in", bg = "white")
+```
+
+```{r}
+# ORGANIZE FINAL DATASET #
+
+# Remove outliers from all data sets.
+# From character matrix.
+hym_adult_final <- hym_adult_final[!names(hym_adult_final) %in% drop_chars_out]
+
+# From character annotations.
+hym_annot_final <- hym_annot_final[!hym_annot_final$char_id %in% drop_chars_out,]
+
+# From fitted models
+fitted_models_final <- fitted_models_final[!names(fitted_models_final) %in% drop_chars_out]
+
+# From rates.
+all_rates_final <- all_rates[!all_rates$char_id %in% drop_chars_out,]
+all_rates_mean_final <- all_rates_mean[!all_rates_mean$char_id %in% drop_chars_out,]
+```
+
+```{r}
+# Save final data set.
+save(hym_tree, hym_data, hym_adult_final, hym_annot_final, 
+     fitted_models_final, n_stm, res, drop_chars_out,
+     file = "data_out/paramo_stm_adult_final.RDA")
+
+# Save quality control.
+save(n_changes, t_brlen, thres, drop_chars_out, base_plot, base_plot_mod, 
+     all_rates, all_rates_final, all_rates_mean, all_rates_mean_final,
+     file = "data_out/quality_control_adult.RDA")
+```
+
+-----
+
+### LARVAL CHARACTERS
+
+-----
+
+### Larval characters: Some comments on character dependencies and decisions
+#### From the original larval characters of Ronquist et al. (2012) (chars 221-236):
+- Characters 222, 225, 231-233, and 236 were remove since they are non-informative for the taxon sampling of this study
+- Character 228 was split into two new characters
+
+#### The final list of characters is presented below:
+- CH1  (original 221) Larval eyes: (0) absent, (1) present;
+- CH2  (original 223) Position of larval eyes: (0) dorsal to antennal base, (1) ventral to antennal base;
+- CH3  (original 224) Number of larval antennal segments: (0) seven, (1) six, (2) five, (3) four, (4) three, (5) two, (6) one;
+- CH4  (original 226) Larval epicranial sulcus: (0) fully developed, (1) reduced or absent;
+- CH5  (original 227) Intrasegmental annulation: (0) present, (1) absent;
+- CH6  (NEW)          Larval thoracic legs: (0) absent, (1) present;
+- CH7  (original 228) Larval thoracic legs: (0) fully developed, (1) reduced, (2) vestigial;
+- CH8  (original 229) Claws on larval thoracic legs: (0) two, (1) one, (2) none;
+- CH9  (original 230) Larval abdominal prolegs: (0) reduced or absent, (1) well developed;
+- CH10 (original 234) Larval suranal process: (0) absent, (1) present;
+- CH11 (original 235) Larval subanal appendages: (0) absent, (1) present;
+  
+#### Non-dependent characters:
+- CH3-5, CH9-11
+#### Dependent character groups:
+- CH1 controls CH2
+- CH6 controls CH7 and CH8
+
+-----
+
+### Larval characters: Organize trait data
+```{r}
+# Define set of non-dependent characters.
+non_dep <- c("CH3", "CH4", "CH5", "CH9", "CH10", "CH11")
+
+# Extract sub-matrix with non-dependent characters.
+hym_larval_nondep <- hym_larval %>% select(all_of(c("taxa", non_dep)))
+```
+
+### Larval characters: Model fitting and stochastic character mapping
+```{r}
+# Create folders to save stochastic maps (uncomment if saving stochastic maps to folders).
+suppressWarnings(dir.create("stmaps/larval", recursive = TRUE))
+#suppressWarnings(dir.create("stmaps_discr/larval", recursive = TRUE))
+
+# Set some parameters.
+n_stm = 1000
+res = 500
+```
+
+```{r, message = FALSE}
+############################
+# NON-DEPENDENT CHARACTERS #
+############################
+
+#----------#
+
+# Pre-organize data.
+# Extract matrix only.
+mat <- hym_larval_nondep[-1]
+
+# Recode characters (just to standardize tokens and remove inapplicable states).
+mat <- recode_simple(mat)
+
+#----------#
+
+# Create a list to store fitted models.
+fitted_models_larval <- set_names(vector(mode = "list", length = dim(mat)[2]), colnames(mat))
+
+i = 1
+# Fit all models for non-dependent characters.
+for (i in 1:length(fitted_models_larval)) {
+  
+  cat(paste0("\n", "Working on: ", colnames(mat)[[i]], ": ", Sys.time(), "\n"))
+  
+  # Model fitting (with corHMM).
+  fitted_models_larval[[i]] <- fit_models(tree = hym_tree, ch = mat[[i]], root_p = "flat")
+  
+}
+```
+
+```{r, message = FALSE}
+# Quick quality control of model fitting: check if any estimated rates were suspiciously high (> 1).
+q_check_lv <- model_fit_qc(tree = hym_tree, mat = mat, fitted_models = fitted_models_larval, thres = 1, trials = 5)
+
+# Check putative outliers (comment/uncomment if necessary).
+drop_chars_out_lv <- q_check_lv$outliers
+drop_chars_out_lv
+
+# Replace fitted models object (comment/uncomment if necessary).
+fitted_models_larval <- q_check_lv$fitted_models
+
+# Organize temporary objects.
+# Matrix.
+hym_larval_nondep <- bind_cols(hym_larval_nondep[1], mat)
+# Fitted models.
+fitted_models_larval_nondep <- fitted_models_larval
+```
+
+```{r, message = FALSE}
+# STOCHASTIC MAPPING.
+
+# Get list of models to run.
+models_to_run <- fitted_models_larval_nondep[!names(fitted_models_larval_nondep) %in% drop_chars_out_lv]
+
+# Stochastic mapping.
+paramo_stm(tree = hym_tree, fitted_models = models_to_run, start = 1, n_stm = n_stm, outdir = "stmaps/larval")
+```
+
+```{r}
+########################
+# DEPENDENT CHARACTERS #
+########################
+
+## FIRST GROUP: CH1+CH2 ##
+
+# Get sub-matrix with dependent characters.
+dep_chars <- hym_larval %>% select(all_of(c("CH1", "CH2")))
+
+# Merge and recode dependent characters.
+char_merg <- recode_dep_ql(dep_chars)[[1]]
+
+# Get custom model.
+Q <- get_ED_model(dep_chars)
+diag(Q) <- 0
+Q[is.na(Q)] <- 0
+```
+
+```{r, message = FALSE}
+# Model fitting (with corHMM).
+fitted_models_larval_dep <- fit_models(tree = hym_tree, ch = char_merg, root_p = "flat", model = Q, dep_char = T)
+
+# Stochastic mapping.
+paramo_stm(tree = hym_tree, fitted_models = list("CH1_CH2" = fitted_models_larval_dep), start = 1, n_stm = n_stm, outdir = "stmaps/larval")
+```
+
+```{r}
+# Quick quality control of model fitting: check if any estimated rates were suspiciously high (> 1).
+any(abs(diag(fitted_models_larval_dep$Q_matrix)) > 1)
+
+# Add to set of outliers.
+drop_chars_out_lv <- c(drop_chars_out_lv, "CH1_CH2")
+```
+
+```{r}
+# Add amalgamated character to the matrix.
+hym_larval_final <- hym_larval_nondep %>% mutate("CH1_CH2" = char_merg)
+
+# Add fitted model to the list.
+fitted_models_larval_final <- fitted_models_larval_nondep
+fitted_models_larval_final[[6]] <- fitted_models_larval_dep
+names(fitted_models_larval_final)[[6]] <- "CH1_CH2"
+```
+
+```{r, message = FALSE}
+## SECOND GROUP: CH6+CH7+CH8 ##
+# Get sub-matrix with dependent characters.
+dep_chars <- hym_larval %>% select(all_of(c("CH6", "CH7", "CH8")))
+
+# Merge and recode characters CH7 and CH8 first.
+x <- dep_chars %>% select("CH7", "CH8") %>% apply(.,1,paste0, collapse = "")
+x <- gsub(x, pattern = "\\?\\?", replacement = "?")
+x <- gsub(x, pattern = "\\-\\-", replacement = "-")
+x <- gsub(x, pattern = "00", replacement = "0") # merge observed state combinations
+x <- gsub(x, pattern = "11", replacement = "1") # merge observed state combinations
+x <- gsub(x, pattern = "21", replacement = "2") # merge observed state combinations
+
+# Merge and recode all characters.
+dep_chars <- dep_chars %>% select("CH6") %>% mutate("CH7_CH8" = x)
+char_merg <- dep_chars %>% apply(.,1,paste0, collapse = "")
+char_merg <- gsub(char_merg, pattern = "0\\-", replacement = "0")
+char_merg <- gsub(char_merg, pattern = "1\\?", replacement = "1&2&3")
+char_merg <- gsub(char_merg, pattern = "10", replacement = "1")
+char_merg <- gsub(char_merg, pattern = "11", replacement = "2")
+char_merg <- gsub(char_merg, pattern = "12", replacement = "3")
+
+# Get final amalgamated Q matrix.
+Q <- amaED(initQ(c("0", "1"), c(1,2)), initQ(c("0", "1", "2"), c(1,1,1,1,1,1)), type = "ql")
+colnames(Q) <- rownames(Q) <- c(0:3)
+diag(Q) <- 0
+Q[is.na(Q)] <- 0
+```
+
+```{r, message = FALSE}
+# Model fitting (with corHMM).
+fitted_models_larval_dep_c <- fit_models(tree = hym_tree, ch = char_merg, root_p = "flat", model = Q, dep_char = T)
+
+# Stochastic mapping.
+paramo_stm(tree = hym_tree, fitted_models = list("CH6_CH7_CH8" = fitted_models_larval_dep_c), start = 1, n_stm = n_stm, outdir = "stmaps/larval")
+
+```
+
+```{r}
+# Add amalgamated character to the matrix.
+hym_larval_final <- hym_larval_final %>% mutate("CH6_CH7_CH8" = char_merg)
+
+# Add fitted model to the list.
+fitted_models_larval_final[[7]] <- fitted_models_larval_dep_c
+names(fitted_models_larval_final)[[7]] <- "CH6_CH7_CH8"
+```
+
+```{r}
+## ORGANIZE DATA FOR PARAMO AMALGAMATIONS ##
+
+# Save data set.
+save(hym_tree, hym_data, hym_larval_final, fitted_models_larval_final, drop_chars_out_lv, n_stm, res, file = "data_out/paramo_stm_larval.RDA")
+```
+
+### Larval characters: Quality control
+```{r}
+# Import larval data.
+load("data_out/paramo_stm_larval.RDA")
+
+# Remove outliers from previous check.
+# From character matrix.
+hym_larval_final <- hym_larval_final[!names(hym_larval_final) %in% drop_chars_out_lv]
+
+# From fitted models.
+fitted_models_larval_final <- fitted_models_larval_final[!names(fitted_models_larval_final) %in% drop_chars_out_lv]
+```
+
+```{r}
+# Plot one sample of stochastic map per character (adult).
+# Use the code below to save a single pdf.
+pdf("stmaps_chars_larval.pdf", width = 10, height = 8)
+for (i in 1:length(fitted_models_larval_final)) {
+  
+  stm <- readRDS(paste0("stmaps/larval/", names(fitted_models_larval_final)[[i]], ".RDS"))
+  
+  plotSimmap(stm[[10]], ftype = "off", lwd = 3)
+  title(names(fitted_models_larval_final)[[i]], line = -1)
+  
+}
+dev.off()
+
+# Get total branch lengths.
+t_brlen <- sum(hym_tree$edge.length)
+
+# Create a list to store values.
+n_changes_lv <- set_names(vector(mode = "list", length = length(fitted_models_larval_final)), names(fitted_models_larval_final))
+
+# Get number of changes.
+for (i in 1:length(n_changes_lv)) {
+  
+  #cat(paste0("\n", "Working on: ", names(n_changes)[[i]], "\n"))
+  
+  stm <- readRDS(paste0("stmaps/larval/", names(fitted_models_larval_final)[[i]], ".RDS"))
+  
+  n_changes_lv[[i]] <- countSimmap(stm)$Tr[,1]
+  
+}
+
+# Calculate rates for every stochastic map and character.
+all_rates_lv <- lapply(n_changes_lv, function(x) x/t_brlen )
+all_rates_lv <- tibble(rates = do.call(c, all_rates_lv), char_id = rep(names(all_rates_lv), each = n_stm))
+
+# Calculate mean rates for every character (accross all stochastic maps).
+all_rates_mean_lv <- sapply(n_changes_lv, function(x) mean(x/t_brlen) )
+all_rates_mean_lv <- tibble(rates = all_rates_mean_lv, char_id = names(all_rates_mean_lv))
+
+# Check mean rates.
+summary(all_rates_mean_lv[[1]])
+
+# Plot mean rates.
+#hist(all_rates_mean_lv[[1]], xlab = "Rates", main = "", xlim = c(0, 3.0))
+hist(log10(all_rates_mean_lv[[1]]), xlab = "Rates", main = "", xlim = c(-4, 1))
+
+# Check for outliers: due to small sample size, check all maps individually (see pdf above). CH11 and CH1_CH2 removed.
+#drop_chars_out_lv <- c(drop_chars_out_lv, "CH1_CH2")
+#drop_chars_out_lv
+```
+
+```{r}
+# ORGANIZE FINAL LARVAL DATASET #
+
+# Remove outliers from all data sets.
+# From character matrix.
+hym_larval_final <- hym_larval_final[!names(hym_larval_final) %in% drop_chars_out_lv]
+
+# From fitted models
+fitted_models_larval_final <- fitted_models_larval_final[!names(fitted_models_larval_final) %in% drop_chars_out_lv]
+
+# From rates.
+all_rates_final_lv <- all_rates_lv[!all_rates_lv$char_id %in% drop_chars_out_lv,]
+all_rates_mean_final_lv <- all_rates_mean_lv[!all_rates_mean_lv$char_id %in% drop_chars_out_lv,]
+```
+
+```{r}
+# Save final data set.
+save(hym_tree, hym_data, hym_larval_final, 
+     fitted_models_larval_final, n_stm, res, drop_chars_out_lv,
+     file = "data_out/paramo_stm_larval_final.RDA")
+
+# Save quality control.
+save(n_changes_lv, t_brlen, drop_chars_out_lv, 
+     all_rates_lv, all_rates_final_lv, all_rates_mean_lv, all_rates_mean_final_lv,
+     file = "data_out/quality_control_larval.RDA")
+```
