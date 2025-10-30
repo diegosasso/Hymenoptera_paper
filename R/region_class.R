@@ -4,7 +4,7 @@ regions <- c(
   "mesonotum", "mesopectus", "metanotum", "metapectal-propodeal complex",
   "metasoma", "female genitalia", 
   "fore leg", "mid leg", "hind leg", 
-  "fore wing", "hind wing", "sclerites",      "muscles"
+  "fore wing", "hind wing"
 )
 
 # Classification
@@ -14,8 +14,7 @@ groups <- c(
   "mesosoma", "mesosoma", "mesosoma", "mesosoma",  # mesonotum...complex
   "metasoma", "metasoma",  # metasoma, female genitalia
   "legs", "legs", "legs",          # legs
-  "wings", "wings",                 # wings
-  "sclerites",  "muscles"
+  "wings", "wings"                 # wings
 )
 
 
