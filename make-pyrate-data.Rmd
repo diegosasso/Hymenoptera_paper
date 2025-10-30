@@ -1,0 +1,290 @@
+---
+title: "Make pyrate mcmc data"
+date: "`r Sys.Date()`"
+output: 
+  html_document:
+    df_print: paged
+---
+
+Make pyrate mcmc data ready for downstream analyses.
+
+The data are from: Jouault, C., Oyama, N., Álvarez-Parra, S., Huang, D., Perrichot, V., Condamine, F.L. and Legendre, F., 2025. The radiation of Hymenoptera illuminated by Bayesian inferences from the fossil record. Current Biology, 35(9), pp.2164-2174.
+
+The Birth–Death model with constrained shifts, with (BDCS-fam-20) and without (BDCS-fam-ssing-20) singletons.
+
+```{r setup, include=F}
+# rm(list = ls())
+library(ape)
+library(phytools)
+library(ontophylo)
+library(dplyr)
+library(parallel)
+library(viridis)
+library(ggplot2)
+library(abind)
+library(dplyr)
+library(purrr)
+library(readr)
+library(tidyr)
+source("R/utils-ST.R")
+source('R/region_class.R')
+
+
+knitr::opts_chunk$set(
+  echo = TRUE,       # show code by default
+  warning = FALSE,
+  message = FALSE
+)
+```
+
+
+
+## Read without singletons (BDCS-fam-ssing-20)
+
+It has fixed times of rate shift: 260.0 240.0 220.0 200.0 180.0 160.0 140.0 120.0 100.0 80.0 60.0 40.0 20.0 
+
+```{r}
+# File pattern
+files <- sprintf("data_pyrate/BDCS/BDCS-fam-ssing-20/Te_Ts-RJMCMC4_%d__BDCS12_BDS_mcmc.log", 0:9)
+
+# Read header from the first file
+header <- names(read_tsv(files[1], n_max = 1, show_col_types = FALSE))
+
+# Function to read last n lines, using the known header
+read_last_lines <- function(file, n = 200) {
+  lines <- readLines(file)
+  total_lines <- length(lines)
+  data_lines <- tail(lines, n)
+  
+  # Create a temporary file with header + data lines
+  tmp <- tempfile(fileext = ".tsv")
+  writeLines(c(paste(header, collapse = "\t"), data_lines), tmp)
+  
+  read_tsv(tmp, show_col_types = FALSE)
+}
+
+# Combine last 100 lines from all 10 runs
+mcmc_combined <- map_dfr(files, read_last_lines, .id = "run_id")
+
+# Inspect
+nrow(mcmc_combined)
+head(mcmc_combined)
+```
+
+### mean root age
+```{r}
+mean_root_age <- mcmc_combined %>%
+  summarise(mean_root_age = mean(root_age, na.rm = TRUE)) %>%
+  pull(mean_root_age)
+
+mean_root_age
+```
+
+
+### Claculate and summarize diversification
+
+```{r}
+library(dplyr)
+library(stringr)
+
+# Identify all lambda columns
+lambda_cols <- grep("^lambda_", names(mcmc_combined), value = TRUE)
+
+# Compute diversification rates as lambda_i - mu_i
+mcmc_div <- mcmc_combined %>%
+  mutate(across(all_of(lambda_cols), 
+                ~ . - get(str_replace(cur_column(), "lambda_", "mu_")),
+                .names = "div_{str_replace(.col, 'lambda_', '')}"))
+
+# Inspect results
+mcmc_div %>%
+  select(starts_with("div_")) %>%
+  head()
+```
+
+```{r}
+mean(mcmc_div$div_0)
+mean(mcmc_div$div_3)
+mean(mcmc_div$div_4)
+```
+
+
+```{r}
+mean(mcmc_div$lambda_0)
+mean(mcmc_div$lambda_3)
+mean(mcmc_div$lambda_4)
+```
+
+
+### Plot
+```{r}
+library(dplyr)
+library(tidyr)
+library(stringr)
+library(ggplot2)
+
+# 1) Summarise posterior for each div_k
+div_sum <- mcmc_div %>%
+  select(starts_with("div_")) %>%
+  pivot_longer(everything(), names_to = "bin", values_to = "div") %>%
+  mutate(bin = as.integer(str_extract(bin, "\\d+"))) %>%
+  group_by(bin) %>%
+  summarise(
+    mean = mean(div, na.rm = TRUE),
+    lower  = quantile(div, 0.025, na.rm = TRUE),
+    upper  = quantile(div, 0.975, na.rm = TRUE),
+    .groups = "drop"
+  )
+
+# 2) Order bins according to your intervals (from oldest to youngest interval)
+#    bin 0 = [260,265], bin 1 = [240,260], ..., bin 13 = [0,20]
+bins_order <- 0:13
+y_med <- div_sum$mean[match(bins_order, div_sum$bin)]
+y_low <- div_sum$lower[ match(bins_order, div_sum$bin)]
+y_up  <- div_sum$upper[ match(bins_order, div_sum$bin)]
+
+# 3) Interval edges (past→present)
+edges <- c(265, 260, 240, 220, 200, 180, 160, 140, 120, 100, 80, 60, 40, 20, 0)
+
+# 4) Build horizontal and vertical segments for MEDIAN
+h_med <- tibble(
+  x    = edges[-length(edges)],
+  xend = edges[-1],
+  y    = y_med,
+  yend = y_med
+)
+
+v_med <- tibble(
+  x    = edges[-c(1, length(edges))],
+  xend = edges[-c(1, length(edges))],
+  y    = y_med[-length(y_med)],
+  yend = y_med[-1]
+)
+
+# 5) (Optional) same for LOWER and UPPER as dashed envelopes
+h_low <- mutate(h_med, y = y_low, yend = y_low)
+v_low <- tibble(
+  x    = edges[-c(1, length(edges))],
+  xend = edges[-c(1, length(edges))],
+  y    = y_low[-length(y_low)],
+  yend = y_low[-1]
+)
+
+h_up <- mutate(h_med, y = y_up, yend = y_up)
+v_up <- tibble(
+  x    = edges[-c(1, length(edges))],
+  xend = edges[-c(1, length(edges))],
+  y    = y_up[-length(y_up)],
+  yend = y_up[-1]
+)
+
+# 6) Plot: past→present (reverse x), step as segments
+ggplot() +
+  # CI (dashed)
+  geom_segment(data = h_low, aes(x = x, xend = xend, y = y, yend = yend),
+               linetype = "dashed") +
+  geom_segment(data = v_low, aes(x = x, xend = xend, y = y, yend = yend),
+               linetype = "dashed") +
+  geom_segment(data = h_up,  aes(x = x, xend = xend, y = y, yend = yend),
+               linetype = "dashed") +
+  geom_segment(data = v_up,  aes(x = x, xend = xend, y = y, yend = yend),
+               linetype = "dashed") +
+  # Median (solid)
+  geom_segment(data = h_med, aes(x = x, xend = xend, y = y, yend = yend),
+               linewidth = 1) +
+  geom_segment(data = v_med, aes(x = x, xend = xend, y = y, yend = yend),
+               linewidth = 1) +
+  scale_x_reverse(breaks = c(265, 260, 240, 220, 200, 180, 160, 140, 120, 100, 80, 60, 40, 20, 0)) +
+  labs(x = "Time (Ma)", y = "Diversification (λ − μ)",
+       title = "Diversification through time (step function with 95% CI)") +
+  theme_minimal()
+```
+
+### Convert x y
+
+```{r}
+x=c(0,1,1,2,3)
+y=c(1,1,0,0, 0)
+plot(x,y, type='l')
+```
+
+
+```{r}
+library(dplyr)
+library(stringr)
+library(tidyr)
+
+# div_sum: columns bin, mean (one row per bin: 0..13)
+
+# 1) Order bins to match intervals: [260,265], [240,260], ..., [0,20]
+bins_order <- 0:13
+y <- div_sum$mean[match(bins_order, div_sum$bin)]
+
+# 2) Interval edges from past→present
+edges <- c(265, 260, 240, 220, 200, 180, 160, 140, 120, 100, 80, 60, 40, 20, 0)
+
+# 3) Build step vertices:
+#    (265, y0) → (260, y0) → (260, y1) → (240, y1) → ... → (0, y13)
+x_step <- c(rbind(edges[-length(edges)], edges[-1]))
+y_step <- rep(y, each = 2)
+
+# 4) Plot with base R (past→present)
+plot(x_step, y_step, type = "l", xlim = c(265, 0),
+     xlab = "Time (Ma)", ylab = "Diversification (λ − μ)")
+```
+
+
+### Correlation
+
+```{r}
+neff_repl <- read_rds('data_out/neff-per-replicate.RDS')
+head(neff_repl)
+```
+
+```{r}
+# # rescale time in neff_repl to match pyrate div_sum 
+# X <- 264.7/280
+# neff_repl_rescaled <- neff_repl %>%
+#   mutate(time_rescaled = time * X)
+# head(neff_repl_rescaled)
+```
+
+```{r}
+# bin edges
+bins <- c(265, seq(260, 0, by = -20) )  
+length(bins)
+
+# cut times into bins (right=FALSE so [lower,upper) )
+#neff_repl_rescaled$bin <- cut(neff_repl_rescaled$time_rescaled, breaks=bins, right=FALSE)
+neff_repl_rescaled$bin <- cut(neff_repl_rescaled$time, breaks=bins, right=FALSE)
+
+# average per bin
+avg_neff <- aggregate(mean_entropy ~ bin, data=neff_repl_rescaled, FUN=mean)
+#avg_neff <- aggregate(median ~ bin, data=neff_repl_rescaled, FUN=mean)
+avg_neff
+plot(avg_neff)
+```
+
+
+```{r}
+## Pyrate vs. Neff
+
+neff_r <- rev(avg_neff[,2])
+py_div <- div_sum$mean
+
+plot(neff_r, py_div)
+
+cor.test(neff_r, py_div, method = 'pearson')
+
+cor.test(neff_r[-1], py_div[-1], method = 'pearson')
+```
+```{r}
+plot(neff_r, type = 'l', ylim=c(-0.03, 1.7))
+lines(py_div*10, col='red')
+```
+
+```{r}
+plot(neff_r[-1], type = 'l', ylim=c(-0.03, 1.7))
+lines(py_div[-1]*10, col='red')
+```
+

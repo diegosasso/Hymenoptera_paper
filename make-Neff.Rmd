@@ -1,11 +1,13 @@
 ---
-title: "make Neff statistics"
+title: "make Neff statistics per each replicate"
 date: "`r Sys.Date()`"
 output: 
   html_document:
     df_print: paged
 ---
 
+
+Compute \(N_{\text{eff}}\) statistics for each stochastic-map replicate, summarize results with the mean and 95% confidence interval (2.5–97.5% quantiles) across 15 body regions, and save the output to: `data_out/neff-per-replicate.RDS`
 
 ```{r setup, include=F}
 
@@ -116,7 +118,9 @@ head(summary_df)
 
 
 
-# Plot
+# Plot median with empirical 95% confidence interval
+
+Alternatively: quantile interval or uncertainty interval
 
 ```{r}
 ggplot() +
@@ -124,6 +128,17 @@ ggplot() +
               fill = "blue", alpha = 0.2) +
   scale_x_reverse(breaks = seq(0, 280, by = 50)) +
   geom_line(data = summary_df, aes(x = time, y = median),
+            color = "black", size = 1) +
+  theme_minimal()
+```
+# Plot mean with empirical 95% confidence interval
+
+```{r}
+ggplot() +
+  geom_ribbon(data = summary_df, aes(x = time, ymin = lower, ymax = upper),
+              fill = "blue", alpha = 0.2) +
+  scale_x_reverse(breaks = seq(0, 280, by = 50)) +
+  geom_line(data = summary_df, aes(x = time, y = mean_entropy),
             color = "black", size = 1) +
   theme_minimal()
 ```

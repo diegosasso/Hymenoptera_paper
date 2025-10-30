@@ -1,0 +1,29 @@
+
+PyRate build v3.1.3 - 20230825
+
+input: [] output: ./Hymenoptera/BDCS19/pyrate_mcmc_logs/Te_Ts-RJMCMC2_4__BDCS19
+
+PyRate was called as follows:
+Namespace(A=4, ADE=0, B=1, BDNN_groups={}, BDNN_interaction='', BDNN_interaction_fix=False, BDNN_pred_importance='', BDNN_pred_importance_nperm=100, BDNN_pred_importance_only_main=True, BDNN_pred_importance_window_size=-1.0, BDNNactfun=5, BDNNblockmodel=False, BDNNconstbaseline=1, BDNNdd=False, BDNNexport_taxon_time_tables=False, BDNNfadlad=0, BDNNmodel=0, BDNNnodes=[16, 8], BDNNoutputfun=5, BDNNpath_taxon_time_tables=['', ''], BDNNpklfile='', BDNNprior=1, BDNNtimetrait=-1, BDNNtimevar='', BDNNupdate_f=[0.1], BF=[], FBDrange=0, M=10, N=-1, PPmodeltest=False, S=1000, SE_stats=[], T=1.0, a=0.3, b=0, bdc=False, bound=[inf, 0], cauchy=[-1, -1], check_names='', cite=False, clade=-1, col_tag=[], combLog='', combLogRJ='', d='./Hymenoptera/BDCS19/Te_Ts-RJMCMC2.txt', data_info=False, discrete=False, dpp_eK=2.0, dpp_f=500, dpp_grid=1.5, dpp_hp=2.0, dpp_nB=0, drop_internal=False, drop_zero=0, edgeShift=[inf, 0], edge_indicator=False, eqr=False, fQ=0.5, fR=0.5, fS=0.7, fU=[0.02, 0.18, 0], fast_burnin=0, filter=[inf, 0], filter_taxa='', fixSE='', fixShift='./fixShift/Hymenoptera/stages20.txt', frac_sampled_singleton=0, ginput='', grid_plot=0, initDiv=0, input_data=[], j=5, k=10, logT=0, log_marginal_rates=-1, log_sp_q_rates=False, ltt=0, mBDI=-1, mBirth=-1, mC=False, mCov=0, mDeath=False, mG=False, mHPP=False, mL=1, mM=1, mPoiD=False, mProb='', min_age_plot=0, min_dt=1.0, multiR=1, n=100000000, nT=5, n_prior=100000, ncat=4, out='_BDCS19', p=100000, pC=1, pL=[1.1, 1.1], pM=[1.1, 1.1], pP=[1.5, 1.1], pS=2.5, partialBD=False, plot='', plot2='', plot3='', plotBDNN='', plotBDNN_effects='', plotBDNN_transf_features='', plotQ='', plotRJ='', qFilter=1, qShift='', r=1, reduceLog='', resample=0, rescale=1, restore_mcmc='', rj_Ga=1.5, rj_Gb=3.0, rj_bd_shift=0.5, rj_beta=10, rj_dm=0, rj_pr=1, root_plot=0, s=100000, sampling=1.0, se_gibbs=False, seed=-1, singleton=0, sw=100, t=0.03, tC=[0.2, 0.2, 0.15], tHP=[1.2, 1.2], tQ=[1.2, 1.2], tR=1.2, tS=1.0, tT=1.0, tag='', thread=[0, 0], trait=1, trait_file='', translate=0, tree='', twotrait=False, useCPPlib=1, use_DA=False, wd='')
+
+Using birth-death model with fixed times of rate shift: 300.0 280.0 260.0 240.0 220.0 200.0 180.0 160.0 140.0 120.0 100.0 80.0 60.0 40.0 20.0 
+Using Gamma priors on the birth-death rates (G_l[1.1,est], G_m[1.1,est]).
+
+
+        Please cite: 
+Silvestro, D., Antonelli, A., Salamin, N., & Meyer, X. (2019). 
+Improved estimation of macroevolutionary rates from fossil data using a Bayesian framework. 
+Paleobiology, doi: 10.1017/pab.2019.23.
+
+
+        Feedback and support: pyrate.help@gmail.com
+        OS: Darwin 23.5.0
+        Python version: 3.8.0 (v3.8.0:fa919fdf25, Oct 14 2019, 10:23:27) 
+[Clang 6.0 (clang-600.0.57)]
+
+        Numpy version: 1.24.4
+        Scipy version: 1.10.1
+
+        Random seed: 3540 
+Using module FastPyRateC
+        
