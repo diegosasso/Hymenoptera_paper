@@ -1,0 +1,95 @@
+---
+title: "Correlation between pyrate rates and other metrics"
+date: "`r Sys.Date()`"
+output: 
+  html_document:
+    df_print: paged
+---
+
+
+
+```{r setup, include=F}
+# rm(list = ls())
+library(ape)
+library(phytools)
+library(ontophylo)
+library(dplyr)
+library(parallel)
+library(viridis)
+library(ggplot2)
+library(abind)
+library(dplyr)
+library(purrr)
+library(readr)
+library(tidyr)
+library(stringr)
+source("R/utils-ST.R")
+source('R/region_class.R')
+
+
+knitr::opts_chunk$set(
+  echo = TRUE,       # show code by default
+  warning = FALSE,
+  message = FALSE
+)
+```
+
+
+
+
+### Correlation
+
+```{r}
+neff_repl <- read_rds('data_out/neff-per-replicate.RDS')
+head(neff_repl)
+```
+
+```{r}
+# # rescale time in neff_repl to match pyrate div_sum 
+# X <- 264.7/280
+# neff_repl_rescaled <- neff_repl %>%
+#   mutate(time_rescaled = time * X)
+# head(neff_repl_rescaled)
+```
+
+```{r}
+# bin edges
+bins <- c(265, seq(260, 0, by = -20) )  
+length(bins)
+
+# cut times into bins (right=FALSE so [lower,upper) )
+#neff_repl_rescaled$bin <- cut(neff_repl_rescaled$time_rescaled, breaks=bins, right=FALSE)
+neff_repl$bin <- cut(neff_repl$time, breaks=bins, right=FALSE)
+
+# average per bin
+avg_neff <- aggregate(mean_entropy ~ bin, data=neff_repl, FUN=mean)
+#avg_neff <- aggregate(median ~ bin, data=neff_repl_rescaled, FUN=mean)
+avg_neff
+plot(avg_neff)
+```
+
+
+```{r}
+## Pyrate vs. Neff
+
+neff_r <- rev(avg_neff[,2])
+py_div <- div_sum$mean
+
+plot(neff_r, py_div)
+
+cor.test(neff_r, py_div, method = 'pearson')
+
+cor.test(neff_r[-1], py_div[-1], method = 'pearson')
+```
+
+
+```{r}
+plot(neff_r, type = 'l', ylim=c(-0.03, 1.7))
+lines(py_div*10, col='red')
+```
+
+```{r}
+plot(neff_r[-1], type = 'l', ylim=c(-0.03, 1.7))
+lines(py_div[-1]*10, col='red')
+```
+

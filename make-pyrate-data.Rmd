@@ -10,7 +10,7 @@ Make pyrate mcmc data ready for downstream analyses.
 
 The data are from: Jouault, C., Oyama, N., Álvarez-Parra, S., Huang, D., Perrichot, V., Condamine, F.L. and Legendre, F., 2025. The radiation of Hymenoptera illuminated by Bayesian inferences from the fossil record. Current Biology, 35(9), pp.2164-2174.
 
-The Birth–Death model with constrained shifts, with (BDCS-fam-20) and without (BDCS-fam-ssing-20) singletons.
+The Birth–Death model with constrained shifts, and without (BDCS-fam-ssing-20) singletons.
 
 ```{r setup, include=F}
 # rm(list = ls())
@@ -26,6 +26,8 @@ library(dplyr)
 library(purrr)
 library(readr)
 library(tidyr)
+library(stringr)
+library(deeptime)
 source("R/utils-ST.R")
 source('R/region_class.R')
 
@@ -84,8 +86,6 @@ mean_root_age
 ### Claculate and summarize diversification
 
 ```{r}
-library(dplyr)
-library(stringr)
 
 # Identify all lambda columns
 lambda_cols <- grep("^lambda_", names(mcmc_combined), value = TRUE)
@@ -102,28 +102,9 @@ mcmc_div %>%
   head()
 ```
 
-```{r}
-mean(mcmc_div$div_0)
-mean(mcmc_div$div_3)
-mean(mcmc_div$div_4)
-```
-
+### Summarise posterior for each div_k
 
 ```{r}
-mean(mcmc_div$lambda_0)
-mean(mcmc_div$lambda_3)
-mean(mcmc_div$lambda_4)
-```
-
-
-### Plot
-```{r}
-library(dplyr)
-library(tidyr)
-library(stringr)
-library(ggplot2)
-
-# 1) Summarise posterior for each div_k
 div_sum <- mcmc_div %>%
   select(starts_with("div_")) %>%
   pivot_longer(everything(), names_to = "bin", values_to = "div") %>%
@@ -131,10 +112,26 @@ div_sum <- mcmc_div %>%
   group_by(bin) %>%
   summarise(
     mean = mean(div, na.rm = TRUE),
-    lower  = quantile(div, 0.025, na.rm = TRUE),
-    upper  = quantile(div, 0.975, na.rm = TRUE),
+    # lower  = quantile(div, 0.025, na.rm = TRUE),
+    # upper  = quantile(div, 0.975, na.rm = TRUE),
+    # lower  = quantile(div, 0.15, na.rm = TRUE),
+    # upper  = quantile(div, 0.85, na.rm = TRUE),
+    lower  = quantile(div, 0.25, na.rm = TRUE),
+    upper  = quantile(div, 0.75, na.rm = TRUE),
     .groups = "drop"
   )
+```
+
+
+### Save
+
+```{r}
+saveRDS(div_sum, file='data_out/pyrate-dive.RDS')
+```
+
+
+### Plot
+```{r}
 
 # 2) Order bins according to your intervals (from oldest to youngest interval)
 #    bin 0 = [260,265], bin 1 = [240,260], ..., bin 13 = [0,20]
@@ -200,91 +197,146 @@ ggplot() +
   theme_minimal()
 ```
 
-### Convert x y
+### Convert Pyrate to stepping function and Plot
 
-```{r}
-x=c(0,1,1,2,3)
-y=c(1,1,0,0, 0)
-plot(x,y, type='l')
-```
 
 
 ```{r}
-library(dplyr)
-library(stringr)
-library(tidyr)
 
-# div_sum: columns bin, mean (one row per bin: 0..13)
+make_steps <- function(y, edges){
+  #    (265, y0) → (260, y0) → (260, y1) → (240, y1) → ... → (0, y13)
+  x_step <- c(rbind(edges[-length(edges)], edges[-1]))
+  y_step <- rep(y, each = 2)
+  list(x_step=x_step, y_step=y_step)
+}
+
 
 # 1) Order bins to match intervals: [260,265], [240,260], ..., [0,20]
-bins_order <- 0:13
-y <- div_sum$mean[match(bins_order, div_sum$bin)]
-
-# 2) Interval edges from past→present
+#bins_order <- 1:13
 edges <- c(265, 260, 240, 220, 200, 180, 160, 140, 120, 100, 80, 60, 40, 20, 0)
+# y should be from oldest to present
+y <- div_sum$mean[1:14]
+y_up <- div_sum$upper[1:14]
+y_low <- div_sum$lower[1:14]
 
-# 3) Build step vertices:
-#    (265, y0) → (260, y0) → (260, y1) → (240, y1) → ... → (0, y13)
-x_step <- c(rbind(edges[-length(edges)], edges[-1]))
-y_step <- rep(y, each = 2)
+py_div_step <- make_steps(y, edges)
+py_div_step_up <- make_steps(y_up, edges)
+py_div_step_low <- make_steps(y_low, edges)
+
+
+plot(py_div_step$x_step, py_div_step$y_step, type = "l", xlim = c(265, 0), ylim=c(-0.1, 0.15))
+lines(py_div_step_up$x_step, py_div_step_up$y_step, col='red')
+lines(py_div_step_low$x_step, py_div_step_up$y_step, col='red')
 
 # 4) Plot with base R (past→present)
-plot(x_step, y_step, type = "l", xlim = c(265, 0),
-     xlab = "Time (Ma)", ylab = "Diversification (λ − μ)")
+plot(py_div_step$x_step, py_div_step$y_step, type = "l", xlim = c(265, 0),
+     xlab = "Time (Ma)", ylab = "Diversification (λ − μ)"
+     )
+
 ```
+###  Plot 50%  Confidence
 
+```{r}
 
-### Correlation
+plot(py_div_step$x_step, py_div_step$y_step, type = "l", xlim = c(265, 0), ylim=c(-0.1, 0.15))
+lines(py_div_step_up$x_step, py_div_step_up$y_step, col='red')
+lines(py_div_step_low$x_step, py_div_step_low$y_step, col='red')
+
+```
 
 ```{r}
 neff_repl <- read_rds('data_out/neff-per-replicate.RDS')
 head(neff_repl)
 ```
 
-```{r}
-# # rescale time in neff_repl to match pyrate div_sum 
-# X <- 264.7/280
-# neff_repl_rescaled <- neff_repl %>%
-#   mutate(time_rescaled = time * X)
-# head(neff_repl_rescaled)
-```
 
 ```{r}
-# bin edges
-bins <- c(265, seq(260, 0, by = -20) )  
-length(bins)
-
-# cut times into bins (right=FALSE so [lower,upper) )
-#neff_repl_rescaled$bin <- cut(neff_repl_rescaled$time_rescaled, breaks=bins, right=FALSE)
-neff_repl_rescaled$bin <- cut(neff_repl_rescaled$time, breaks=bins, right=FALSE)
-
-# average per bin
-avg_neff <- aggregate(mean_entropy ~ bin, data=neff_repl_rescaled, FUN=mean)
-#avg_neff <- aggregate(median ~ bin, data=neff_repl_rescaled, FUN=mean)
-avg_neff
-plot(avg_neff)
+ggplot() +
+  geom_ribbon(data = neff_repl, aes(x = time, ymin = lower, ymax = upper),
+              fill = "blue", alpha = 0.2) +
+  scale_x_reverse(breaks = seq(0, 280, by = 50)) +
+  geom_line(data = neff_repl, aes(x = time, y = mean_entropy),
+            color = "black", size = 1) +
+  theme_minimal()
 ```
 
 
-```{r}
-## Pyrate vs. Neff
 
-neff_r <- rev(avg_neff[,2])
-py_div <- div_sum$mean
 
-plot(neff_r, py_div)
 
-cor.test(neff_r, py_div, method = 'pearson')
-
-cor.test(neff_r[-1], py_div[-1], method = 'pearson')
-```
-```{r}
-plot(neff_r, type = 'l', ylim=c(-0.03, 1.7))
-lines(py_div*10, col='red')
-```
 
 ```{r}
-plot(neff_r[-1], type = 'l', ylim=c(-0.03, 1.7))
-lines(py_div[-1]*10, col='red')
+
+df_div <- tibble(
+  time  = py_div_step$x_step,
+  div   = py_div_step$y_step,
+  lower = py_div_step_low$y_step,   # <-- note: use LOW y here
+  upper = py_div_step_up$y_step     # <-- and UP y here
+)
+
+df_div <- df_div %>%
+  rename(lower_div = lower, upper_div = upper)
+
+p <- ggplot() +
+  # Diversification (ochre)
+  geom_ribbon(data = df_div,
+              aes(x = time, ymin = lower_div*40 + 2.5, ymax = upper_div*40 + 2.5),
+              fill = "#D9B27C", alpha = 0.55) +
+  geom_line(data = df_div,
+            aes(x = time, y = div*40 + 2.5),
+            color = "#A66E2E", linewidth = 1.1) +
+  
+  # Neff (green)
+  geom_ribbon(data = neff_repl,
+              aes(x = time, ymin = lower, ymax = upper),
+              fill = "#33a02c", alpha = 0.45) +
+  geom_line(data = neff_repl,
+            aes(x = time, y = mean_entropy),
+            color = "#006d2c", linewidth = 0.6) +
+  
+    # Geological bar
+  coord_geo(
+    dat = "periods",
+    pos = "bottom",
+    size = 3,
+    expand = FALSE,
+    height = unit(0.25, "cm"),
+    lab = FALSE
+  ) +
+  
+  # Axes
+  scale_x_reverse(expand = c(0, 0),
+                  breaks = seq(0, 300, 50)) +
+  scale_y_continuous(
+    limits = c(-0.1, 6),
+    name = expression(N[eff]),  # left y-axis label
+    sec.axis = sec_axis(~ (. - 2.5) / 40,
+                        name = expression(r ))  # right axis for diversification
+  ) +
+  
+  # Theme
+  theme_classic(base_size = 14) +
+  theme(
+    #panel.border = element_rect(color = "black", fill = NA, linewidth = 1.9),
+    axis.line = element_line(color = "black"),
+    axis.ticks = element_line(color = "black"),
+    axis.text = element_text(color = "black"),
+    
+    axis.text.x = element_blank(),
+    axis.ticks.x = element_blank(),
+    
+    panel.grid = element_blank(),
+    axis.title.y.left  = element_text(color = "#006d2c"),
+    axis.title.y.right = element_text(color = "#A66E2E")
+  ) +
+  labs(x = "Time (Ma)")
+
+p
+
+ggsave("figures/neff/neff-pyrate.pdf", p, width = 3.5*2, height = 1.6*2, dpi = 300, units = "in")
+
 ```
+
+
+
 
