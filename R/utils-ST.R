@@ -973,3 +973,67 @@ cor_list_to_df <- function(cor_results) {
   }))
   return(df)
 }
+
+
+
+branch_rate_thru_time <- function(tree, branch_rate, n_points = 100, time_points=NULL) {
+  
+  # branch times (start, end for each edge)
+  H <- nodeHeights(tree)
+  max_height <- max(H)
+  if (is.null(time_points)){
+    times <- seq(0, max_height, length.out = n_points)
+    times[n_points] <- times[n_points] - 1e-4
+  } else { # time points provided by user
+    times <- time_points
+  }
+  
+  
+  rate_vals <- numeric(length(times))
+  # i=10
+  for (i in seq_along(times)) {
+    t <- times[i]
+    edge_ids <- which(t >= H[,1] & t <= H[,2])  # edges active at time t
+    if (length(edge_ids) > 0) {
+      rates <- branch_rate[edge_ids]
+      rate_vals[i] <- mean(rates)
+      
+    } else {
+      rate_vals[i] <- NA
+    }
+  }
+  
+  df <- data.frame(time = rev(times), rate = rate_vals)
+  
+  return(df)
+}
+
+
+branch_rate_thru_time_Multi <- function(tree, replicate_list, n_points = 100, time_points = NULL) {
+  
+  # Compute rate-through-time for each replicate
+  rate_list <- lapply(replicate_list, function(mat) {
+    branch_rate <- rowMeans(mat)  # average across body regions per branch
+    one_map_rate <- branch_rate_thru_time(tree, branch_rate,
+                                          n_points = n_points,
+                                          time_points = time_points)
+    one_map_rate
+  })
+  
+  # Combine all replicates
+  all_rates <- dplyr::bind_rows(rate_list, .id = "replicate")
+  
+  # Summarise mean, median, and 95% CI (2.5%–97.5%)
+  summary_rates <- all_rates %>%
+    dplyr::group_by(time) %>%
+    dplyr::summarise(
+      mean   = mean(rate, na.rm = TRUE),
+      median = median(rate, na.rm = TRUE),
+      lower  = quantile(rate, 0.025, na.rm = TRUE),
+      upper  = quantile(rate, 0.975, na.rm = TRUE),
+      .groups = "drop"
+    )
+  
+  return(summary_rates)
+}
+
