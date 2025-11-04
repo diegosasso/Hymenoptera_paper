@@ -147,13 +147,23 @@ tb_dispar_summ %>% mutate(N_lineages = c(1, ltt))
 #saveRDS(tb_dispar_summ, "data_out/data_disparity_final.RDS")
 tb_dispar_summ <- readRDS("data_out/data_disparity_final.RDS")
 tb_dispar_summ
+colnames(tb_dispar_summ)
 
-plot(tb_dispar_summ$Time, tb_dispar_summ$Norm_Disparity, type='l')
+plot(tb_dispar_summ$Time, tb_dispar_summ$Mean_norm_disparity, type='l', xlim=c(280,0))
+
+plot(tb_dispar_summ$Time, tb_dispar_summ$Mean_disparity, type='l', xlim=c(280,0))
+
+plot(tb_dispar_summ$Time, tb_dispar_summ$N_Lineages, type='l', xlim=c(280,0))
+
+
+
+plot(tb_dispar_summ$Time, rev(tb_dispar_summ$N_Lineages), type='l', xlim=c(280,0))
+lines(tb_dispar_summ$Time, tb_dispar_summ$Mean_norm_disparity*10, col='red')
 
 max(tb_dispar_summ$CI_upper)
-plot(tb_dispar_summ$Time, tb_dispar_summ$Norm_Disparity, type='l', ylim=c(0, 108))
-lines(tb_dispar_summ$Time, tb_dispar_summ$CI_upper, col='red')
-lines(tb_dispar_summ$Time, tb_dispar_summ$CI_lower, col='blue')
+plot(tb_dispar_summ$Time, tb_dispar_summ$Mean_norm_disparity, type='l', ylim=c(0, 20), , xlim=c(280,0))
+lines(tb_dispar_summ$Time, tb_dispar_summ$Low_CI_norm_disparity, col='red')
+lines(tb_dispar_summ$Time, tb_dispar_summ$High_CI_norm_disparity, col='blue')
 #------------------------------#
 # NORMALIZED DISPARITY #
 #------------------------------#

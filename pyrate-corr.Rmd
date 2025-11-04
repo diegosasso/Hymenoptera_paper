@@ -52,22 +52,14 @@ head(div_sum)
 # Disparity
 dis_tb <- readRDS("data_out/data_disparity_final.RDS")
 # !!! This may not be necessary
-dis_tb <- dis_tb %>%
-  arrange(Time) %>%
-  mutate(Time = rev(Time))
+# dis_tb <- dis_tb %>%
+#   arrange(Time) %>%
+#   mutate(Time = rev(Time))
 head(dis_tb)
 
 # Rate thru time
 rates_thru_time <- readRDS('data_out/rates-thru-time.RDS')
 head(rates_thru_time)
-```
-
-```{r}
-# # rescale time in neff_repl to match pyrate div_sum 
-# X <- 264.7/280
-# neff_repl_rescaled <- neff_repl %>%
-#   mutate(time_rescaled = time * X)
-# head(neff_repl_rescaled)
 ```
 
 
@@ -79,14 +71,20 @@ bins <- c(265, seq(260, 0, by = -20) )
 length(bins)
 
 # cut times into bins (right=FALSE so [lower,upper) )
-#neff_repl_rescaled$bin <- cut(neff_repl_rescaled$time_rescaled, breaks=bins, right=FALSE)
 neff_repl$bin <- cut(neff_repl$time, breaks=bins, right=FALSE)
 
 # average per bin
 avg_neff <- aggregate(mean_entropy ~ bin, data=neff_repl, FUN=mean)
-#avg_neff <- aggregate(median ~ bin, data=neff_repl_rescaled, FUN=mean)
 avg_neff
 plot(avg_neff)
+
+avg_mean_f_plus <- aggregate(mean_f_plus ~ bin, data=neff_repl, FUN=mean)
+avg_mean_f_plus
+plot(avg_mean_f_plus)
+
+avg_mean_log_f_plus <- aggregate(mean_log_f_plus ~ bin, data=neff_repl, FUN=mean)
+avg_mean_H_plus <- aggregate(mean_H_plus ~ bin, data=neff_repl, FUN=mean)
+
 ```
 
 ## Make average Disparity
@@ -97,14 +95,12 @@ bins <- c(265, seq(260, 0, by = -20) )
 length(bins)
 
 # cut times into bins (right=FALSE so [lower,upper) )
-#neff_repl_rescaled$bin <- cut(neff_repl_rescaled$time_rescaled, breaks=bins, right=FALSE)
 dis_tb$bin <- cut(dis_tb$Time, breaks=bins, right=FALSE)
 
 # average per bin
-avg_dis <- aggregate(Norm_Disparity ~ bin, data=dis_tb, FUN=mean)
+avg_dis <- aggregate(Mean_norm_disparity ~ bin, data=dis_tb, FUN=mean)
 avg_dis
 plot(avg_dis)
-plot(avg_dis$bin, avg_dis$Norm_Disparity)
 ```
 ## Make average Rate
 
@@ -148,6 +144,25 @@ lines(py_div[-1]*10, col='red')
 ```
 
 
+## Pyrate vs. Proportion Enriched
+
+```{r}
+
+f_plus_r <- rev(avg_mean_f_plus[,2])
+log_f_plus_r <- rev(avg_mean_log_f_plus[,2])
+H_plus_r <- rev(avg_mean_H_plus[,2])
+
+plot(f_plus_r, py_div)
+
+#cor.test(f_plus_r, py_div, method = 'pearson')
+
+cor.test(f_plus_r[-1], py_div[-1], method = 'pearson')
+cor.test(log_f_plus_r[-1], py_div[-1], method = 'pearson')
+cor.test(H_plus_r[-1], py_div[-1], method = 'pearson')
+```
+
+
+
 ## Pyrate vs. Disp
 
 ```{r}
@@ -186,6 +201,38 @@ cor.test(rate_r, dis_r, method = 'pearson')
 
 cor.test(rate_r[-1], dis_r[-1], method = 'pearson')
 ```
+## Rate vs. Dispr
+
+```{r}
+
+
+plot(rate_r, dis_r)
+
+cor.test(rate_r, dis_r, method = 'pearson')
+
+cor.test(rate_r[-1], dis_r[-1], method = 'pearson')
+```
+
+
+## Rate vs. Neff
+
+```{r}
+
+
+plot(rate_r, neff_r)
+
+cor.test(rate_r, neff_r, method = 'pearson')
+
+cor.test(rate_r[-1], neff_r[-1], method = 'pearson')
+```
+```{r}
+# neff_repl
+# rates_thru_time
+
+plot(rates_thru_time$mean, neff_repl$mean_entropy)
+cor.test(rates_thru_time$mean, neff_repl$mean_entropy, method = 'pearson')
+
+```
 
 
 ## Linear regression
@@ -195,15 +242,72 @@ df <- data.frame(
   py_div = py_div[-1],
   neff_r = neff_r[-1],
   dis_r  = dis_r[-1], 
-  rate_r=rate_r[-1]
+  rate_r=rate_r[-1],
+  f_plus_r=f_plus_r[-1],
+  
 )
 
 model <- lm(py_div ~ neff_r + dis_r + rate_r, data = df)
 summary(model)
 
+model <- lm(py_div ~ neff_r + dis_r + rate_r + f_plus_r, data = df)
+summary(model)
+
 ```
 
 
+## Linear regression, contributions
+
+```{r}
+
+# avg_neff <- aggregate(mean_entropy ~ bin, data=neff_repl, FUN=mean)
+# avg_neff
+# plot(avg_neff)
+# 
+# avg_mean_f_plus <- aggregate(mean_f_plus ~ bin, data=neff_repl, FUN=mean)
+# avg_mean_f_plus
+# plot(avg_mean_f_plus)
+# 
+# avg_mean_log_f_plus <- aggregate(mean_log_f_plus ~ bin, data=neff_repl, FUN=mean)
+# avg_mean_H_plus <- aggregate(mean_H_plus ~ bin, data=neff_repl, FUN=mean)
 
 
+
+df <- data.frame(
+  py_div = py_div[-1],
+  neff_r = neff_r[-1],
+  f_plus_r=f_plus_r[-1],
+  log_f_plus_r = log_f_plus_r[-1],
+  H_plus_r = H_plus_r[-1]
+  
+)
+
+m1 <- lm(py_div ~ log_f_plus_r * H_plus_r, data = df)
+summary(m1)
+
+m2 <- lm(py_div ~ f_plus_r * H_plus_r, data = df)
+summary(m2)
+
+m2a <- lm(py_div ~ f_plus_r + exp(H_plus_r), data = df)
+summary(m2a)
+
+m3 <- lm(py_div ~ log_f_plus_r + H_plus_r, data = df)
+summary(m3)
+
+```
+
+
+# Relative importance analysis
+
+```{r}
+library(relaimpo)
+calc.relimp(m1, type = "lmg")
+```
+
+# Estimates empirical C_f, C_H, C_{cov} values.
+
+```{r}
+rel <- calc.relimp(m1, type = "lmg")$lmg
+rel / sum(rel)
+```
 

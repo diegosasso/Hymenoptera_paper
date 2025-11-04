@@ -330,6 +330,12 @@ entropy <- function(p, epsilon = 1e-6, normalize = TRUE) {
   }
 }
 
+
+# lower_q = 0.05 
+# upper_q = 0.95
+# direction = "under"
+# return_type = "binary"
+
 get_enrichment_mask <- function(rate_matrix, lower_q = 0.025, upper_q = 0.975,
                                 direction = c("both", "over", "under"),
                                 return_type = c("binary", "masked")) {
@@ -341,6 +347,7 @@ get_enrichment_mask <- function(rate_matrix, lower_q = 0.025, upper_q = 0.975,
   colnames(enrichment_mask) <- colnames(rate_matrix)
   rownames(enrichment_mask) <- rownames(rate_matrix)
   
+  # col=1
   for (col in colnames(rate_matrix)) {
     col_vals <- rate_matrix[, col]
     q <- quantile(col_vals, probs = c(lower_q, upper_q), na.rm = TRUE)
@@ -348,9 +355,9 @@ get_enrichment_mask <- function(rate_matrix, lower_q = 0.025, upper_q = 0.975,
     if (direction == "both") {
       mask <- col_vals < q[1] | col_vals > q[2]
     } else if (direction == "over") {
-      mask <- col_vals > q[2]
+      mask <- col_vals >= q[2]
     } else {  # under
-      mask <- col_vals < q[1]
+      mask <- col_vals <= q[1]
     }
     
     if (return_type == "binary") {
@@ -527,7 +534,10 @@ plot_enrichment_stacked <- function(tree, enr, n_points = 100, denom = c("active
 }
 
 
-
+shannon_entropy <- function(x) {
+  freqs <- table(x) / length(x)
+  -sum(freqs * log(freqs, base = exp(1)))
+}
 
 # states <- c("10", "00", "00")
 # states <- c("00", '01')
@@ -567,9 +577,11 @@ diversity_metric <- function(states, type = c("Neff", "Neff_scaled", "weighted")
 }
 
 
-#enr <- enr[,c(1:2)]
-# enr <- enr[,1, drop=F]
-#n_points = 10
+# type = "Neff_scaled"
+# n_points = 1000 
+# base = exp(1)
+# enr <- neff
+
 plot_enrichment_entropy <- function(tree, enr, n_points = 100, time_points=NULL,  type=c("Neff", "Neff_scaled", "weighted"), base = exp(1)) {
   # enr: matrix (branches × body regions), 0/1 enrichment
   
@@ -586,6 +598,11 @@ plot_enrichment_entropy <- function(tree, enr, n_points = 100, time_points=NULL,
   
   #entropy_vals <- numeric(n_points)
   entropy_vals <- numeric(length(times))
+  prop_enriched <- numeric(length(times)) 
+  N_unique_enriched <- numeric(length(times))
+  N_enriched <- numeric(length(times))
+  H_plus <- numeric(length(times))
+  H_plus_exp <- numeric(length(times))
   # i=10
   for (i in seq_along(times)) {
     t <- times[i]
@@ -595,14 +612,24 @@ plot_enrichment_entropy <- function(tree, enr, n_points = 100, time_points=NULL,
       enr_now <- enr[edge_ids, , drop = FALSE]
       states <- apply(enr_now, 1, paste0, collapse = "")
       # states
-      entropy_vals[i] <- diversity_metric(states, type=type, base=base) 
+      entropy_vals[i] <- diversity_metric(states, type=type, base=base)
+      #---- extra statistics
+      enriched_states <- states[grepl("1", states)]
+      prop_enriched[i] <- mean(grepl("1", states))
+      N_unique_enriched[i] <- length(unique(enriched_states))
+      N_enriched[i] <- length(enriched_states)
+      H_plus[i] <- shannon_entropy(enriched_states)
+      H_plus_exp[i] <- base ^ H_plus[i]
       
     } else {
       entropy_vals[i] <- NA
     }
   }
   
-  df <- data.frame(time = rev(times), entropy = entropy_vals)
+  df <- data.frame(time = rev(times), entropy = entropy_vals, prop_enriched=prop_enriched,  
+                   N_unique_enriched=N_unique_enriched, N_enriched=N_enriched,
+                   H_plus=H_plus, H_plus_exp=H_plus_exp
+                   )
   
   p <- ggplot(df, aes(x = time, y = entropy)) +
     geom_line() +

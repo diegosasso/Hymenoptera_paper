@@ -1,5 +1,5 @@
 ---
-title: "make Neff statistics per each replicate"
+title: "Make Neff statistics per each replicate"
 date: "`r Sys.Date()`"
 output: 
   html_document:
@@ -21,6 +21,7 @@ library(ggplot2)
 library(abind)
 library(dplyr)
 library(purrr)
+library(tidyr)
 source("R/utils-ST.R")
 source('R/region_class.R')
 
@@ -53,6 +54,7 @@ rates <- rates[,-16]
 class(rates)
 dim(rates)
 ```
+
 # Reshape as list of 1000 tables 152 x 15
 
 ```{r}
@@ -105,15 +107,72 @@ head(n_eff_df)
 # Reshape (per replicate Neff as list)
 
 ```{r}
+# # eps is chosen to be a few orders of magnitude smaller than the smallest nonzero value observed, e.g.:
+# eps <- min(n_eff_df$entropy[n_eff_df$entropy > 0]) * 1e-3
+# 
+# summary_df <- n_eff_df %>%
+#   group_by(time) %>%
+#   summarise(
+#     mean_entropy = mean(entropy, na.rm = TRUE),
+#     lower = quantile(entropy, 0.025, na.rm = TRUE),
+#     median = quantile(entropy, 0.5, na.rm = TRUE),
+#     upper = quantile(entropy, 0.975, na.rm = TRUE),
+#     #
+#     mean_f_plus= mean(prop_enriched, na.rm = TRUE),
+#     f_plus_lower = quantile(prop_enriched, 0.025, na.rm = TRUE),
+#     f_plus_upper = quantile(prop_enriched, 0.975, na.rm = TRUE),
+#     #
+#     log_mean_entropy = mean(log(entropy+eps), na.rm = TRUE),
+#     log_f_plus
+#   )
+# head(summary_df)
+
+
+# pick epsilon safely
+eps <- min(n_eff_df$entropy[n_eff_df$entropy > 0], na.rm = TRUE) * 1e-3
+
 summary_df <- n_eff_df %>%
   group_by(time) %>%
   summarise(
+    # --- Neff / entropy summary ---
     mean_entropy = mean(entropy, na.rm = TRUE),
-    lower = quantile(entropy, 0.025, na.rm = TRUE),
-    median = quantile(entropy, 0.5, na.rm = TRUE),
-    upper = quantile(entropy, 0.975, na.rm = TRUE)
+    lower_entropy = quantile(entropy, 0.025, na.rm = TRUE),
+    median_entropy = quantile(entropy, 0.5, na.rm = TRUE),
+    upper_entropy = quantile(entropy, 0.975, na.rm = TRUE),
+
+    # --- f+ summary ---
+    mean_f_plus = mean(prop_enriched, na.rm = TRUE),
+    lower_f_plus = quantile(prop_enriched, 0.025, na.rm = TRUE),
+    upper_f_plus = quantile(prop_enriched, 0.975, na.rm = TRUE),
+    
+    # --- H+ ---
+    mean_H_plus = mean(H_plus, na.rm = TRUE),
+    lower_H_plus = quantile(H_plus, 0.025, na.rm = TRUE),
+    upper_H_plus = quantile(H_plus, 0.975, na.rm = TRUE),
+
+    # --- log-transformed versions (for variance & contribution decomposition) ---
+    mean_log_Neff = mean(log(entropy + eps), na.rm = TRUE),
+    mean_log_f_plus = mean(log(prop_enriched + eps), na.rm = TRUE),
+
+    var_log_Neff = var(log(entropy + eps), na.rm = TRUE),
+    var_log_f_plus = var(log(prop_enriched + eps), na.rm = TRUE),
+    var_H = var(H_plus, na.rm = TRUE),
+    cov_logf_H = cov(log(prop_enriched + eps), H_plus, use = "pairwise.complete.obs")
+  ) %>%
+  # --- compute contributions ---
+  mutate(
+    C_f = var_log_f_plus / var_log_Neff,
+    C_H = var_H / var_log_Neff,
+    C_cov = 2 * cov_logf_H / var_log_Neff
   )
+
 head(summary_df)
+```
+
+# Save
+
+```{r}
+saveRDS(summary_df, file='data_out/neff-per-replicate.RDS')
 ```
 
 
@@ -143,10 +202,84 @@ ggplot() +
   theme_minimal()
 ```
 
-
-# Save
+# Plot proportion of enriched states
 
 ```{r}
-saveRDS(summary_df, file='data_out/neff-per-replicate.RDS')
+#summary_df <- read_rds('data_out/neff-per-replicate.RDS')
+
+ggplot() +
+  geom_ribbon(data = summary_df, aes(x = time, ymin = prop_enriched_lower, ymax = prop_enriched_upper),
+              fill = "red", alpha = 0.4) +
+  scale_x_reverse(breaks = seq(0, 280, by = 50)) +
+  geom_line(data = summary_df, aes(x = time, y = mean_prop_enriched),
+            color = "red", size = 1) +
+  theme_minimal()
 ```
+
+# Plot proportion of enriched vs Mean
+
+```{r}
+X <- 4
+
+ggplot() +
+  geom_ribbon(data = summary_df, aes(x = time, ymin = lower, ymax = upper),
+              fill = "blue", alpha = 0.2) +
+  scale_x_reverse(breaks = seq(0, 280, by = 50)) +
+  geom_line(data = summary_df, aes(x = time, y = mean_entropy),
+            color = "black", size = 1) +
+  #
+    geom_ribbon(data = summary_df, aes(x = time, ymin = prop_enriched_lower *X, ymax = prop_enriched_upper*X),
+              fill = "red", alpha = 0.4) +
+  geom_line(data = summary_df, aes(x = time, y = mean_prop_enriched*X),
+            color = "red", size = 1) +
+  theme_minimal()
+```
+
+# Contributions of factors over time
+
+```{r}
+
+summary_df %>%
+  select(time, C_f, C_H, C_cov) %>%
+  pivot_longer(cols = starts_with("C_"), names_to = "component", values_to = "contribution") %>%
+  ggplot(aes(x = time, y = contribution, fill = component)) +
+  geom_area(alpha = 0.6) +
+  scale_x_reverse() +
+  labs(x = "Time (Ma)", y = "Relative contribution") +
+  theme_classic()
+```
+
+
+# Overall contribution
+
+```{r}
+eps <- min(n_eff_df$entropy[n_eff_df$entropy > 0], na.rm = TRUE) * 1e-3
+
+overall_contrib <- n_eff_df %>%
+  summarise(
+    var_log_Neff = var(log(entropy + eps), na.rm = TRUE),
+    var_log_f    = var(log(prop_enriched + eps), na.rm = TRUE),
+    var_H        = var(H_plus, na.rm = TRUE),
+    cov_fH       = cov(log(prop_enriched + eps), H_plus, use = "pairwise.complete.obs")
+  ) %>%
+  mutate(
+    C_f   = var_log_f / var_log_Neff,
+    C_H   = var_H / var_log_Neff,
+    C_cov = 2 * cov_fH / var_log_Neff
+  )
+
+overall_contrib
+```
+```{r}
+weighted_contrib <- summary_df %>%
+  summarise(
+    C_f   = weighted.mean(C_f, var_log_Neff, na.rm = TRUE),
+    C_H   = weighted.mean(C_H, var_log_Neff, na.rm = TRUE),
+    C_cov = weighted.mean(C_cov, var_log_Neff, na.rm = TRUE)
+  )
+
+weighted_contrib
+```
+
+
 

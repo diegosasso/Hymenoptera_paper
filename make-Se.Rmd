@@ -1,0 +1,158 @@
+---
+title: "Make Se statistics for enrichment strength"
+date: "`r Sys.Date()`"
+output: 
+  html_document:
+    df_print: paged
+---
+
+
+
+```{r setup, include=F}
+
+library(ape)
+library(phytools)
+library(ontophylo)
+library(dplyr)
+library(parallel)
+library(viridis)
+library(ggplot2)
+library(abind)
+library(dplyr)
+library(purrr)
+library(tidyr)
+source("R/utils-ST.R")
+source('R/region_class.R')
+
+
+knitr::opts_chunk$set(
+  echo = TRUE,       # show code by default
+  warning = FALSE,
+  message = FALSE
+)
+```
+
+
+
+
+# Read data
+
+```{r}
+
+# read replicates
+tree <-readRDS("data/hym_tree.RDS")
+rates.multi <- readRDS("data_out/br_rates_all.RDS")
+
+class(rates.multi)
+length(rates.multi)
+dim(rates.multi$cranium)
+
+# read mean rates
+rates <-readRDS("data_out/br_rates_all_ind.RDS")
+rates <- do.call(cbind,rates)
+# drop larva
+rates <- rates[,-16]
+class(rates)
+dim(rates)
+```
+
+
+
+# Reshape as list of 1000 tables 152 x 15
+
+```{r}
+# names of body regions
+regions <- names(rates.multi)
+n_reps  <- ncol(rates.multi[[1]])   # 1000
+n_branches <- nrow(rates.multi[[1]]) # 152
+
+# build new list: one element per replicate
+replicate_list <- lapply(1:n_reps, function(j) {
+  # extract column j from each body region and bind
+  mat <- sapply(rates.multi, function(region_mat) region_mat[, j])
+  # ensure it's a matrix with rows = branches, cols = body regions
+  mat <- matrix(mat, nrow = n_branches, ncol = length(regions))
+  colnames(mat) <- regions
+  mat
+})
+
+# drop larva
+replicate_list <- lapply(replicate_list, function(x) x[, -16, drop = FALSE])
+
+# check dims
+length(replicate_list)   # 1000
+dim(replicate_list[[1]]) # 152 x 15
+
+# check if rates.multi==rates
+col_means <- Reduce("+", replicate_list) / length(replicate_list)
+diff <- col_means-rates
+max(abs(diff))
+```
+
+
+
+# Calculate Se for each replicate
+
+May take a while
+
+```{r}
+
+s_list <- map(replicate_list, function(mat) {
+  enr <- get_enrichment_mask(mat, lower_q = 0.05, upper_q = 0.95,
+                             direction = "over", return_type = "binary")
+  out <- plot_enrichment_strength(tree, enr, type = "not_scaled",
+                                 n_points = 1000)$data
+  out
+})
+
+s_df <- bind_rows(s_list, .id = "replicate")
+head(s_df)
+```
+
+# Reshape
+
+```{r}
+
+summary_s_df <- s_df %>%
+  group_by(time) %>%
+  summarise(
+    mean_s = mean(strength, na.rm = TRUE),
+    lower = quantile(strength, 0.025, na.rm = TRUE),
+    median = quantile(strength, 0.5, na.rm = TRUE),
+    upper = quantile(strength, 0.975, na.rm = TRUE),
+  )
+head(summary_s_df)
+```
+
+# Save
+
+```{r}
+saveRDS(summary_s_df, file='data_out/s-per-replicate.RDS')
+```
+
+
+# Plot median with empirical 95% confidence interval
+
+```{r}
+ggplot() +
+  geom_ribbon(data = summary_s_df, aes(x = time, ymin = lower, ymax = upper),
+              fill = "red", alpha = 0.2) +
+  scale_x_reverse(breaks = seq(0, 280, by = 50)) +
+  geom_line(data = summary_s_df, aes(x = time, y = median),
+            color = "red", size = 1) +
+  theme_minimal()
+```
+# Plot mean with empirical 95% confidence interval
+
+```{r}
+p <- ggplot() +
+  geom_ribbon(data = summary_s_df, aes(x = time, ymin = lower, ymax = upper),
+              fill = "red", alpha = 0.2) +
+  scale_x_reverse(breaks = seq(0, 280, by = 50)) +
+  geom_line(data = summary_s_df, aes(x = time, y = mean_s),
+            color = "red", size = 1) +
+  theme_minimal()
+
+p
+ggsave("figures/metrics_thru_time/Se-time.pdf", p, width = 3.5*2, height = 1.6*2, dpi = 300, units = "in")
+```
