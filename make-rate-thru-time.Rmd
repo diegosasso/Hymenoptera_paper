@@ -117,3 +117,65 @@ ggplot() +
             color = "black", size = .3) +
   theme_minimal()
 ```
+
+
+## Rate and Se: corr
+
+```{r}
+rates_time <- readRDS('data_out/rates-thru-time.RDS')
+Se <- readRDS('data_out/s-per-replicate.RDS')
+head(rates_time)
+head(rates_time)
+```
+```{r}
+#idx <- seq(1, nrow(rates_thru_time), by = 20)
+
+df <- tibble(
+  time = rates_time$time,
+  rate = rates_time$mean,
+  se = Se$mean_s
+)
+```
+
+```{r}
+plot(df$rate, df$se)
+cor.test(df$rate, df$se, method = 'pearson')
+```
+
+```{r}
+rates_unique <- rates_time %>%
+  arrange(time) %>%                                 # ensure time is increasing
+  mutate(mean_prev = lag(mean)) %>%                 # compare with previous
+  filter(is.na(mean_prev) | mean != mean_prev) %>%  # keep only when mean changes
+  select(time, mean)  
+
+
+nrow(rates_unique)
+plot(rates_unique$time, rates_unique$mean)
+```
+
+
+
+```{r}
+library(mgcv)
+
+
+
+# Compute autocorrelation of both series
+acf_rate <- acf(df$rate, plot = FALSE)$acf[2]
+acf_se <- acf(df$se, plot = FALSE)$acf[2]
+rho <- mean(c(acf_rate, acf_se), na.rm = TRUE)
+
+# Effective number of independent samples (Pyper & Peterman 1998)
+n <- nrow(df)
+n_eff <- n * (1 - rho) / (1 + rho)
+
+# Pearson correlation (absolute values)
+r <- cor(df$rate, df$se, use = "pairwise.complete.obs")
+t_val <- r * sqrt((n_eff - 2) / (1 - r^2))
+p_val <- 2 * pt(-abs(t_val), df = n_eff - 2)
+
+cat("r =", round(r,3), "n_eff =", round(n_eff,2), "p =", signif(p_val,3), "\n")
+```
+
+

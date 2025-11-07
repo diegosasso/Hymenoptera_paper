@@ -1,0 +1,150 @@
+---
+title: "Disparity and correlations"
+date: "`r Sys.Date()`"
+output: 
+  html_document:
+    df_print: paged
+---
+
+
+
+```{r setup, include=F}
+library(ape)
+library(phytools)
+library(ontophylo)
+library(dplyr)
+library(parallel)
+library(viridis)
+library(ggplot2)
+library(abind)
+library(dplyr)
+library(purrr)
+library(readr)
+library(tidyr)
+library(stringr)
+library(deeptime)
+source("R/utils-ST.R")
+source('R/region_class.R')
+
+
+knitr::opts_chunk$set(
+  echo = TRUE,       # show code by default
+  warning = FALSE,
+  message = FALSE
+)
+```
+
+
+
+
+## Read data
+
+```{r}
+
+# # Neff
+# neff_repl <- read_rds('data_out/neff-per-replicate.RDS')
+# head(neff_repl)
+# 
+# # Pyrate div
+# div_sum <- read_rds('data_out/pyrate-dive.RDS')
+# head(div_sum)
+
+# Disparity
+# dis_tb <- readRDS("data_out/data_disparity_final.RDS")
+# dis_tb <- readRDS("data_out/data_disparity_frechet.RDS")
+dis_tb <- readRDS("data_out/data_disparity_var-hm.RDS")
+head(dis_tb)
+
+# Rate thru time
+rates_thru_time <- readRDS('data_out/rates-thru-time.RDS')
+head(rates_thru_time)
+```
+
+
+## Plot mean Normalized Disparity
+
+```{r}
+p <- ggplot() +
+  geom_ribbon(data = dis_tb, aes(x = Time, ymin = Low_CI_norm_disparity, ymax = High_CI_norm_disparity),
+              fill = "black", alpha = 0.2) +
+  scale_x_reverse(breaks = seq(0, 280, by = 50)) +
+  geom_line(data = dis_tb, aes(x = Time, y = Mean_norm_disparity),
+            color = "black", size = .3) +
+  theme_minimal()
+
+p
+ggsave("figures/metrics_thru_time/disp-thru-time.pdf", p, width = 3.5*2, height = 1.6*2, dpi = 300, units = "in")
+```
+
+
+
+## Plot mean Unnormalized Disparity
+
+```{r}
+p <- ggplot() +
+  geom_ribbon(data = dis_tb, aes(x = Time, ymin = Low_CI_disparity, ymax = High_CI_disparity),
+              fill = "black", alpha = 0.2) +
+  scale_x_reverse(breaks = seq(0, 280, by = 50)) +
+  geom_line(data = dis_tb, aes(x = Time, y = Mean_disparity),
+            color = "black", size = .3) +
+  theme_minimal()
+
+p
+ggsave("figures/metrics_thru_time/disp-unnorm-thru-time.pdf", p, width = 3.5*2, height = 1.6*2, dpi = 300, units = "in")
+```
+
+## Derivative of Disparity
+
+```{r}
+library(mgcv)     
+library(gratia)
+
+## ---- fit GAM ----
+# Increase/decrease k if too stiff/wiggly; check with gam.check()
+#gam_fit <- gam(Mean_disparity ~ s(Time, k = 30), data = dis_tb, method = "REML")
+gam_fit <- gam(Median_norm_disparity ~ s(Time, k = 30), data = dis_tb, method = "REML")
+summary(gam_fit)
+gam.check(gam_fit)
+
+## ---- predict smooth on dense grid ----
+new_time <- data.frame(Time = seq(min(dis_tb$Time), max(dis_tb$Time), length.out = 600))
+pred <- predict(gam_fit, new_time, se.fit = TRUE)
+
+df_smooth <- tibble(
+  Time  = new_time$Time,
+  fit   = as.numeric(pred$fit),
+  se    = as.numeric(pred$se.fit),
+  lower = fit - 1.96 * se,
+  upper = fit + 1.96 * se
+)
+
+```
+```{r}
+  der_raw <- gratia::derivatives(gam_fit, term = "s(Time)", newdata = new_time)
+  # # Coerce to plain tibble with numeric cols
+  # df_der <- tibble(
+  #   Time      = as.numeric(der_raw$data$Time),
+  #   deriv     = as.numeric(der_raw$derivative),
+  #   deriv_low = as.numeric(der_raw$lower),
+  #   deriv_up  = as.numeric(der_raw$upper)
+  # )
+```
+
+### Plot
+
+```{r}
+p <- ggplot() +
+  scale_x_reverse(breaks = seq(0, 280, by = 50)) +
+  geom_line(data = der_raw, aes(x = Time, y = .derivative),
+            color = "black", size = .5) +
+  
+    # geom_line(data = df_smooth, aes(x = Time, y = fit),
+    #         color = "red", size = .5) +
+  
+  theme_minimal()
+
+p
+
+ggsave("figures/metrics_thru_time/disp-deriv.pdf", p, width = 3.5*2, height = 1.6*2, dpi = 300, units = "in")
+```
+

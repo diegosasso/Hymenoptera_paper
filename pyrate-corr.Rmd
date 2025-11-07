@@ -50,7 +50,8 @@ div_sum <- read_rds('data_out/pyrate-dive.RDS')
 head(div_sum)
 
 # Disparity
-dis_tb <- readRDS("data_out/data_disparity_final.RDS")
+#dis_tb <- readRDS("data_out/data_disparity_final.RDS")
+dis_tb <- readRDS("data_out/data_disparity_var-hm.RDS")
 # !!! This may not be necessary
 # dis_tb <- dis_tb %>%
 #   arrange(Time) %>%
@@ -162,7 +163,6 @@ cor.test(H_plus_r[-1], py_div[-1], method = 'pearson')
 ```
 
 
-
 ## Pyrate vs. Disp
 
 ```{r}
@@ -175,7 +175,15 @@ plot(dis_r, py_div)
 cor.test(dis_r, py_div, method = 'pearson')
 
 cor.test(dis_r[-1], py_div[-1], method = 'pearson')
+
 ```
+
+```{r}
+plot(dis_r[-1], type = 'l')
+lines(py_div[-1]*800, col='red')
+```
+
+
 
 ## Pyrate vs. Rate
 
@@ -236,6 +244,25 @@ cor.test(rates_thru_time$mean, neff_repl$mean_entropy, method = 'pearson')
 
 
 ## Linear regression
+
+```{r}
+df <- data.frame(
+  py_div = py_div[-1],
+  neff_r = neff_r[-1],
+  dis_r  = dis_r[-1]
+  
+)
+
+model <- lm(py_div ~ neff_r + dis_r, data = df)
+summary(model)
+```
+
+```{r}
+# Collinearity
+cor(df$neff_r, df$dis_r)
+car::vif(lm(py_div ~ neff_r + dis_r, data = df))
+```
+
 
 ```{r}
 df <- data.frame(
