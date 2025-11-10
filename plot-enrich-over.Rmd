@@ -275,15 +275,20 @@ dev.off()
 #if (!dir.exists("plots")) dir.create("plots")
 file_base <- "figures/tree-enrich/tree_enrich"
 
-postscript(
-  file = paste0(file_base, ".eps"),
-  width = 20,          # width in inches (adjust for column width)
-  height = 9.5,         # height in inches
-  horizontal = FALSE, # portrait orientation
-  onefile = FALSE,    # one figure per file
-  paper = "special"   # use exact width/height
-)
+# postscript(
+#   file = paste0(file_base, ".eps"),
+#   width = 20,          # width in inches (adjust for column width)
+#   height = 9.5,         # height in inches
+#   horizontal = FALSE, # portrait orientation
+#   onefile = FALSE,    # one figure per file
+#   paper = "special"   # use exact width/height
+# )
 
+
+pdf(
+  file = paste0(file_base, ".pdf"),
+  width = 20, height = 9.5
+)
 
 # png(
 #   file = paste0(file_base, ".png"),

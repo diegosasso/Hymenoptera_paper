@@ -129,6 +129,12 @@ div_sum <- mcmc_div %>%
 saveRDS(div_sum, file='data_out/pyrate-dive.RDS')
 ```
 
+### Save
+
+```{r}
+div_sum <- readRDS(file='data_out/pyrate-dive.RDS')
+```
+
 
 ### Plot
 ```{r}
@@ -252,7 +258,7 @@ head(neff_repl)
 
 ```{r}
 ggplot() +
-  geom_ribbon(data = neff_repl, aes(x = time, ymin = lower, ymax = upper),
+  geom_ribbon(data = neff_repl, aes(x = time, ymin = lower_entropy, ymax = upper_entropy),
               fill = "blue", alpha = 0.2) +
   scale_x_reverse(breaks = seq(0, 280, by = 50)) +
   geom_line(data = neff_repl, aes(x = time, y = mean_entropy),
@@ -288,25 +294,34 @@ p <- ggplot() +
   
   # Neff (green)
   geom_ribbon(data = neff_repl,
-              aes(x = time, ymin = lower, ymax = upper),
+              aes(x = time, ymin = lower_entropy, ymax = upper_entropy),
               fill = "#33a02c", alpha = 0.45) +
   geom_line(data = neff_repl,
             aes(x = time, y = mean_entropy),
             color = "#006d2c", linewidth = 0.6) +
   
     # Geological bar
+  # coord_geo(
+  #   dat = "periods",
+  #   pos = "bottom",
+  #   size = 3,
+  #   expand = FALSE,
+  #   height = unit(0.25, "cm"),
+  #   lab = FALSE
+  # ) +
+  
   coord_geo(
     dat = "periods",
     pos = "bottom",
     size = 3,
     expand = FALSE,
-    height = unit(0.25, "cm"),
-    lab = FALSE
+    #height = unit(0.25, "cm"),
+    lab = T
   ) +
   
   # Axes
   scale_x_reverse(expand = c(0, 0),
-                  breaks = seq(0, 300, 50)) +
+                  breaks = seq(0, 300, 20)) +
   scale_y_continuous(
     limits = c(-0.1, 6),
     name = expression(N[eff]),  # left y-axis label
@@ -322,8 +337,8 @@ p <- ggplot() +
     axis.ticks = element_line(color = "black"),
     axis.text = element_text(color = "black"),
     
-    axis.text.x = element_blank(),
-    axis.ticks.x = element_blank(),
+    #axis.text.x = element_blank(),
+    #axis.ticks.x = element_blank(),
     
     panel.grid = element_blank(),
     axis.title.y.left  = element_text(color = "#006d2c"),
