@@ -31,7 +31,7 @@ knitr::opts_chunk$set(
 ```
 
 
-# Read and Make Data
+## Read and Make Data
 
 ```{r}
 
@@ -49,20 +49,20 @@ rate_whole_branch <- apply(rates, 1, sum)
 
 ```
 
-# Prepare data
+## Prepare data
 
 ```{r}
 edge_times <- edge_times_from_tips(tree)
 head(edge_times)
-count_branches_sliding(edge_times, window_size = 40, step_size = 1, plot = TRUE)
+#count_branches_sliding(edge_times, window_size = 40, step_size = 1, plot = TRUE)
 ```
 
 
-# Run rolling window correlation
+## Run rolling window correlation
 ```{r}
 
 cor_results <- rolling_rate_correlation(rates, edge_times,
-                                        window_size = 40, 
+                                        window_size = 50, 
                                         step_size = 1,
                                         trim_quantiles = NULL,  
                                         log_transform = TRUE,
@@ -70,7 +70,8 @@ cor_results <- rolling_rate_correlation(rates, edge_times,
 ```
 
 
-# Convert correlation
+## Convert correlation
+
 ```{r}
 df_cor <- cor_list_to_df(cor_results)
 head(df_cor)
@@ -87,10 +88,23 @@ df_avg <- df_cor %>%
     q75 = quantile(cor, 0.75, na.rm = TRUE)
   )
 head(df_avg)
+
+```
+
+## Save
+
+```{r}
 saveRDS(df_avg,'data_out/df_avg.rds')
 ```
 
-# Plot rolling corr
+## Read
+
+```{r}
+df_avg <- readRDS('data_out/df_avg.rds')
+```
+
+
+## Plot rolling corr
 
 ```{r}
 p <- ggplot(df_avg, aes(x = time, y = median_cor)) +
@@ -108,4 +122,245 @@ p
 ggsave("figures/metrics_thru_time/rolling-corr.pdf", p, width = 3.5*2, height = 1.6*2, dpi = 300, units = "in")
 ```
 
+## Bar Plot
+
+```{r, fig.height=15, fig.width=6}
+# How many time slices to keep for plotting
+n_slices <- 100
+
+times_keep <- df_cor %>%
+  distinct(time) %>%
+  arrange(time) %>%
+  slice(as.integer(seq(1, n(), length.out = n_slices))) %>%
+  pull(time)
+
+df_cor_sub <- df_cor %>%
+  filter(time %in% times_keep)
+
+ggplot(df_cor_sub, aes(x = factor(time), y = cor)) +
+  geom_boxplot(outlier.size = 0.5, fill = "grey80", color = "black") +
+  scale_x_discrete(labels = function(x) paste0(x)) +
+  coord_flip() + # optional: flip for readability
+  theme_classic(base_size = 14) +
+  labs(y = "Pairwise correlation", x = "Time slice")
+```
+
+## Sensitivity with different window sizes
+
+### Make
+
+```{r}
+
+# Size 30
+
+cor_results <- rolling_rate_correlation(rates, edge_times,
+                                        window_size = 30, 
+                                        step_size = 1,
+                                        trim_quantiles = NULL,  
+                                        log_transform = TRUE,
+                                        use.abs.value=TRUE)
+
+# Convert
+df_cor <- cor_list_to_df(cor_results)
+
+df_avg_30 <- df_cor %>%
+  group_by(time) %>%
+  summarize(
+    median_cor = median(cor, na.rm = TRUE),
+    mean_cor = mean(cor, na.rm = TRUE),
+    se = sd(cor, na.rm = TRUE) / sqrt(n()),
+    sd = sd(cor, na.rm = TRUE),
+    q25 = quantile(cor, 0.25, na.rm = TRUE),
+    q75 = quantile(cor, 0.75, na.rm = TRUE)
+  )
+
+# Size 60
+cor_results <- rolling_rate_correlation(rates, edge_times,
+                                        window_size = 60, 
+                                        step_size = 1,
+                                        trim_quantiles = NULL,  
+                                        log_transform = TRUE,
+                                        use.abs.value=TRUE)
+
+# Convert
+df_cor <- cor_list_to_df(cor_results)
+
+df_avg_60 <- df_cor %>%
+  group_by(time) %>%
+  summarize(
+    median_cor = median(cor, na.rm = TRUE),
+    mean_cor = mean(cor, na.rm = TRUE),
+    se = sd(cor, na.rm = TRUE) / sqrt(n()),
+    sd = sd(cor, na.rm = TRUE),
+    q25 = quantile(cor, 0.25, na.rm = TRUE),
+    q75 = quantile(cor, 0.75, na.rm = TRUE)
+  )
+
+
+# Size 80
+cor_results <- rolling_rate_correlation(rates, edge_times,
+                                        window_size = 80, 
+                                        step_size = 1,
+                                        trim_quantiles = NULL,  
+                                        log_transform = TRUE,
+                                        use.abs.value=TRUE)
+
+# Convert
+df_cor <- cor_list_to_df(cor_results)
+
+df_avg_80 <- df_cor %>%
+  group_by(time) %>%
+  summarize(
+    median_cor = median(cor, na.rm = TRUE),
+    mean_cor = mean(cor, na.rm = TRUE),
+    se = sd(cor, na.rm = TRUE) / sqrt(n()),
+    sd = sd(cor, na.rm = TRUE),
+    q25 = quantile(cor, 0.25, na.rm = TRUE),
+    q75 = quantile(cor, 0.75, na.rm = TRUE)
+  )
+```
+
+### Read 50
+
+```{r}
+df_avg_50 <- readRDS('data_out/df_avg.rds')
+```
+
+### Plot
+
+```{r}
+
+df_all <- bind_rows(
+  df_avg_30 %>% mutate(window = "size 30 My"),
+  df_avg_50 %>% mutate(window = "size 50 My"),
+  df_avg_60 %>% mutate(window = "size 60 My"),
+  df_avg_80 %>% mutate(window = "size 80 My")
+)
+
+# Lines + ribbons per window size
+ggplot(df_all, aes(x = time, y = median_cor, color = window, fill = window)) +
+  geom_ribbon(aes(ymin = q25, ymax = q75), alpha = 0.15, colour = NA) +
+  geom_line(linewidth = 1) +
+  scale_x_reverse(
+    breaks = seq(0, 300, by = 25),
+    expand = c(0, 0)
+  ) +
+  scale_color_manual(values = c("size 30 My" = "#1b9e77",
+                                "size 50 My" = "#d95f02",
+                                "size 60 My" = "#e7298a",
+                                "size 80 My" = "#7570b3")) +
+  scale_fill_manual(values = c("size 30 My" = "#1b9e77",
+                               "size 50 My" = "#d95f02",
+                               "size 60 My" = "#e7298a",
+                               "size 80 My" = "#7570b3")) +
+  theme_classic() +
+  labs(
+    y = "Median pairwise correlation",
+    x = "Time (Ma)",
+    color = "Window size",
+    fill  = "Window size"
+  )
+
+
+```
+
+
+
+## Correlations
+
+### Run with samller step for comparison
+
+```{r}
+
+cor_results <- rolling_rate_correlation(rates, edge_times,
+                                        window_size = 50, 
+                                        step_size = 0.2803062,
+                                        trim_quantiles = NULL,  
+                                        log_transform = TRUE,
+                                        use.abs.value=TRUE)
+
+# Convert
+df_cor <- cor_list_to_df(cor_results)
+head(df_cor)
+
+
+df_avg <- df_cor %>%
+  group_by(time) %>%
+  summarize(
+    median_cor = median(cor, na.rm = TRUE),
+    mean_cor = mean(cor, na.rm = TRUE),
+    se = sd(cor, na.rm = TRUE) / sqrt(n()),
+    sd = sd(cor, na.rm = TRUE),
+    q25 = quantile(cor, 0.25, na.rm = TRUE),
+    q75 = quantile(cor, 0.75, na.rm = TRUE)
+  )
+head(df_avg)
+
+# Plot
+
+p <- ggplot(df_avg, aes(x = time, y = median_cor)) +
+  geom_line(color = "black") +
+  geom_ribbon(aes(ymin = q25, ymax = q75),
+              alpha = 0.2, fill = "grey") +
+  scale_x_reverse(
+    breaks = seq(0, 300, by = 25),
+    expand = c(0, 0)
+  ) +
+  theme_classic() +
+  labs(y = "Median pairwise correlation", x = "Time (Ma)")
+
+p
+```
+
+### Save
+```{r}
+saveRDS(df_avg,'data_out/df_avg_corr.rds')
+```
+
+
+### Read data
+
+```{r}
+# get time points from make-rate-thru-time.Rmd
+time_uni <- readRDS(file='data_out/unique_time_points.RDS')
+
+# Neff
+neff_repl <- readRDS('data_out/neff-per-replicate.RDS')
+head(neff_repl)
+
+# Corr
+df_avg <- readRDS('data_out/df_avg_corr.rds')
+head(df_avg)
+# make times consistent
+df_avg$time <-  neff_repl$time[1:999]
+
+```
+
+### Select time points
+
+```{r}
+corr_uni <- df_avg %>%
+  filter(time %in% time_uni)
+nrow(corr_uni)
+head(corr_uni)
+
+neff_uni <- neff_repl %>%
+  filter(time %in% time_uni)
+nrow(neff_uni)
+head(neff_uni)
+```
+
+### Corr
+
+```{r}
+# co <- corr_uni$median_cor 
+# ne <- neff_uni$mean_entropy
+
+co <- (corr_uni$median_cor + 1e-7) %>% log
+ne <- (neff_uni$mean_entropy + 1e-7) %>% log
+
+plot(co, ne)
+
+cor.test(co, ne,  method = 'pearson')
+```
 

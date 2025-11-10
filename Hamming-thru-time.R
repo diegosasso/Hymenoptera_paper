@@ -58,7 +58,7 @@ hamming_var_from_P_exact <- function(P, start_state = 1) {
 rate_fun <- function(t) {
   0.1 + 0.9 * sin(pi * t / 5)
 }
-x <- seq(0, 10, .1)
+x <- seq(0, 30, .1)
 y <- rate_fun(x)
 plot(x,y, type='l')
  
@@ -70,7 +70,7 @@ hamming_var_from_P_exact(P, start_state = 1)
 library(purrr)
 
 # --- Compute variance over time ---
-time_points <- seq(0, 10, by = 0.01)
+time_points <- seq(0, 30, by = 0.01)
 
 var_results <- map_dfr(time_points, function(t) {
   P <- P_time_varying(Q*.01, rate_fun, 0, t)
@@ -80,5 +80,5 @@ var_results <- map_dfr(time_points, function(t) {
 
 # inspect
 head(var_results)
-plot(var_results$time, var_results$var, type='l')
+plot(var_results$time, var_results$var, type='l', ylim=c(-0.12, 0.12))
 lines(x,y*.1, col='red')

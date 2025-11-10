@@ -59,6 +59,12 @@ head(dis_tb)
 rates_thru_time <- readRDS('data_out/rates-thru-time.RDS')
 head(rates_thru_time)
 ```
+## Plot N lineages
+
+```{r}
+plot(dis_tb$Time, dis_tb$N_Lineages, xlim=c(280,0))
+max(dis_tb$N_Lineages)
+```
 
 
 ## Plot mean Normalized Disparity
@@ -93,58 +99,10 @@ p
 ggsave("figures/metrics_thru_time/disp-unnorm-thru-time.pdf", p, width = 3.5*2, height = 1.6*2, dpi = 300, units = "in")
 ```
 
-## Derivative of Disparity
+## Correlations
 
 ```{r}
-library(mgcv)     
-library(gratia)
-
-## ---- fit GAM ----
-# Increase/decrease k if too stiff/wiggly; check with gam.check()
-#gam_fit <- gam(Mean_disparity ~ s(Time, k = 30), data = dis_tb, method = "REML")
-gam_fit <- gam(Median_norm_disparity ~ s(Time, k = 30), data = dis_tb, method = "REML")
-summary(gam_fit)
-gam.check(gam_fit)
-
-## ---- predict smooth on dense grid ----
-new_time <- data.frame(Time = seq(min(dis_tb$Time), max(dis_tb$Time), length.out = 600))
-pred <- predict(gam_fit, new_time, se.fit = TRUE)
-
-df_smooth <- tibble(
-  Time  = new_time$Time,
-  fit   = as.numeric(pred$fit),
-  se    = as.numeric(pred$se.fit),
-  lower = fit - 1.96 * se,
-  upper = fit + 1.96 * se
-)
 
 ```
-```{r}
-  der_raw <- gratia::derivatives(gam_fit, term = "s(Time)", newdata = new_time)
-  # # Coerce to plain tibble with numeric cols
-  # df_der <- tibble(
-  #   Time      = as.numeric(der_raw$data$Time),
-  #   deriv     = as.numeric(der_raw$derivative),
-  #   deriv_low = as.numeric(der_raw$lower),
-  #   deriv_up  = as.numeric(der_raw$upper)
-  # )
-```
 
-### Plot
-
-```{r}
-p <- ggplot() +
-  scale_x_reverse(breaks = seq(0, 280, by = 50)) +
-  geom_line(data = der_raw, aes(x = Time, y = .derivative),
-            color = "black", size = .5) +
-  
-    # geom_line(data = df_smooth, aes(x = Time, y = fit),
-    #         color = "red", size = .5) +
-  
-  theme_minimal()
-
-p
-
-ggsave("figures/metrics_thru_time/disp-deriv.pdf", p, width = 3.5*2, height = 1.6*2, dpi = 300, units = "in")
-```
 

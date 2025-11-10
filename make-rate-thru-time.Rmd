@@ -119,28 +119,28 @@ ggplot() +
 ```
 
 
-## Rate and Se: corr
+## Correlations
+
+### Read data
 
 ```{r}
+# Rates
 rates_time <- readRDS('data_out/rates-thru-time.RDS')
+
+# Se
 Se <- readRDS('data_out/s-per-replicate.RDS')
-head(rates_time)
-head(rates_time)
-```
-```{r}
-#idx <- seq(1, nrow(rates_thru_time), by = 20)
 
-df <- tibble(
-  time = rates_time$time,
-  rate = rates_time$mean,
-  se = Se$mean_s
-)
+# Disparity
+dis_tb <- readRDS("data_out/data_disparity_var-hm.RDS")
+dis_tb <- dis_tb %>%
+  arrange(Time)
+
+head(rates_time)
+head(Se)
+head(dis_tb)
 ```
 
-```{r}
-plot(df$rate, df$se)
-cor.test(df$rate, df$se, method = 'pearson')
-```
+### Select unique rates for correlation
 
 ```{r}
 rates_unique <- rates_time %>%
@@ -149,33 +149,106 @@ rates_unique <- rates_time %>%
   filter(is.na(mean_prev) | mean != mean_prev) %>%  # keep only when mean changes
   select(time, mean)  
 
+time_uni <- rates_unique$time
+saveRDS(time_uni, file='data_out/unique_time_points.RDS')
 
 nrow(rates_unique)
 plot(rates_unique$time, rates_unique$mean)
 ```
 
-
+### Select unique Se and Dispr
 
 ```{r}
-library(mgcv)
+se_uni <- Se %>%
+  filter(time %in% time_uni)
+head(se_uni)
+
+dis_uni <- dis_tb %>%
+  filter(Time %in% time_uni)
+head(dis_uni)
+
+```
+
+### Rate vs. Dispr, with lag
+
+```{r}
+# x <- rates_unique$mean
+# y <- dis_uni$Mean_norm_disparity
+
+x <- (rates_unique$mean + 1e-7) %>% log 
+y <- (dis_uni$Mean_norm_disparity + 1e-7) %>% log
+
+lag_results <- purrr::map_dfr(0:10, ~pearson_lag_with_data(x, y, .x))
+best_lag <- lag_results[which.max(abs(lag_results$correlation)), ]
+
+print(best_lag)
+# Lag timing
+rates_unique[4,]
+```
+
+
+#### Pval, no lag
+
+```{r}
+cor.test(x , y,  method = 'pearson')
+```
+
+
+#### Pval with lag
+
+```{r}
+res <- pearson_lag_with_data(x, y, k = 4)
+res$correlation
+
+cor.test(res$x , res$y,  method = 'pearson')
+```
+#### Plot Regression with lag
+
+```{r}
+plot(res$x,   type = 'l', ylim=c(-4, 0))
+lines(res$y-6, col='red')
+```
+
+
+#### Plot Regression with lag
+
+```{r}
+
+model <- lm(y ~ x, data = res)
+summary(model)
+
+plot(res$x , res$y )
+# Fit linear model
+abline(model, col = "red", lwd = 2)
 
 
 
-# Compute autocorrelation of both series
-acf_rate <- acf(df$rate, plot = FALSE)$acf[2]
-acf_se <- acf(df$se, plot = FALSE)$acf[2]
-rho <- mean(c(acf_rate, acf_se), na.rm = TRUE)
+```
 
-# Effective number of independent samples (Pyper & Peterman 1998)
-n <- nrow(df)
-n_eff <- n * (1 - rho) / (1 + rho)
+### Rate vs. Se
 
-# Pearson correlation (absolute values)
-r <- cor(df$rate, df$se, use = "pairwise.complete.obs")
-t_val <- r * sqrt((n_eff - 2) / (1 - r^2))
-p_val <- 2 * pt(-abs(t_val), df = n_eff - 2)
+```{r}
+# x <- rates_unique$mean 
+# se <- se_uni$mean_s
 
-cat("r =", round(r,3), "n_eff =", round(n_eff,2), "p =", signif(p_val,3), "\n")
+x <- (rates_unique$mean + 1e-7) %>% log
+se <- (se_uni$mean_s + 1e-7) %>% log
+
+```
+
+#### Pval
+```{r}
+cor.test(x , se,  method = 'pearson')
+```
+#### Plot
+
+```{r}
+model <- lm(se ~ x)
+summary(model)
+
+plot(x, se)
+# Fit linear model
+abline(model, col = "red", lwd = 2)
 ```
 
 

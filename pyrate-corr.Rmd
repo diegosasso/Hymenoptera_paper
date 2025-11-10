@@ -42,11 +42,11 @@ knitr::opts_chunk$set(
 ```{r}
 
 # Neff
-neff_repl <- read_rds('data_out/neff-per-replicate.RDS')
+neff_repl <- readRDS('data_out/neff-per-replicate.RDS')
 head(neff_repl)
 
 # Pyrate div
-div_sum <- read_rds('data_out/pyrate-dive.RDS')
+div_sum <- readRDS('data_out/pyrate-dive.RDS')
 head(div_sum)
 
 # Disparity

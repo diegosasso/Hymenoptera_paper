@@ -1064,3 +1064,26 @@ branch_rate_thru_time_Multi <- function(tree, replicate_list, n_points = 100, ti
   return(summary_rates)
 }
 
+
+pearson_lag_with_data <- function(x, y, k) {
+  stopifnot(length(x) == length(y))
+  n <- length(x)
+  
+  if (k >= 0) {
+    x_lag <- x[(1 + k):n]
+    y_lag <- y[1:(n - k)]
+  } else {
+    kk <- -k
+    x_lag <- x[1:(n - kk)]
+    y_lag <- y[(1 + kk):n]
+  }
+  
+  r <- cor(x_lag, y_lag, method = "pearson", use = "complete.obs")
+  
+  list(
+    lag = k,
+    correlation = r,
+    x =  x_lag,
+    y = y_lag
+  )
+}
