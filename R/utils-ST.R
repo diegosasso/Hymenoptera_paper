@@ -640,6 +640,40 @@ plot_enrichment_entropy <- function(tree, enr, n_points = 100, time_points=NULL,
   return(list(data = df, plot = p))
 }
 
+# checking if N branches at slice t is properly estimated
+get_n_branches <- function(tree, n_points = 100, time_points=NULL) {
+  # branch times (start, end for each edge)
+  H <- nodeHeights(tree)
+  max_height <- max(H)
+  if (is.null(time_points)){
+    times <- seq(0, max_height, length.out = n_points)
+    times[n_points] <- times[n_points] - 1e-4
+  } else { # time points provided by user
+    times <- time_points
+  }
+  
+  
+  # #entropy_vals <- numeric(n_points)
+  # entropy_vals <- numeric(length(times))
+  # prop_enriched <- numeric(length(times)) 
+  # N_unique_enriched <- numeric(length(times))
+  # N_enriched <- numeric(length(times))
+  # H_plus <- numeric(length(times))
+  # H_plus_exp <- numeric(length(times))
+  edge_len <- numeric(length(times))
+  # i=10
+  for (i in seq_along(times)) {
+    t <- times[i]
+    edge_len[i] <- which(t >= H[,1] & t <= H[,2]) %>% length  # edges active at time t
+  }
+  
+  df <- data.frame(time = rev(times), edge_len=edge_len
+  )
+  
+  
+  return(df)
+}
+
 
 
 # states <- c("10", "00", "00", "01")
@@ -934,6 +968,7 @@ rolling_rate_correlation <- function(rates, edge_times, window_size = 20, step_s
       # use absolute values
       if (use.abs.value){
         cor_mat <- abs(cor_mat)
+        diag(cor_mat) <- 0
       }
     } else {
       cor_mat <- matrix(NA, ncol = ncol(rates), nrow = ncol(rates))
@@ -947,6 +982,170 @@ rolling_rate_correlation <- function(rates, edge_times, window_size = 20, step_s
   return(results)
 }
 
+
+# bins_20 <- seq(0, 280, by = 20)
+# 
+# cor_bins_20 <- fixed_bin_correlation(
+#   rates       = rates,
+#   edge_times  = edge_times,
+#   breaks      = bins_20,
+#   trim_quantiles = NULL, #c(0.01, 0.99),
+#   log_transform  = TRUE,
+#   use.abs.value  = TRUE
+# )
+
+# breaks = seq(0, 280, by = 20)
+# trim_quantiles = NULL
+# log_transform = FALSE
+# use.abs.value = TRUE
+
+fixed_bin_correlation <- function(rates,
+                                  edge_times,
+                                  breaks = seq(0, 280, by = 20),
+                                  trim_quantiles = NULL,
+                                  log_transform = FALSE,
+                                  use.abs.value = TRUE) {
+  # rates: matrix [edges x body_regions]
+  # edge_times: data.frame with cols edge, start, end (time from tips)
+  # breaks: numeric vector of bin boundaries, e.g. seq(0, 280, 20)
+  # trim_quantiles: e.g. c(0.01, 0.99) to drop extremes per column
+  # log_transform: log(x + const) if TRUE
+  # use.abs.value: take absolute value of correlations if TRUE
+  
+  # Sanity check
+  if (nrow(rates) != nrow(edge_times)) {
+    stop("rates rows must match edges in edge_times")
+  }
+  
+  # Midpoint time for each edge
+  edge_times$mid <- (edge_times$start + edge_times$end) / 2
+  
+  # Make sure breaks cover the mid-range
+  if (min(edge_times$mid) < min(breaks) || max(edge_times$mid) > max(breaks)) {
+    warning("Some edge midpoints fall outside the provided breaks.")
+  }
+  
+  # List to store per-bin correlation matrices
+  results <- list()
+  
+  # Loop over consecutive bins
+  for (i in seq_len(length(breaks) - 1)) {
+    lower <- breaks[i]
+    upper <- breaks[i + 1]
+    
+    # Edges whose midpoint falls in this bin
+    in_bin <- edge_times$mid >= lower & edge_times$mid < upper
+    # For the last bin, include the upper bound too
+    if (i == length(breaks) - 1) {
+      in_bin <- edge_times$mid >= lower & edge_times$mid <= upper
+    }
+    
+    sub_rates <- rates[in_bin, , drop = FALSE]
+    
+    if (nrow(sub_rates) > 2) {
+      cor_mat <- cor_trimmed(
+        sub_rates,
+        method = "pearson",
+        log_transform = log_transform,
+        log_const = 1e-6,
+        trim_quantiles = trim_quantiles
+      )
+      # cor_trimmed can return a list; if so, use cor matrix:
+      if (is.list(cor_mat) && !is.null(cor_mat$cor_sig)) {
+        cor_mat <- cor_mat$cor_sig
+      }
+      if (use.abs.value) {
+        cor_mat <- abs(cor_mat)
+      }
+    } else {
+      cor_mat <- matrix(NA_real_,
+                        nrow = ncol(rates),
+                        ncol = ncol(rates),
+                        dimnames = list(colnames(rates), colnames(rates)))
+    }
+    
+    diag(cor_mat) <- 0
+    
+    # Name by bin center, e.g. "10", "30", ...
+    bin_center <- (lower + upper) / 2
+    results[[as.character(bin_center)]] <- cor_mat
+  }
+  
+  return(results)
+}
+
+cor_pairwise <- function(rates, 
+                         method = "pearson", 
+                         log_transform = FALSE, 
+                         log_const = 1e-6,
+                         trim_quantiles = NULL) {
+  # rates: matrix or data.frame (branches × body regions)
+  # method: correlation type ("pearson", "spearman", etc.)
+  # log_transform: apply log(x + log_const)
+  # trim_quantiles: e.g. c(0.05, 0.95) → removes outliers per column
+  
+  stopifnot(is.matrix(rates) || is.data.frame(rates))
+  mat <- as.matrix(rates)
+  p <- ncol(mat)
+  
+  # optional log transform
+  if (log_transform) {
+    mat <- log(mat + log_const)
+  }
+  
+  # optional trimming per column
+  if (!is.null(trim_quantiles)) {
+    for (j in seq_len(p)) {
+      col_vals <- mat[, j]
+      qs <- quantile(col_vals, probs = trim_quantiles, na.rm = TRUE)
+      keep <- col_vals >= qs[1] & col_vals <= qs[2]
+      mat[!keep, j] <- NA
+    }
+  }
+  
+  # prepare result matrices
+  cor_mat <- matrix(NA_real_, nrow = p, ncol = p,
+                    dimnames = list(colnames(mat), colnames(mat)))
+  p_mat <- cor_mat
+  
+  # compute pairwise correlations using cor.test()
+  for (i in 1:(p - 1)) {
+    for (j in (i + 1):p) {
+      x <- mat[, i]
+      y <- mat[, j]
+      keep <- is.finite(x) & is.finite(y)
+      
+      if (sum(keep) >= 3) {
+        test <- suppressWarnings(cor.test(x[keep], y[keep], method = method, use = "pairwise.complete.obs"))
+        cor_mat[i, j] <- cor_mat[j, i] <- unname(test$estimate)
+        p_mat[i, j]   <- p_mat[j, i]   <- test$p.value
+      }
+    }
+  }
+  
+  diag(cor_mat) <- 1
+  diag(p_mat) <- 0
+  
+  # Bonferroni correction
+  # m_tests <- p * (p - 1) / 2
+  pvals_adj <- p.adjust(p_mat[upper.tri(p_mat)], method = "bonferroni")
+  
+  p_bonf_mat <- matrix(NA_real_, nrow = p, ncol = p, dimnames = dimnames(p_mat))
+  p_bonf_mat[upper.tri(p_bonf_mat)] <- pvals_adj
+  p_bonf_mat[lower.tri(p_bonf_mat)] <- t(p_bonf_mat)[lower.tri(p_bonf_mat)]
+  diag(p_bonf_mat) <- 0
+  
+  # zero-out non-significant correlations
+  cor_filtered <- cor_mat
+  cor_filtered[p_bonf_mat > 0.05] <- 0
+  
+  list(
+    cor_raw = cor_mat,
+    p_raw = p_mat,
+    p_bonf = p_bonf_mat,
+    cor_sig = cor_filtered  # only significant coefficients retained
+  )
+}
 
 count_branches_sliding <- function(edge_times, window_size = 20, step_size = 5, plot = TRUE) {
   # Determine overall time range
@@ -989,6 +1188,31 @@ count_branches_sliding <- function(edge_times, window_size = 20, step_size = 5, 
   return(results)
 }
 
+
+summarize_cor_bins <- function(cor_bins) {
+  # library(dplyr)
+  # library(purrr)
+  # library(tibble)
+  
+  # Extract upper triangles from all correlation matrices
+  tria <- lapply(cor_bins, function(x) x[upper.tri(x)])
+  
+  # Summarize each time bin
+  summary_df <- imap_dfr(tria, function(values, time_bin) {
+    tibble(
+      time = as.numeric(time_bin),
+      mean_cor = mean(values, na.rm = TRUE),
+      median_cor = median(values, na.rm = TRUE),
+      q25 = quantile(values, 0.25, na.rm = TRUE),
+      q75 = quantile(values, 0.75, na.rm = TRUE),
+      q05 = quantile(values, 0.05, na.rm = TRUE),
+      q95 = quantile(values, 0.95, na.rm = TRUE)
+    )
+  }) %>%
+    arrange(time)
+  
+  return(summary_df)
+}
 
 cor_list_to_df <- function(cor_results) {
   df <- do.call(rbind, lapply(names(cor_results), function(t) {

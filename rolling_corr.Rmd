@@ -49,6 +49,18 @@ rate_whole_branch <- apply(rates, 1, sum)
 
 ```
 
+## Random
+
+```{r}
+tree <-readRDS("data/hym_tree.RDS")
+rnd <- runif(152*15, 0,1)
+rates <-matrix(rnd, 152,15)
+class(rates)
+dim(rates)
+rate_whole_branch <- apply(rates, 1, sum)
+```
+
+
 ## Prepare data
 
 ```{r}
@@ -62,11 +74,19 @@ head(edge_times)
 ```{r}
 
 cor_results <- rolling_rate_correlation(rates, edge_times,
-                                        window_size = 50, 
+                                        window_size = 50,
                                         step_size = 1,
-                                        trim_quantiles = NULL,  
+                                        trim_quantiles = NULL,
                                         log_transform = TRUE,
                                         use.abs.value=TRUE)
+
+
+# cor_results <- rolling_rate_correlation(rates, edge_times,
+#                                         window_size = 50, 
+#                                         step_size = 1,
+#                                         trim_quantiles = c(0.01, 0.99),  
+#                                         log_transform = TRUE,
+#                                         use.abs.value=TRUE)
 ```
 
 

@@ -53,6 +53,12 @@ corr <- cor_trimmed(rates,
             log_const = 1e-6,
             trim_quantiles = c(0.01, 0.99),
             use = "pairwise.complete.obs")
+
+cor_pw <- cor_pairwise(rates, 
+                      method = "pearson", 
+                      log_transform = T,
+                      log_const = 1e-6,
+                      trim_quantiles = c(0.01, 0.99))
 ```
 
 ```{r}
