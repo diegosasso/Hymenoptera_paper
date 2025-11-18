@@ -19,6 +19,7 @@ library(viridis)
 library(ggplot2)
 library(deeptime)
 library(mgcv)
+library(reshape2)
 source("R/utils-ST.R")
 source('R/region_class.R')
 
@@ -44,27 +45,232 @@ class(rates)
 dim(rates)
 ```
 
-## Corr
+## Correlatoin: Adults vs. Larva
 
 ```{r}
-corr <- cor_trimmed(rates, 
-            method = "pearson", 
-            log_transform = T, 
-            log_const = 1e-6,
-            trim_quantiles = c(0.01, 0.99),
-            use = "pairwise.complete.obs")
+adult <- apply(rates[,1:15], 1, sum)
+rate_ad_lar <- cbind(adult, larva=rates[,16])
+
+rate_ad_lar
+```
+
+
+### cor
+
+```{r}
+corr_ad_larv <- cor_pairwise(rate_ad_lar, 
+             method = "pearson", 
+             log_transform = T,
+             log_const = 1e-6,
+             trim_quantiles = c(0.01, 0.99))
+
+# Correlation pvals
+corr_ad_larv$p_raw
+```
+
+
+
+## Pairwise-Correlatoin: 16 BRs
+
+```{r}
 
 cor_pw <- cor_pairwise(rates, 
                       method = "pearson", 
-                      log_transform = T,
+                      log_transform = TRUE,
                       log_const = 1e-6,
                       trim_quantiles = c(0.01, 0.99))
 ```
 
-```{r}
-corr <- abs(corr)
-max(corr)
 
-corr
+### Get prop
+
+```{r}
+str(cor_pw)
+```
+### Prepare
+
+```{r}
+# Take absolute correlations and set diag to 0
+mat <- abs(cor_pw$cor_sig)
+diag(mat) <- 0
+
+
+# Preserve order
+region_order <- colnames(mat)
+
+# Melt for ggplot
+df_heat <- melt(mat, varnames = c("Region1", "Region2"), value.name = "Correlation")
+
+# Add a column indicating diagonal cells
+df_heat$is_diag <- as.character(df_heat$Region1) == as.character(df_heat$Region2)
+
+# Keep same order for both axes
+df_heat$Region1 <- factor(df_heat$Region1, levels = region_order)
+df_heat$Region2 <- factor(df_heat$Region2, levels = rev(region_order))  # flipped y-axis for symmetry
+
+# Define maximum correlation
+max_val <- max(df_heat$Correlation, na.rm = TRUE)
+
+```
+
+
+### Stat for Adults only (excluding larvae)
+
+```{r}
+mat_adult <- mat[-16,-16]
+upper_adult <- mat_adult[upper.tri(mat_adult, diag = FALSE)]
+
+Ncomp <- length(upper_adult)
+Ncomp.positive <-length(upper_adult[upper_adult>0])
+
+# Proportion of correlation with significant pvals
+Ncomp.positive/Ncomp
+
+mean(upper_adult)
+sd(upper_adult)
+max(upper_adult)
+hist(upper_adult)
+
+
+
+```
+
+
+
+### Plot heatmap
+```{r}
+# Plot heatmap
+ggplot(df_heat, aes(x = Region1, y = Region2, fill = Correlation)) +
+  geom_tile(data = subset(df_heat, !is_diag),
+            color = "grey85", linewidth = 0.3) +
+  geom_tile(data = subset(df_heat, is_diag),
+            fill = "grey", color = "grey85", linewidth = 0.3) +
+  scale_fill_gradient(
+    low = "white", high = "#b2182b",
+    limits = c(0, max_val),
+    name = "Abs. correlation"
+  ) +
+  scale_x_discrete(position = "top") +
+  coord_fixed() +
+  theme_minimal(base_size = 14) +
+  theme(
+    axis.text.x = element_text(angle = 45, hjust = 0, vjust = 0, face = "bold"),
+    axis.text.y = element_text(face = "bold"),
+    axis.title = element_blank(),
+    panel.grid = element_blank(),
+    axis.ticks = element_blank(),
+    legend.position = "right",
+    plot.margin = margin(10, 10, 10, 10)
+  )
+
+```
+
+
+## Integration: Mesosoma vs. Others
+
+### T-test
+
+```{r}
+
+#cor_raw <- mat_adult
+
+cor_raw <- abs(cor_pw$cor_raw)
+# remove larva
+cor_raw <-cor_raw[-16, -16]
+diag(cor_raw) <- 0
+
+
+
+group_traits <- c(
+  "pronotum", "propectus", "mesonotum", 
+  "mesopectus", "metanotum", "metapectal-propodeal complex"
+)
+
+
+# Extract all trait names
+all_traits <- colnames(cor_raw)
+
+# 1. Within-group correlations
+within_vals <- cor_raw[group_traits, group_traits]
+within_vals <- within_vals[upper.tri(within_vals, diag = FALSE)]
+
+# 2. Between-group correlations
+other_traits <- setdiff(all_traits, group_traits)
+between_vals <- cor_raw[group_traits, other_traits]
+between_vals <- as.vector(between_vals)
+
+# 3. Compare with a statistical test
+#t_res <- t.test(within_vals, between_vals, alternative = "greater")
+t_res <- t.test(within_vals, between_vals, alternative = "two.sided")
+t_res
+# 4. Summary
+cat("Mean within-group correlation:", mean(within_vals, na.rm = TRUE), "\n")
+cat("Mean between-group correlation:", mean(between_vals, na.rm = TRUE), "\n")
+cat("T-test p-value (greater):", signif(t_res$p.value, 4), "\n")
+
+```
+
+### Permutation test
+
+```{r}
+
+#----------- Permutation test
+permutation_test_modularity <- function(cor_mat, group_traits, n_perm = 10000, abs_vals = TRUE) {
+  # cor_mat: correlation matrix (square, symmetric)
+  # group_traits: vector of column names for focal module
+  # n_perm: number of permutations
+  # abs_vals: use absolute correlations (TRUE) or signed (FALSE)
+  
+  if (abs_vals) cor_mat <- abs(cor_mat)
+  
+  all_traits <- colnames(cor_mat)
+  other_traits <- setdiff(all_traits, group_traits)
+  
+  # observed mean difference
+  within_vals  <- cor_mat[group_traits, group_traits][upper.tri(cor_mat[group_traits, group_traits])]
+  between_vals <- as.vector(cor_mat[group_traits, other_traits])
+  delta_obs <- mean(within_vals, na.rm = TRUE) - mean(between_vals, na.rm = TRUE)
+  
+  # permutation loop
+  deltas <- numeric(n_perm)
+  for (i in seq_len(n_perm)) {
+    # randomly assign same number of traits to "group"
+    perm_group <- sample(all_traits, length(group_traits))
+    perm_other <- setdiff(all_traits, perm_group)
+    
+    wv <- cor_mat[perm_group, perm_group][upper.tri(cor_mat[perm_group, perm_group])]
+    bv <- as.vector(cor_mat[perm_group, perm_other])
+    deltas[i] <- mean(wv, na.rm = TRUE) - mean(bv, na.rm = TRUE)
+  }
+  
+  # empirical one-tailed p-value
+  p_emp <- mean(deltas >= delta_obs)
+  
+  # return summary
+  list(
+    delta_obs = delta_obs,
+    p_value = p_emp,
+    mean_within = mean(within_vals, na.rm = TRUE),
+    mean_between = mean(between_vals, na.rm = TRUE),
+    deltas = deltas
+  )
+}
+
+```
+
+### Run permutation
+
+```{r}
+group_traits <- c(
+  "pronotum", "propectus", "mesonotum",
+  "mesopectus", "metanotum", "metapectal-propodeal complex"
+)
+
+res_perm <- permutation_test_modularity(cor_raw, group_traits, n_perm = 10000)
+
+cat("Observed Δ =", round(res_perm$delta_obs, 3), "\n")
+cat("p-value =", signif(res_perm$p_value, 3), "\n")
+cat("Within mean =", round(res_perm$mean_within, 3),
+    "Between mean =", round(res_perm$mean_between, 3), "\n")
 ```
 
