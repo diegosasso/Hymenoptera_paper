@@ -114,6 +114,26 @@ max_val <- max(df_heat$Correlation, na.rm = TRUE)
 ```
 
 
+### Stat for Adults only with significant corr only (excluding larvae)
+
+```{r}
+
+mat_adult <- cor_pw$cor_sig[-16,-16]
+upper_adult <- mat_adult[upper.tri(mat_adult, diag = FALSE)]
+upper_adult <- upper_adult[upper_adult > 0]
+
+mean(upper_adult)
+sd(upper_adult)
+median_corr <- median(upper_adult, na.rm = TRUE)
+q_low <- quantile(upper_adult, 0.025, na.rm = TRUE)
+q_up <- quantile(upper_adult, 0.975, na.rm = TRUE)
+max(upper_adult)
+hist(upper_adult)
+
+
+
+```
+
 ### Stat for Adults only (excluding larvae)
 
 ```{r}
@@ -127,6 +147,8 @@ Ncomp.positive <-length(upper_adult[upper_adult>0])
 Ncomp.positive/Ncomp
 
 mean(upper_adult)
+q_low <- quantile(upper_adult, 0.025, na.rm = TRUE)
+q_up <- quantile(upper_adult, 0.975, na.rm = TRUE)
 sd(upper_adult)
 max(upper_adult)
 hist(upper_adult)

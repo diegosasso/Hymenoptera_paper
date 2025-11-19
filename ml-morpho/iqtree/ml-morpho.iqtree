@@ -1,0 +1,242 @@
+IQ-TREE 2.4.0 built Feb 12 2025
+
+Input file name: ml-morpho.varsites.phy
+Type of analysis: tree reconstruction
+Random seed number: 106106
+
+REFERENCES
+----------
+
+To cite IQ-TREE please use:
+
+Bui Quang Minh, Heiko A. Schmidt, Olga Chernomor, Dominik Schrempf,
+Michael D. Woodhams, Arndt von Haeseler, and Robert Lanfear (2020)
+IQ-TREE 2: New models and efficient methods for phylogenetic inference
+in the genomic era. Mol. Biol. Evol., in press.
+https://doi.org/10.1093/molbev/msaa015
+
+SEQUENCE ALIGNMENT
+------------------
+
+Input data: 77 sequences with 395 morphological sites
+Number of constant sites: 0 (= 0% of all sites)
+Number of invariant (constant or ambiguous constant) sites: 0 (= 0% of all sites)
+Number of parsimony informative sites: 379
+Number of distinct site patterns: 380
+
+SUBSTITUTION PROCESS
+--------------------
+
+Model of substitution: MK+FQ+ASC+G4
+
+State frequencies: (equal frequencies)
+
+Model of rate heterogeneity: Gamma with 4 categories
+Gamma shape alpha: 1.1616
+
+ Category  Relative_rate  Proportion
+  1         0.1680         0.2500
+  2         0.5205         0.2500
+  3         1.0223         0.2500
+  4         2.2892         0.2500
+Relative rates are computed as MEAN of the portion of the Gamma distribution falling in the category.
+
+MAXIMUM LIKELIHOOD TREE
+-----------------------
+
+Log-likelihood of the tree: -11936.9223 (s.e. 385.4030)
+Unconstrained log-likelihood (without tree): -2337.5696
+Number of free parameters (#branches + #model parameters): 152
+Akaike information criterion (AIC) score: 24177.8446
+Corrected Akaike information criterion (AICc) score: 24370.0429
+Bayesian information criterion (BIC) score: 24782.6352
+
+Total tree length (sum of branch lengths): 6.3058
+Sum of internal branch lengths: 2.6846 (42.5736% of tree length)
+
+WARNING: 7 near-zero internal branches (<0.0025) should be treated with caution
+         Such branches are denoted by '**' in the figure below
+
+NOTE: Tree is UNROOTED although outgroup taxon 'Eucharis_adscendens_JRAS07609_0189' is drawn at root
+
++---Eucharis_adscendens_JRAS07609_0189
+|
+|     +--Cleonymus_sp_JRAS07458_0689
+|  +**|
+|  |  +--Megastigmus_transvaalensis_USNMENT01322090
++--|
+|  |  +--Eurytoma_obtusiventris_USNMENT01339653
+|  +--|
+|     +----Acanthochalcis_nigricans_USNMENT01322190
+|
+|  +--Nasonia_vitripennis_USNMENT01322105
++**|
+   |  +**Tetracampe_sp_JRAS07821_0101
+   +--|
+      |     +--Elasmus_albizziae_USNMENT01322182
+      |  +--|
+      |  |  |  +--Coccophagus_sp1_USNMENT01231210
+      |  |  +--|
+      |  |     +--Coccobius_sp1_USNMENT01231205
+      +--|
+         |  +--Chiloe_micropteron_JRAS07627_0189
+         +--|
+            |     +--Cosmocomoidea_morrilli_USNMENT01322077
+            |  +--|
+            |  |  +--Anagrus_sp_USNMENT01322527
+            +--|
+               |   +--------Mymaromma_anomalum_JRAS07601_0189
+               +---|
+                   |               +--Belyta_sp_USNMENT01322343
+                   |            +--|
+                   |            |  +--Propsilomma_columbianum_USNMENT01322336
+                   |         +--|
+                   |         |  +--Ismarus_sp_USNMENT01197715
+                   |      +--|
+                   |      |  +-----Monomachus_sp_USNMENT01322359
+                   +------|
+                          |  +---Ropronia_garmani_USNMENT0653896
+                          +--|
+                             |              +--Proctotrupes_sp1_USNMENT01322351
+                             |           +--|
+                             |           |  +--Afroserphus_masneri_USNMENT00896672
+                             |        +--|
+                             |        |  +--Vanhornia_eucnemidarum_EX498
+                             |     +--|
+                             |     |  +--Helorus_ruficornis_USNMENT0653897
+                             |  +--|
+                             |  |  +--Pelecinus_sp_EX451
+                             +--|
+                                |           +--Proplatygaster_sp_USNMENT01109879
+                                |        +--|
+                                |        |  +--Nanomerus_spinulus_USNMENT01197953
+                                |     +--|
+                                |     |  |  +--Archaeoteleia_mellea_OSUC_203348
+                                |     |  +--|
+                                |     |     +--Trissolcus_sp_USNMENT01223831
+                                |  +--|
+                                |  |  |       +--Periclistus_sp1_USNMENT01322291
+                                |  |  |    +--|
+                                |  |  |    |  |     +--Melanips_sp_USNMENT01322150
+                                |  |  |    |  |  +--|
+                                |  |  |    |  |  |  |  +--Ibalia_anceps_USNMENT00653903
+                                |  |  |    |  |  |  +--|
+                                |  |  |    |  |  |     +--Anacharis_sp_USNMENT01339612
+                                |  |  |    |  +--|
+                                |  |  |    |     +--Parnips_nigripes_USNMENT01322129
+                                |  |  +----|
+                                |  |       +--Diplolepis_bicolor_USNMENT01322275
+                                +--|
+                                   |                     +--Sphex_jamaicensis_EX405
+                                   |                  +--|
+                                   |                  |  +--Pison_chilense_BND1250
+                                   |               +**|
+                                   |               |  +-----Sapyga_pumila_HPG8
+                                   |            +--|
+                                   |            |  |  +--Metapolybia_cingulata_HPG10
+                                   |            |  +--|
+                                   |            |     +-----Rhopalosoma_nearcticum_EX457
+                                   |         +--|
+                                   |         |  +----------Epyris_sp1_EX562
+                                   |      +--|
+                                   |      |  |  +----Orthogonalys_pulchella_USNMENT01322215
+                                   |      |  +--|
+                                   |      |     +------Megalyridae_sp_USNMENT01339662
+                                   |   +--|
+                                   |   |  |               +--Evaniella_semaeoda_USNMENT01322217
+                                   |   |  |            +--|
+                                   |   |  |            |  +--Evania_albofacialis_PSUC_FEM188504
+                                   |   |  |        +---|
+                                   |   |  |        |   +--Brachygaster_BRV003_PSUC_FEM188507
+                                   |   |  |     +--|
+                                   |   |  |     |  |  +--Gasteruption_assectator_USNMENT01322227
+                                   |   |  |     |  +--|
+                                   |   |  |     |     |  +--Pristaulacus_stigmaterus_USNMENT01322229
+                                   |   |  |     |     +--|
+                                   |   |  |     |        +--Aulacus_burquei_USNMENT01339672
+                                   |   |  |  +--|
+                                   |   |  |  |  +-------Megischus_mexicanus_USNMENT01339669
+                                   |   |  +**|
+                                   |   |     |            +-----Lagynodes_crassicornis_PSUC_FEM13564
+                                   |   |     |         +--|
+                                   |   |     |         |  +--Megaspilus_armatus_PSUC_FEM13531
+                                   |   |     +---------|
+                                   |   |               +---Ceraphron_masneri_PSUC_FEM17531
+                                   +---|
+                                       |             +--Dusona_sp_BS_UCE_Ich410
+                                       |          +--|
+                                       |          |  +--Phytodietus_pleuralis_BS_UCE_Ich315
+                                       |       +--|
+                                       |       |  |     +--Pleolophus_basizonus_BS_UCE_Ich113
+                                       |       |  |  +--|
+                                       |       |  |  |  +--Pimpla_aequalis_BS_UCE_Ich198
+                                       |       |  +--|
+                                       |       |     +--Labena_grallator_BS_UCE_Ich192
+                                       |  +----|
+                                       |  |    |  +--Wroughtonia_sp1_USNMENT01322502
+                                       |  |    +--|
+                                       |  |       |     +--Aleiodes_sp1_USNMENT01322233
+                                       |  |       |  +--|
+                                       |  |       |  |  +--Rhysipolis_sp1_USNMENT01322603
+                                       |  |       +--|
+                                       |  |          +--Doryctes_erythromelas_USNMENT01322488
+                                       +--|
+                                          |        +----Orussus_terminalis_USNMENT01339620
+                                          +--------|
+                                                   |             +**Hartigia_trimaculata_USNMENT01339622
+                                                   |          +--|
+                                                   |          |  +**Janus_integer_USNMENT01339623
+                                                   +----------|
+                                                              |     +-----Xiphydria_maculata_USNMENT01339666
+                                                              |  +--|
+                                                              |  |  |      +**Tremex_columba_USNMENT01322218
+                                                              |  |  +------|
+                                                              |  |         +--Sirex_noctilio_USNMENT01339665
+                                                              +--|
+                                                                 |      +--Onycholyda_luteicornis_USNMENT01339624
+                                                                 |   +--|
+                                                                 |   |  +**Pamphilius_pullatus_USNMENT01339625
+                                                                 +---|
+                                                                     |     +--Xyela_bakeri_USNMENT01322230
+                                                                     |  +--|
+                                                                     |  |  +--Xyela_sp_EX453
+                                                                     +--|
+                                                                        |         +**Macrophya_trisyllaba_USNMENT01322226
+                                                                        |      +**|
+                                                                        |      |  +--Athalia_sp_USNMENT01339632
+                                                                        |   +--|
+                                                                        |   |  +**Abia_lonicerae_USNMENT01322220
+                                                                        +---|
+                                                                            |  +**Atomacera_decepta_USNMENT01339630
+                                                                            +**|
+                                                                               |  +**Acordulecera_pellucida_USNMENT01322225
+                                                                               +**|
+                                                                                  +--Lophyrotoma_zonalis_USNMENT01339631
+
+Tree in newick format:
+
+(Eucharis_adscendens_JRAS07609_0189:0.0795515585,((Cleonymus_sp_JRAS07458_0689:0.0591813887,Megastigmus_transvaalensis_USNMENT01322090:0.0465076976):0.0000020551,(Eurytoma_obtusiventris_USNMENT01339653:0.0557375367,Acanthochalcis_nigricans_USNMENT01322190:0.0893444548):0.0359198494):0.0089123546,(Nasonia_vitripennis_USNMENT01322105:0.0673518534,(Tetracampe_sp_JRAS07821_0101:0.0000022185,((Elasmus_albizziae_USNMENT01322182:0.0387479367,(Coccophagus_sp1_USNMENT01231210:0.0313431726,Coccobius_sp1_USNMENT01231205:0.0171358667):0.0431541168):0.0185427332,(Chiloe_micropteron_JRAS07627_0189:0.0166754284,((Cosmocomoidea_morrilli_USNMENT01322077:0.0178259060,Anagrus_sp_USNMENT01322527:0.0166094318):0.0258892617,(Mymaromma_anomalum_JRAS07601_0189:0.1583555829,((((Belyta_sp_USNMENT01322343:0.0342954080,Propsilomma_columbianum_USNMENT01322336:0.0454887940):0.0511883156,Ismarus_sp_USNMENT01197715:0.0522930350):0.0198343207,Monomachus_sp_USNMENT01322359:0.1073264160):0.0057057657,(Ropronia_garmani_USNMENT0653896:0.0722118712,(((((Proctotrupes_sp1_USNMENT01322351:0.0544918060,Afroserphus_masneri_USNMENT00896672:0.0360439607):0.0265390434,Vanhornia_eucnemidarum_EX498:0.0431236339):0.0028652787,Helorus_ruficornis_USNMENT0653897:0.0468403180):0.0270682818,Pelecinus_sp_EX451:0.0452119176):0.0363805567,((((Proplatygaster_sp_USNMENT01109879:0.0214085578,Nanomerus_spinulus_USNMENT01197953:0.0408885459):0.0448867707,(Archaeoteleia_mellea_OSUC_203348:0.0411307655,Trissolcus_sp_USNMENT01223831:0.0666634576):0.0581850796):0.0306523764,((Periclistus_sp1_USNMENT01322291:0.0206410657,((Melanips_sp_USNMENT01322150:0.0158574515,(Ibalia_anceps_USNMENT00653903:0.0654501763,Anacharis_sp_USNMENT01339612:0.0142986538):0.0048101417):0.0080169499,Parnips_nigripes_USNMENT01322129:0.0178916387):0.0053784195):0.0384452598,Diplolepis_bicolor_USNMENT01322275:0.0282331917):0.0889914168):0.0291449513,(((((((Sphex_jamaicensis_EX405:0.0622499931,Pison_chilense_BND1250:0.0341933510):0.0442255542,Sapyga_pumila_HPG8:0.1115583869):0.0009028277,(Metapolybia_cingulata_HPG10:0.0621299110,Rhopalosoma_nearcticum_EX457:0.1067126131):0.0095901231):0.0414432371,Epyris_sp1_EX562:0.1960337341):0.0626580721,(Orthogonalys_pulchella_USNMENT01322215:0.0975148925,Megalyridae_sp_USNMENT01339662:0.1337079947):0.0229815870):0.0099048878,(((((Evaniella_semaeoda_USNMENT01322217:0.0090168852,Evania_albofacialis_PSUC_FEM188504:0.0328931828):0.0186482118,Brachygaster_BRV003_PSUC_FEM188507:0.0115138680):0.0792816471,(Gasteruption_assectator_USNMENT01322227:0.0545460548,(Pristaulacus_stigmaterus_USNMENT01322229:0.0320823936,Aulacus_burquei_USNMENT01339672:0.0253879668):0.0189035501):0.0455643278):0.0362584244,Megischus_mexicanus_USNMENT01339669:0.1436478989):0.0181602087,((Lagynodes_crassicornis_PSUC_FEM13564:0.1040469602,Megaspilus_armatus_PSUC_FEM13531:0.0205966544):0.0053502632,Ceraphron_masneri_PSUC_FEM17531:0.0688928600):0.1841249687):0.0020999684):0.0275792071,((((Dusona_sp_BS_UCE_Ich410:0.0589359793,Phytodietus_pleuralis_BS_UCE_Ich315:0.0284866139):0.0038444456,((Pleolophus_basizonus_BS_UCE_Ich113:0.0583732455,Pimpla_aequalis_BS_UCE_Ich198:0.0307898665):0.0066457490,Labena_grallator_BS_UCE_Ich192:0.0441456605):0.0044669397):0.0289144287,(Wroughtonia_sp1_USNMENT01322502:0.0188443565,((Aleiodes_sp1_USNMENT01322233:0.0405111981,Rhysipolis_sp1_USNMENT01322603:0.0255365745):0.0172304205,Doryctes_erythromelas_USNMENT01322488:0.0225883732):0.0316682567):0.0338598785):0.0923697083,(Orussus_terminalis_USNMENT01339620:0.0987803851,((Hartigia_trimaculata_USNMENT01339622:0.0000010000,Janus_integer_USNMENT01339623:0.0000010000):0.0519308267,((Xiphydria_maculata_USNMENT01339666:0.1029759502,(Tremex_columba_USNMENT01322218:0.0000020179,Sirex_noctilio_USNMENT01339665:0.0161327156):0.1209471292):0.0233838916,((Onycholyda_luteicornis_USNMENT01339624:0.0094563585,Pamphilius_pullatus_USNMENT01339625:0.0000010000):0.0547795514,((Xyela_bakeri_USNMENT01322230:0.0396902423,Xyela_sp_EX453:0.0239647594):0.0532779002,(((Macrophya_trisyllaba_USNMENT01322226:0.0000010000,Athalia_sp_USNMENT01339632:0.0116096040):0.0000021030,Abia_lonicerae_USNMENT01322220:0.0000010000):0.0259756513,(Atomacera_decepta_USNMENT01339630:0.0000010000,(Acordulecera_pellucida_USNMENT01322225:0.0000010000,Lophyrotoma_zonalis_USNMENT01339631:0.0675669691):0.0000010000):0.0000022746):0.0769279350):0.0201199446):0.0708954358):0.0152508521):0.1878449695):0.1591726123):0.0237315432):0.0722937232):0.0381403053):0.0050283622):0.0202721304):0.1337652255):0.0736918771):0.0034026308):0.0180966652):0.0059768902):0.0244512996):0.0000028911);
+
+ALISIM COMMAND
+--------------
+To simulate an alignment of the same length as the original alignment, using the tree and model parameters estimated from this analysis, you can use the following command:
+
+--alisim simulated_MSA -t ml-morpho.treefile -m "MK+ASC+G4{1.16156}" -st "MORPH{8}" --length 395
+
+To mimic the alignment used to produce this analysis, i.e. simulate an alignment of the same length as the original alignment, using the tree and model parameters estimated from this analysis *and* copying the same gap positions as the original alignment, you can use the following command:
+
+iqtree -s ml-morpho.varsites.phy --alisim mimicked_MSA
+
+To simulate any number of alignments in either of the two commandlines above, use the --num-alignments options, for example mimic 100 alignments you would use the command line:
+
+iqtree -s ml-morpho.varsites.phy --alisim mimicked_MSA --num-alignments 100
+
+For more information on using AliSim, please visit: www.iqtree.org/doc/AliSim
+
+TIME STAMP
+----------
+
+Date and time: Wed Nov 19 18:42:03 2025
+Total CPU time used: 1.17224 seconds (0h:0m:1s)
+Total wall-clock time used: 1.2026 seconds (0h:0m:1s)
+

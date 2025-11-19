@@ -1,0 +1,377 @@
+IQ-TREE multicore version 2.4.0 for MacOS Intel 64-bit built Feb 12 2025
+Developed by Bui Quang Minh, Nguyen Lam Tung, Olga Chernomor, Heiko Schmidt,
+Dominik Schrempf, Michael Woodhams, Ly Trong Nhan, Thomas Wong
+
+Host:    lm9-978-001a.fmnh.helsinki.fi (SSE4.2, 64 GB RAM)
+Command: iqtree -s morphology.phy -m MK+G+ASC -g phylo.tre --prefix ml-morpho
+Seed:    109572 (Using SPRNG - Scalable Parallel Random Number Generator)
+Time:    Wed Nov 19 18:41:49 2025
+Kernel:  SSE2 - 1 threads (12 CPU cores detected)
+
+HINT: Use -nt option to specify number of threads because your CPU has 12 cores!
+HINT: -nt AUTO will automatically determine the best number of threads to use.
+
+Reading alignment file morphology.phy ... Phylip format detected
+Alignment most likely contains 8-state morphological data
+WARNING: 1 sites contain only gaps or ambiguous characters.
+Alignment has 77 sequences with 401 columns, 385 distinct patterns
+379 parsimony-informative, 16 singleton sites, 6 constant sites
+                                            Gap/Ambiguity  Composition  p-value
+Analyzing sequences: done in 3.91006e-05 secs using 92.07% CPU
+   1  Eucharis_adscendens_JRAS07609_0189           87.03%    passed     22.25%
+   2  Cleonymus_sp_JRAS07458_0689                  21.95%    passed     98.53%
+   3  Megastigmus_transvaalensis_USNMENT01322090    6.98%    passed     63.39%
+   4  Eurytoma_obtusiventris_USNMENT01339653       25.44%    passed     64.83%
+   5  Acanthochalcis_nigricans_USNMENT01322190     21.70%    passed     94.03%
+   6  Nasonia_vitripennis_USNMENT01322105          22.44%    passed     74.87%
+   7  Tetracampe_sp_JRAS07821_0101                 83.79%    passed     95.04%
+   8  Elasmus_albizziae_USNMENT01322182            28.93%    passed     99.09%
+   9  Coccophagus_sp1_USNMENT01231210              24.44%    passed     98.07%
+  10  Coccobius_sp1_USNMENT01231205                78.55%    passed     29.01%
+  11  Chiloe_micropteron_JRAS07627_0189            87.28%    passed     94.97%
+  12  Cosmocomoidea_morrilli_USNMENT01322077       10.22%    passed     96.34%
+  13  Anagrus_sp_USNMENT01322527                   89.03%    passed     11.58%
+  14  Mymaromma_anomalum_JRAS07601_0189            38.15%    passed     90.28%
+  15  Belyta_sp_USNMENT01322343                     5.99%    passed     92.17%
+  16  Propsilomma_columbianum_USNMENT01322336      29.18%    passed     85.18%
+  17  Ismarus_sp_USNMENT01197715                   40.40%    passed     69.65%
+  18  Monomachus_sp_USNMENT01322359                 4.49%    passed     98.55%
+  19  Ropronia_garmani_USNMENT0653896               5.49%    passed     98.57%
+  20  Proctotrupes_sp1_USNMENT01322351             10.22%    passed     70.31%
+  21  Afroserphus_masneri_USNMENT00896672          27.68%    passed     60.17%
+  22  Vanhornia_eucnemidarum_EX498                  6.48%    passed     91.67%
+  23  Helorus_ruficornis_USNMENT0653897             4.74%    passed     87.28%
+  24  Pelecinus_sp_EX451                            5.99%    passed     95.62%
+  25  Proplatygaster_sp_USNMENT01109879            24.69%    passed     90.89%
+  26  Nanomerus_spinulus_USNMENT01197953           38.15%    passed     83.55%
+  27  Archaeoteleia_mellea_OSUC_203348              6.48%    passed     97.19%
+  28  Trissolcus_sp_USNMENT01223831                29.18%    passed     47.64%
+  29  Periclistus_sp1_USNMENT01322291              20.70%    failed      1.29%
+  30  Melanips_sp_USNMENT01322150                  24.94%    failed      1.21%
+  31  Ibalia_anceps_USNMENT00653903                 5.99%    passed     71.60%
+  32  Anacharis_sp_USNMENT01339612                 24.94%    failed      0.48%
+  33  Parnips_nigripes_USNMENT01322129             27.68%    passed     64.89%
+  34  Diplolepis_bicolor_USNMENT01322275            8.23%    passed     96.65%
+  35  Sphex_jamaicensis_EX405                      19.45%    passed     89.18%
+  36  Pison_chilense_BND1250                        7.48%    passed     99.71%
+  37  Sapyga_pumila_HPG8                            7.48%    passed     59.50%
+  38  Metapolybia_cingulata_HPG10                  19.70%    failed      0.00%
+  39  Rhopalosoma_nearcticum_EX457                 31.42%    passed     86.20%
+  40  Epyris_sp1_EX562                             24.94%    passed     95.55%
+  41  Orthogonalys_pulchella_USNMENT01322215        4.49%    passed     95.54%
+  42  Megalyridae_sp_USNMENT01339662                5.74%    passed      5.19%
+  43  Evaniella_semaeoda_USNMENT01322217           17.21%    passed     94.90%
+  44  Evania_albofacialis_PSUC_FEM188504            4.24%    passed     74.99%
+  45  Brachygaster_BRV003_PSUC_FEM188507           18.45%    passed     98.69%
+  46  Gasteruption_assectator_USNMENT01322227      20.45%    passed     41.09%
+  47  Pristaulacus_stigmaterus_USNMENT01322229      3.99%    passed     99.72%
+  48  Aulacus_burquei_USNMENT01339672              18.70%    passed     71.67%
+  49  Megischus_mexicanus_USNMENT01339669           9.98%    passed     96.27%
+  50  Lagynodes_crassicornis_PSUC_FEM13564         36.91%    passed     93.53%
+  51  Megaspilus_armatus_PSUC_FEM13531             14.21%    passed     98.27%
+  52  Ceraphron_masneri_PSUC_FEM17531              40.65%    passed     80.83%
+  53  Dusona_sp_BS_UCE_Ich410                      24.19%    passed     46.39%
+  54  Phytodietus_pleuralis_BS_UCE_Ich315          28.68%    passed     41.20%
+  55  Pleolophus_basizonus_BS_UCE_Ich113           25.19%    passed     84.32%
+  56  Pimpla_aequalis_BS_UCE_Ich198                35.16%    passed     91.86%
+  57  Labena_grallator_BS_UCE_Ich192               32.17%    passed     73.41%
+  58  Wroughtonia_sp1_USNMENT01322502              20.45%    passed     12.43%
+  59  Aleiodes_sp1_USNMENT01322233                 20.70%    failed      4.20%
+  60  Rhysipolis_sp1_USNMENT01322603               25.94%    passed     36.80%
+  61  Doryctes_erythromelas_USNMENT01322488        13.47%    passed     51.24%
+  62  Orussus_terminalis_USNMENT01339620            8.48%    passed     85.37%
+  63  Hartigia_trimaculata_USNMENT01339622         87.03%    failed      0.44%
+  64  Janus_integer_USNMENT01339623                 5.99%    failed      0.91%
+  65  Xiphydria_maculata_USNMENT01339666            6.73%    failed      3.60%
+  66  Tremex_columba_USNMENT01322218               22.94%    failed      0.08%
+  67  Sirex_noctilio_USNMENT01339665               88.53%    failed      0.00%
+  68  Onycholyda_luteicornis_USNMENT01339624        6.73%    failed      0.85%
+  69  Pamphilius_pullatus_USNMENT01339625          87.53%    passed      5.81%
+  70  Xyela_bakeri_USNMENT01322230                 77.31%    failed      0.11%
+  71  Xyela_sp_EX453                                7.48%    failed      0.00%
+  72  Macrophya_trisyllaba_USNMENT01322226         93.27%    failed      0.02%
+  73  Athalia_sp_USNMENT01339632                    6.23%    failed      0.10%
+  74  Abia_lonicerae_USNMENT01322220               93.77%    failed      0.01%
+  75  Atomacera_decepta_USNMENT01339630            94.01%    failed      0.01%
+  76  Acordulecera_pellucida_USNMENT01322225       94.01%    failed      0.01%
+  77  Lophyrotoma_zonalis_USNMENT01339631          31.67%    failed      0.00%
+WARNING: 13 sequences contain more than 50% gaps/ambiguity
+****  TOTAL                                        30.14%  19 sequences failed composition chi2 test (p-value<5%; df=7)
+Reading constraint tree phylo.tre...
+WARNING: Rooted constraint tree will be treated as unrooted tree
+WARNING: States(s) 7 rarely appear in alignment and may cause numerical problems
+Creating fast initial parsimony tree by random order stepwise addition...
+WARNING: Constraint tree has all taxa and is bifurcating, which strictly enforces final tree!
+0.001 seconds, parsimony score: 0 (based on 395 sites)
+Alignment was printed to ml-morpho.varsites.phy
+ERROR: For your convenience alignment with variable sites printed to ml-morpho.varsites.phy
+ERROR: Invalid use of +ASC because of 6 invariant sites in the alignment
+
+******************************************************
+CHECKPOINT: Resuming analysis from ml-morpho.ckp.gz
+
+IQ-TREE multicore version 2.4.0 for MacOS Intel 64-bit built Feb 12 2025
+Developed by Bui Quang Minh, Nguyen Lam Tung, Olga Chernomor, Heiko Schmidt,
+Dominik Schrempf, Michael Woodhams, Ly Trong Nhan, Thomas Wong
+
+Host:    lm9-978-001a.fmnh.helsinki.fi (SSE4.2, 64 GB RAM)
+Command: iqtree -s ml-morpho.varsites.phy -m MK+G+ASC -g phylo.tre --prefix ml-morpho
+Seed:    106106 (Using SPRNG - Scalable Parallel Random Number Generator)
+Time:    Wed Nov 19 18:42:02 2025
+Kernel:  SSE2 - 1 threads (12 CPU cores detected)
+
+HINT: Use -nt option to specify number of threads because your CPU has 12 cores!
+HINT: -nt AUTO will automatically determine the best number of threads to use.
+
+WARNING: Command-line argument `ml-morpho.varsites.phy` differs from checkpoint `morphology.phy`
+WARNING: Command-line differs from checkpoint!
+Reading alignment file ml-morpho.varsites.phy ... Phylip format detected
+Alignment most likely contains 8-state morphological data
+Alignment has 77 sequences with 395 columns, 380 distinct patterns
+379 parsimony-informative, 16 singleton sites, 0 constant sites
+                                            Gap/Ambiguity  Composition  p-value
+Analyzing sequences: done in 4.3869e-05 secs using 84.34% CPU
+   1  Eucharis_adscendens_JRAS07609_0189           86.84%    passed     23.02%
+   2  Cleonymus_sp_JRAS07458_0689                  22.03%    passed     98.53%
+   3  Megastigmus_transvaalensis_USNMENT01322090    6.84%    passed     63.34%
+   4  Eurytoma_obtusiventris_USNMENT01339653       25.57%    passed     65.02%
+   5  Acanthochalcis_nigricans_USNMENT01322190     21.52%    passed     93.09%
+   6  Nasonia_vitripennis_USNMENT01322105          22.53%    passed     75.07%
+   7  Tetracampe_sp_JRAS07821_0101                 83.54%    passed     94.53%
+   8  Elasmus_albizziae_USNMENT01322182            28.86%    passed     99.15%
+   9  Coccophagus_sp1_USNMENT01231210              24.30%    passed     98.25%
+  10  Coccobius_sp1_USNMENT01231205                78.48%    passed     22.29%
+  11  Chiloe_micropteron_JRAS07627_0189            87.09%    passed     94.76%
+  12  Cosmocomoidea_morrilli_USNMENT01322077       10.13%    passed     96.22%
+  13  Anagrus_sp_USNMENT01322527                   88.86%    passed     12.09%
+  14  Mymaromma_anomalum_JRAS07601_0189            38.23%    passed     90.36%
+  15  Belyta_sp_USNMENT01322343                     5.82%    passed     92.20%
+  16  Propsilomma_columbianum_USNMENT01322336      29.11%    passed     83.72%
+  17  Ismarus_sp_USNMENT01197715                   40.76%    passed     70.57%
+  18  Monomachus_sp_USNMENT01322359                 4.30%    passed     98.51%
+  19  Ropronia_garmani_USNMENT0653896               5.32%    passed     98.54%
+  20  Proctotrupes_sp1_USNMENT01322351              9.87%    passed     69.60%
+  21  Afroserphus_masneri_USNMENT00896672          27.85%    passed     60.37%
+  22  Vanhornia_eucnemidarum_EX498                  6.33%    passed     91.51%
+  23  Helorus_ruficornis_USNMENT0653897             4.56%    passed     87.19%
+  24  Pelecinus_sp_EX451                            5.82%    passed     95.65%
+  25  Proplatygaster_sp_USNMENT01109879            24.81%    passed     90.97%
+  26  Nanomerus_spinulus_USNMENT01197953           38.48%    passed     83.61%
+  27  Archaeoteleia_mellea_OSUC_203348              6.33%    passed     97.15%
+  28  Trissolcus_sp_USNMENT01223831                29.11%    passed     43.31%
+  29  Periclistus_sp1_USNMENT01322291              20.76%    failed      1.27%
+  30  Melanips_sp_USNMENT01322150                  24.81%    failed      1.14%
+  31  Ibalia_anceps_USNMENT00653903                 5.82%    passed     71.50%
+  32  Anacharis_sp_USNMENT01339612                 24.81%    failed      0.44%
+  33  Parnips_nigripes_USNMENT01322129             27.85%    passed     65.29%
+  34  Diplolepis_bicolor_USNMENT01322275            8.10%    passed     96.62%
+  35  Sphex_jamaicensis_EX405                      19.49%    passed     89.18%
+  36  Pison_chilense_BND1250                        7.34%    passed     99.71%
+  37  Sapyga_pumila_HPG8                            7.34%    passed     59.21%
+  38  Metapolybia_cingulata_HPG10                  19.75%    failed      0.00%
+  39  Rhopalosoma_nearcticum_EX457                 31.65%    passed     86.20%
+  40  Epyris_sp1_EX562                             25.06%    passed     95.56%
+  41  Orthogonalys_pulchella_USNMENT01322215        4.30%    passed     95.54%
+  42  Megalyridae_sp_USNMENT01339662                5.57%    passed      5.14%
+  43  Evaniella_semaeoda_USNMENT01322217           17.22%    passed     94.96%
+  44  Evania_albofacialis_PSUC_FEM188504            4.05%    passed     74.85%
+  45  Brachygaster_BRV003_PSUC_FEM188507           18.48%    passed     98.71%
+  46  Gasteruption_assectator_USNMENT01322227      20.51%    passed     40.91%
+  47  Pristaulacus_stigmaterus_USNMENT01322229      3.80%    passed     99.73%
+  48  Aulacus_burquei_USNMENT01339672              18.73%    passed     71.31%
+  49  Megischus_mexicanus_USNMENT01339669           9.87%    passed     96.16%
+  50  Lagynodes_crassicornis_PSUC_FEM13564         37.22%    passed     93.32%
+  51  Megaspilus_armatus_PSUC_FEM13531             14.18%    passed     98.28%
+  52  Ceraphron_masneri_PSUC_FEM17531              41.01%    passed     81.55%
+  53  Dusona_sp_BS_UCE_Ich410                      24.30%    passed     46.32%
+  54  Phytodietus_pleuralis_BS_UCE_Ich315          28.86%    passed     41.33%
+  55  Pleolophus_basizonus_BS_UCE_Ich113           25.32%    passed     84.29%
+  56  Pimpla_aequalis_BS_UCE_Ich198                35.19%    passed     91.98%
+  57  Labena_grallator_BS_UCE_Ich192               32.15%    passed     72.82%
+  58  Wroughtonia_sp1_USNMENT01322502              20.51%    passed     12.33%
+  59  Aleiodes_sp1_USNMENT01322233                 20.76%    failed      4.13%
+  60  Rhysipolis_sp1_USNMENT01322603               25.82%    passed     35.19%
+  61  Doryctes_erythromelas_USNMENT01322488        13.42%    passed     51.26%
+  62  Orussus_terminalis_USNMENT01339620            8.35%    passed     85.05%
+  63  Hartigia_trimaculata_USNMENT01339622         86.84%    failed      0.53%
+  64  Janus_integer_USNMENT01339623                 5.82%    failed      0.86%
+  65  Xiphydria_maculata_USNMENT01339666            6.58%    failed      3.44%
+  66  Tremex_columba_USNMENT01322218               23.04%    failed      0.07%
+  67  Sirex_noctilio_USNMENT01339665               88.35%    failed      0.00%
+  68  Onycholyda_luteicornis_USNMENT01339624        6.58%    failed      0.80%
+  69  Pamphilius_pullatus_USNMENT01339625          87.34%    passed      6.26%
+  70  Xyela_bakeri_USNMENT01322230                 77.22%    failed      0.16%
+  71  Xyela_sp_EX453                                7.34%    failed      0.00%
+  72  Macrophya_trisyllaba_USNMENT01322226         93.16%    failed      0.02%
+  73  Athalia_sp_USNMENT01339632                    6.08%    failed      0.09%
+  74  Abia_lonicerae_USNMENT01322220               93.67%    failed      0.01%
+  75  Atomacera_decepta_USNMENT01339630            93.92%    failed      0.01%
+  76  Acordulecera_pellucida_USNMENT01322225       93.92%    failed      0.01%
+  77  Lophyrotoma_zonalis_USNMENT01339631          31.65%    failed      0.00%
+WARNING: 13 sequences contain more than 50% gaps/ambiguity
+****  TOTAL                                        30.09%  19 sequences failed composition chi2 test (p-value<5%; df=7)
+Reading constraint tree phylo.tre...
+WARNING: Rooted constraint tree will be treated as unrooted tree
+WARNING: States(s) 7 rarely appear in alignment and may cause numerical problems
+
+CHECKPOINT: Initial tree restored
+
+NOTE: 7 MB RAM (0 GB) is required!
+Estimate model parameters (epsilon = 0.100)
+1. Initial log-likelihood: -12049.816
+2. Current log-likelihood: -11938.948
+3. Current log-likelihood: -11937.095
+Optimal log-likelihood: -11936.980
+Gamma shape alpha: 1.121
+Parameters optimization took 3 rounds (0.257 sec)
+Wrote distance file to... 
+--------------------------------------------------------------------
+|             INITIALIZING CANDIDATE TREE SET                      |
+--------------------------------------------------------------------
+Generating 99 parsimony trees... WARNING: Constraint tree has all taxa and is bifurcating, which strictly enforces final tree!
+WARNING: Constraint tree has all taxa and is bifurcating, which strictly enforces final tree!
+WARNING: Constraint tree has all taxa and is bifurcating, which strictly enforces final tree!
+WARNING: Constraint tree has all taxa and is bifurcating, which strictly enforces final tree!
+WARNING: Constraint tree has all taxa and is bifurcating, which strictly enforces final tree!
+WARNING: Constraint tree has all taxa and is bifurcating, which strictly enforces final tree!
+WARNING: Constraint tree has all taxa and is bifurcating, which strictly enforces final tree!
+WARNING: Constraint tree has all taxa and is bifurcating, which strictly enforces final tree!
+WARNING: Constraint tree has all taxa and is bifurcating, which strictly enforces final tree!
+WARNING: Constraint tree has all taxa and is bifurcating, which strictly enforces final tree!
+WARNING: Constraint tree has all taxa and is bifurcating, which strictly enforces final tree!
+WARNING: Constraint tree has all taxa and is bifurcating, which strictly enforces final tree!
+WARNING: Constraint tree has all taxa and is bifurcating, which strictly enforces final tree!
+WARNING: Constraint tree has all taxa and is bifurcating, which strictly enforces final tree!
+WARNING: Constraint tree has all taxa and is bifurcating, which strictly enforces final tree!
+WARNING: Constraint tree has all taxa and is bifurcating, which strictly enforces final tree!
+WARNING: Constraint tree has all taxa and is bifurcating, which strictly enforces final tree!
+WARNING: Constraint tree has all taxa and is bifurcating, which strictly enforces final tree!
+WARNING: Constraint tree has all taxa and is bifurcating, which strictly enforces final tree!
+WARNING: Constraint tree has all taxa and is bifurcating, which strictly enforces final tree!
+WARNING: Constraint tree has all taxa and is bifurcating, which strictly enforces final tree!
+WARNING: Constraint tree has all taxa and is bifurcating, which strictly enforces final tree!
+WARNING: Constraint tree has all taxa and is bifurcating, which strictly enforces final tree!
+WARNING: Constraint tree has all taxa and is bifurcating, which strictly enforces final tree!
+WARNING: Constraint tree has all taxa and is bifurcating, which strictly enforces final tree!
+WARNING: Constraint tree has all taxa and is bifurcating, which strictly enforces final tree!
+WARNING: Constraint tree has all taxa and is bifurcating, which strictly enforces final tree!
+WARNING: Constraint tree has all taxa and is bifurcating, which strictly enforces final tree!
+WARNING: Constraint tree has all taxa and is bifurcating, which strictly enforces final tree!
+WARNING: Constraint tree has all taxa and is bifurcating, which strictly enforces final tree!
+WARNING: Constraint tree has all taxa and is bifurcating, which strictly enforces final tree!
+WARNING: Constraint tree has all taxa and is bifurcating, which strictly enforces final tree!
+WARNING: Constraint tree has all taxa and is bifurcating, which strictly enforces final tree!
+WARNING: Constraint tree has all taxa and is bifurcating, which strictly enforces final tree!
+WARNING: Constraint tree has all taxa and is bifurcating, which strictly enforces final tree!
+WARNING: Constraint tree has all taxa and is bifurcating, which strictly enforces final tree!
+WARNING: Constraint tree has all taxa and is bifurcating, which strictly enforces final tree!
+WARNING: Constraint tree has all taxa and is bifurcating, which strictly enforces final tree!
+WARNING: Constraint tree has all taxa and is bifurcating, which strictly enforces final tree!
+WARNING: Constraint tree has all taxa and is bifurcating, which strictly enforces final tree!
+WARNING: Constraint tree has all taxa and is bifurcating, which strictly enforces final tree!
+WARNING: Constraint tree has all taxa and is bifurcating, which strictly enforces final tree!
+WARNING: Constraint tree has all taxa and is bifurcating, which strictly enforces final tree!
+WARNING: Constraint tree has all taxa and is bifurcating, which strictly enforces final tree!
+WARNING: Constraint tree has all taxa and is bifurcating, which strictly enforces final tree!
+WARNING: Constraint tree has all taxa and is bifurcating, which strictly enforces final tree!
+WARNING: Constraint tree has all taxa and is bifurcating, which strictly enforces final tree!
+WARNING: Constraint tree has all taxa and is bifurcating, which strictly enforces final tree!
+WARNING: Constraint tree has all taxa and is bifurcating, which strictly enforces final tree!
+WARNING: Constraint tree has all taxa and is bifurcating, which strictly enforces final tree!
+WARNING: Constraint tree has all taxa and is bifurcating, which strictly enforces final tree!
+WARNING: Constraint tree has all taxa and is bifurcating, which strictly enforces final tree!
+WARNING: Constraint tree has all taxa and is bifurcating, which strictly enforces final tree!
+WARNING: Constraint tree has all taxa and is bifurcating, which strictly enforces final tree!
+WARNING: Constraint tree has all taxa and is bifurcating, which strictly enforces final tree!
+WARNING: Constraint tree has all taxa and is bifurcating, which strictly enforces final tree!
+WARNING: Constraint tree has all taxa and is bifurcating, which strictly enforces final tree!
+WARNING: Constraint tree has all taxa and is bifurcating, which strictly enforces final tree!
+WARNING: Constraint tree has all taxa and is bifurcating, which strictly enforces final tree!
+WARNING: Constraint tree has all taxa and is bifurcating, which strictly enforces final tree!
+WARNING: Constraint tree has all taxa and is bifurcating, which strictly enforces final tree!
+WARNING: Constraint tree has all taxa and is bifurcating, which strictly enforces final tree!
+WARNING: Constraint tree has all taxa and is bifurcating, which strictly enforces final tree!
+WARNING: Constraint tree has all taxa and is bifurcating, which strictly enforces final tree!
+WARNING: Constraint tree has all taxa and is bifurcating, which strictly enforces final tree!
+WARNING: Constraint tree has all taxa and is bifurcating, which strictly enforces final tree!
+WARNING: Constraint tree has all taxa and is bifurcating, which strictly enforces final tree!
+WARNING: Constraint tree has all taxa and is bifurcating, which strictly enforces final tree!
+WARNING: Constraint tree has all taxa and is bifurcating, which strictly enforces final tree!
+WARNING: Constraint tree has all taxa and is bifurcating, which strictly enforces final tree!
+WARNING: Constraint tree has all taxa and is bifurcating, which strictly enforces final tree!
+WARNING: Constraint tree has all taxa and is bifurcating, which strictly enforces final tree!
+WARNING: Constraint tree has all taxa and is bifurcating, which strictly enforces final tree!
+WARNING: Constraint tree has all taxa and is bifurcating, which strictly enforces final tree!
+WARNING: Constraint tree has all taxa and is bifurcating, which strictly enforces final tree!
+WARNING: Constraint tree has all taxa and is bifurcating, which strictly enforces final tree!
+WARNING: Constraint tree has all taxa and is bifurcating, which strictly enforces final tree!
+WARNING: Constraint tree has all taxa and is bifurcating, which strictly enforces final tree!
+WARNING: Constraint tree has all taxa and is bifurcating, which strictly enforces final tree!
+WARNING: Constraint tree has all taxa and is bifurcating, which strictly enforces final tree!
+WARNING: Constraint tree has all taxa and is bifurcating, which strictly enforces final tree!
+WARNING: Constraint tree has all taxa and is bifurcating, which strictly enforces final tree!
+WARNING: Constraint tree has all taxa and is bifurcating, which strictly enforces final tree!
+WARNING: Constraint tree has all taxa and is bifurcating, which strictly enforces final tree!
+WARNING: Constraint tree has all taxa and is bifurcating, which strictly enforces final tree!
+WARNING: Constraint tree has all taxa and is bifurcating, which strictly enforces final tree!
+WARNING: Constraint tree has all taxa and is bifurcating, which strictly enforces final tree!
+WARNING: Constraint tree has all taxa and is bifurcating, which strictly enforces final tree!
+WARNING: Constraint tree has all taxa and is bifurcating, which strictly enforces final tree!
+WARNING: Constraint tree has all taxa and is bifurcating, which strictly enforces final tree!
+WARNING: Constraint tree has all taxa and is bifurcating, which strictly enforces final tree!
+WARNING: Constraint tree has all taxa and is bifurcating, which strictly enforces final tree!
+WARNING: Constraint tree has all taxa and is bifurcating, which strictly enforces final tree!
+WARNING: Constraint tree has all taxa and is bifurcating, which strictly enforces final tree!
+WARNING: Constraint tree has all taxa and is bifurcating, which strictly enforces final tree!
+WARNING: Constraint tree has all taxa and is bifurcating, which strictly enforces final tree!
+WARNING: Constraint tree has all taxa and is bifurcating, which strictly enforces final tree!
+WARNING: Constraint tree has all taxa and is bifurcating, which strictly enforces final tree!
+WARNING: Constraint tree has all taxa and is bifurcating, which strictly enforces final tree!
+0.199 second
+Current best score: -11936.980
+
+Do NNI search on 1 best initial trees
+Finish initializing candidate tree set (1)
+Current best tree score: -11936.980 / CPU time: 0.210
+Number of iterations: 1
+--------------------------------------------------------------------
+|               OPTIMIZING CANDIDATE TREE SET                      |
+--------------------------------------------------------------------
+Iteration 10 / LogL: -11936.980 / Time: 0h:0m:0s
+Iteration 20 / LogL: -11936.980 / Time: 0h:0m:0s
+Iteration 30 / LogL: -11936.980 / Time: 0h:0m:0s (0h:0m:1s left)
+Iteration 40 / LogL: -11936.980 / Time: 0h:0m:0s (0h:0m:1s left)
+Iteration 50 / LogL: -11936.980 / Time: 0h:0m:0s (0h:0m:0s left)
+Iteration 60 / LogL: -11936.980 / Time: 0h:0m:0s (0h:0m:0s left)
+Iteration 70 / LogL: -11936.980 / Time: 0h:0m:0s (0h:0m:0s left)
+Iteration 80 / LogL: -11936.980 / Time: 0h:0m:0s (0h:0m:0s left)
+Iteration 90 / LogL: -11936.980 / Time: 0h:0m:0s (0h:0m:0s left)
+Iteration 100 / LogL: -11936.980 / Time: 0h:0m:1s (0h:0m:0s left)
+TREE SEARCH COMPLETED AFTER 101 ITERATIONS / Time: 0h:0m:1s
+
+--------------------------------------------------------------------
+|                    FINALIZING TREE SEARCH                        |
+--------------------------------------------------------------------
+Performs final model parameters optimization
+Estimate model parameters (epsilon = 0.010)
+1. Initial log-likelihood: -11936.980
+2. Current log-likelihood: -11936.946
+3. Current log-likelihood: -11936.928
+Optimal log-likelihood: -11936.922
+Gamma shape alpha: 1.162
+Parameters optimization took 3 rounds (0.151 sec)
+BEST SCORE FOUND : -11936.922
+Total tree length: 6.306
+
+Total number of iterations: 101
+CPU time used for tree search: 0.767 sec (0h:0m:0s)
+Wall-clock time used for tree search: 0.781 sec (0h:0m:0s)
+Total CPU time used: 1.172 sec (0h:0m:1s)
+Total wall-clock time used: 1.200 sec (0h:0m:1s)
+
+Analysis results written to: 
+  IQ-TREE report:                ml-morpho.iqtree
+  Maximum-likelihood tree:       ml-morpho.treefile
+  Screen log file:               ml-morpho.log
+
+Date and Time: Wed Nov 19 18:42:03 2025

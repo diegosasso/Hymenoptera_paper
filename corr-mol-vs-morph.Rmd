@@ -1,0 +1,120 @@
+---
+title: "Correlation between morphological and molecular Rates"
+date: "`r Sys.Date()`"
+output: 
+  html_document:
+    df_print: paged
+---
+
+
+
+```{r setup, include=F}
+
+library(ape)
+library(phytools)
+library(ontophylo)
+library(dplyr)
+library(parallel)
+library(viridis)
+library(ggplot2)
+library(deeptime)
+library(mgcv)
+source("R/utils-ST.R")
+source('R/region_class.R')
+
+
+knitr::opts_chunk$set(
+  echo = TRUE,       # show code by default
+  warning = FALSE,
+  message = FALSE
+)
+```
+
+## Read Trees
+
+```{r}
+tree <-readRDS("data/hym_tree.RDS")
+tree_ml_mol <- read.tree("data/HYM-NUC-70%-SWSC.tre")
+
+# READING IQTREE
+# - nex tree  is derived from original iqtree by manually rerooting (Athalia)
+tree_ml_morph <- read.nexus("ml-morpho/iqtree/ml-morpho.nex")
+```
+
+## Align tree_ml_morph
+```{r}
+library(bnpsd)
+#plot(tree_ml_morph, show.tip.label = F)
+tree_ml_morph <- ladderize(tree_ml_morph, right = TRUE)
+tree_ml_morph <- tree_reorder(tree_ml_morph, tree$tip.label)
+plot(tree_ml_morph, show.tip.label = F)
+```
+
+## Align tree_ml_mol
+
+```{r}
+to_prune <- setdiff(tree_ml_mol$tip.label, tree$tip.label)
+#to_prune %>% length()
+tree_mol <- drop.tip(tree_ml_mol, to_prune)
+```
+
+## Check if tips order is the same
+```{r}
+all(tree$tip.label==tree_mol$tip.label)
+all(tree$tip.label==tree_ml_morph$tip.label)
+```
+
+
+## Plot edges to make sure they are aligned
+
+```{r}
+plot(tree, show.tip.label = F, use.edge.length=F)
+edgelabels(cex=0.5)
+
+plot(tree_mol, show.tip.label = F, use.edge.length=F)
+edgelabels(cex=0.5)
+
+plot(tree_ml_morph, show.tip.label = F, use.edge.length=F)
+edgelabels(cex=0.5)
+```
+## Correlation
+
+```{r}
+# mor <- tree_ml_morph$edge.length
+# mol <- tree_mol$edge.length
+
+# filter out very small rates in morphology
+df <- tibble(
+  mor = tree_ml_morph$edge.length,
+  mol = tree_mol$edge.length
+) %>%
+  filter(mor >= 0.00001)
+
+df
+```
+
+```{r}
+cor_test <- cor.test(df$mor %>% log, df$mol %>% log, method = "pearson")
+cor_test
+
+model <- lm(log(mol) ~ log(mor), data = df)
+summary(model)
+```
+
+## Plot
+
+```{r}
+library(ggplot2)
+
+ggplot(df, aes(x = mor %>% log, y = mol %>% log)) +
+  geom_point() +
+  geom_smooth(method = "lm", se = TRUE, linewidth = 1) +
+  theme_minimal() +
+  labs(
+    x = "Morphological branch length (mor)",
+    y = "Molecular branch length (mol)",
+    title = "Morphological vs Molecular Branch Lengths"
+  )
+```
+
+

@@ -1311,3 +1311,21 @@ pearson_lag_with_data <- function(x, y, k) {
     y = y_lag
   )
 }
+
+
+get_descendant_edges <- function(tree, edge_index, include=TRUE) {
+  parent <- tree$edge[edge_index, 2]   # end node of the edge
+  
+  # all edges where this node is the parent
+  children <- which(tree$edge[,1] == parent)
+  
+  # recursively collect edges
+  all_children <- children
+  for (ch in children) {
+    all_children <- c(all_children, get_descendant_edges(tree, ch))
+  }
+  if (include){
+    all_children <- c(edge_index, all_children)
+  }
+  return(unique(all_children))
+}
