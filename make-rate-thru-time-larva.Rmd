@@ -1,0 +1,248 @@
+---
+title: "Make Rate thru Time using Branch-specific rates"
+date: "`r Sys.Date()`"
+output: 
+  html_document:
+    df_print: paged
+---
+
+
+```{r setup, include=F}
+
+library(ape)
+library(phytools)
+library(ontophylo)
+library(dplyr)
+library(parallel)
+library(viridis)
+library(ggplot2)
+library(abind)
+library(dplyr)
+library(purrr)
+source("R/utils-ST.R")
+source('R/region_class.R')
+
+
+knitr::opts_chunk$set(
+  echo = TRUE,       # show code by default
+  warning = FALSE,
+  message = FALSE
+)
+```
+
+
+
+## Read data
+
+```{r}
+
+# read replicates
+tree <-readRDS("data/hym_tree.RDS")
+rates.multi <- readRDS("data_out/br_rates_all.RDS")
+
+class(rates.multi)
+length(rates.multi)
+dim(rates.multi$cranium)
+
+```
+
+## Reshape as list of 1000 tables 152 x 15
+
+```{r}
+# names of body regions
+regions <- names(rates.multi)
+n_reps  <- ncol(rates.multi[[1]])   # 1000
+n_branches <- nrow(rates.multi[[1]]) # 152
+
+# build new list: one element per replicate
+replicate_list <- lapply(1:n_reps, function(j) {
+  # extract column j from each body region and bind
+  mat <- sapply(rates.multi, function(region_mat) region_mat[, j])
+  # ensure it's a matrix with rows = branches, cols = body regions
+  mat <- matrix(mat, nrow = n_branches, ncol = length(regions))
+  colnames(mat) <- regions
+  mat
+})
+
+# drop adult
+replicate_list <- lapply(replicate_list, function(x) x[, -c(1:15), drop = FALSE])
+
+# check dims
+length(replicate_list)   # 1000
+dim(replicate_list[[1]]) # 152 x 1
+```
+
+
+
+
+## Make rates
+
+```{r}
+rates_time <- branch_rate_thru_time_Multi(tree, replicate_list, n_points = 1000, time_points = NULL)
+head(rates_time)
+
+#plot(rates_time$time, rates_time$mean, type = 'l', xlim=c(280,0))
+#plot(rates_time$time, rates_time$upper, type = 'l', xlim=c(280,0))
+```
+
+
+## Save
+
+```{r}
+saveRDS(rates_time, file='data_out/rates-thru-time-larva.RDS')
+```
+
+
+
+## Plot mean with empirical 95% confidence interval
+
+```{r}
+p <- ggplot() +
+  geom_ribbon(data = rates_time, aes(x = time, ymin = lower, ymax = upper),
+              fill = "blue", alpha = 0.2) +
+  scale_x_reverse(breaks = seq(0, 280, by = 50)) +
+  geom_line(data = rates_time, aes(x = time, y = mean),
+            color = "black", size = .3) +
+  theme_minimal()
+
+p
+ggsave("figures/rate-thru-time/rate-thru-time-larva.pdf", p, width = 3.5*2, height = 1.6*2, dpi = 300, units = "in")
+```
+
+
+
+
+
+## Correlations
+
+### Read data
+
+```{r}
+# Rates
+rates_time <- readRDS('data_out/rates-thru-time.RDS')
+
+# Se
+Se <- readRDS('data_out/s-per-replicate.RDS')
+
+# Disparity
+dis_tb <- readRDS("data_out/data_disparity_var-hm.RDS")
+dis_tb <- dis_tb %>%
+  arrange(Time)
+
+head(rates_time)
+head(Se)
+head(dis_tb)
+```
+
+### Select unique rates for correlation
+
+```{r}
+rates_unique <- rates_time %>%
+  arrange(time) %>%                                 # ensure time is increasing
+  mutate(mean_prev = lag(mean)) %>%                 # compare with previous
+  filter(is.na(mean_prev) | mean != mean_prev) %>%  # keep only when mean changes
+  select(time, mean)  
+
+time_uni <- rates_unique$time
+saveRDS(time_uni, file='data_out/unique_time_points.RDS')
+
+nrow(rates_unique)
+plot(rates_unique$time, rates_unique$mean)
+```
+
+### Select unique Se and Dispr
+
+```{r}
+se_uni <- Se %>%
+  filter(time %in% time_uni)
+head(se_uni)
+
+dis_uni <- dis_tb %>%
+  filter(Time %in% time_uni)
+head(dis_uni)
+
+```
+
+### Rate vs. Dispr, with lag
+
+```{r}
+# x <- rates_unique$mean
+# y <- dis_uni$Mean_norm_disparity
+
+x <- (rates_unique$mean + 1e-7) %>% log 
+y <- (dis_uni$Mean_norm_disparity + 1e-7) %>% log
+
+lag_results <- purrr::map_dfr(0:10, ~pearson_lag_with_data(x, y, .x))
+best_lag <- lag_results[which.max(abs(lag_results$correlation)), ]
+
+print(best_lag)
+# Lag timing
+rates_unique[4,]
+```
+
+
+#### Pval, no lag
+
+```{r}
+cor.test(x , y,  method = 'pearson')
+```
+
+
+#### Pval with lag
+
+```{r}
+res <- pearson_lag_with_data(x, y, k = 4)
+res$correlation
+
+cor.test(res$x , res$y,  method = 'pearson')
+```
+#### Plot Regression with lag
+
+```{r}
+plot(res$x,   type = 'l', ylim=c(-4, 0))
+lines(res$y-6, col='red')
+```
+
+
+#### Plot Regression with lag
+
+```{r}
+
+model <- lm(y ~ x, data = res)
+summary(model)
+
+plot(res$x , res$y )
+# Fit linear model
+abline(model, col = "red", lwd = 2)
+
+
+
+```
+
+### Rate vs. Se
+
+```{r}
+# x <- rates_unique$mean 
+# se <- se_uni$mean_s
+
+x <- (rates_unique$mean + 1e-7) %>% log
+se <- (se_uni$mean_s + 1e-7) %>% log
+
+```
+
+#### Pval
+```{r}
+cor.test(x , se,  method = 'pearson')
+```
+#### Plot
+
+```{r}
+model <- lm(se ~ x)
+summary(model)
+
+plot(x, se)
+# Fit linear model
+abline(model, col = "red", lwd = 2)
+```
+
+

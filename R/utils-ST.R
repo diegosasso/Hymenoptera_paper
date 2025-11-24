@@ -640,6 +640,71 @@ plot_enrichment_entropy <- function(tree, enr, n_points = 100, time_points=NULL,
   return(list(data = df, plot = p))
 }
 
+#---- this a new enrichment metrics
+# n_points = 100
+# time_points=NULL
+# base = exp(1)
+
+plot_enrichment_branch <- function(tree, enr, n_points = 100, time_points=NULL,  base = exp(1)) {
+  # enr: matrix (branches × body regions), 0/1 enrichment
+  
+  # branch times (start, end for each edge)
+  H <- nodeHeights(tree)
+  max_height <- max(H)
+  if (is.null(time_points)){
+    times <- seq(0, max_height, length.out = n_points)
+    times[n_points] <- times[n_points] - 1e-4
+  } else { # time points provided by user
+    times <- time_points
+  }
+  
+  
+  #entropy_vals <- numeric(n_points)
+  entropy_vals <- numeric(length(times))
+  # prop_enriched <- numeric(length(times)) 
+  # N_unique_enriched <- numeric(length(times))
+  # N_enriched <- numeric(length(times))
+  # H_plus <- numeric(length(times))
+  # H_plus_exp <- numeric(length(times))
+  # i=10
+  for (i in seq_along(times)) {
+    t <- times[i]
+    edge_ids <- which(t >= H[,1] & t <= H[,2])  # edges active at time t
+    if (length(edge_ids) > 0) {
+      # enrichment states for active branches
+      enr_now <- enr[edge_ids, , drop = FALSE]
+      states <- apply(enr_now, 1, paste0, collapse = "")
+      # states
+      entropy_vals[i] <- diversity_metric(states, type=type, base=base)
+      #---- extra statistics
+      enriched_states <- states[grepl("1", states)]
+      prop_enriched[i] <- mean(grepl("1", states))
+      N_unique_enriched[i] <- length(unique(enriched_states))
+      N_enriched[i] <- length(enriched_states)
+      H_plus[i] <- shannon_entropy(enriched_states)
+      H_plus_exp[i] <- base ^ H_plus[i]
+      
+    } else {
+      entropy_vals[i] <- NA
+    }
+  }
+  
+  df <- data.frame(time = rev(times), entropy = entropy_vals, prop_enriched=prop_enriched,  
+                   N_unique_enriched=N_unique_enriched, N_enriched=N_enriched,
+                   H_plus=H_plus, H_plus_exp=H_plus_exp
+  )
+  
+  p <- ggplot(df, aes(x = time, y = entropy)) +
+    geom_line() +
+    theme_minimal() +
+    scale_x_reverse(breaks = seq(0, max_height, by = 50)) +
+    labs(x = "Time", y = "Entropy of enrichment")
+  
+  return(list(data = df, plot = p))
+}
+
+
+
 # checking if N branches at slice t is properly estimated
 get_n_branches <- function(tree, n_points = 100, time_points=NULL) {
   # branch times (start, end for each edge)
@@ -1313,6 +1378,44 @@ pearson_lag_with_data <- function(x, y, k) {
 }
 
 
+# -----------------------------------------------------------
+# Lagged Pearson correlation after removing the effect of time
+# -----------------------------------------------------------
+
+pearson_lag_residual <- function(x, y, t, k) {
+  stopifnot(length(x) == length(y), length(y) == length(t))
+  
+  # 1. Remove temporal trend (detrend)
+  rx <- resid(lm(x ~ t))
+  ry <- resid(lm(y ~ t))
+  
+  # 2. Apply lag
+  n <- length(rx)
+  
+  if (k >= 0) {
+    x_lag <- rx[(1 + k):n]
+    y_lag <- ry[1:(n - k)]
+  } else {
+    kk <- -k
+    x_lag <- rx[1:(n - kk)]
+    y_lag <- ry[(1 + kk):n]
+  }
+  
+  # 3. Compute Pearson correlation
+  # r <- cor(x_lag, y_lag, method = "pearson", use = "complete.obs")
+  r <- cor.test(x_lag, y_lag, method = "pearson", use = "complete.obs")
+  
+  list(
+    lag = k,
+    #correlation = r,
+    correlation = r$estimate,
+    p.value = r$p.value,
+    conf.int = r$conf.int,
+    x_res_lag = x_lag,
+    y_res_lag = y_lag
+  )
+}
+
 get_descendant_edges <- function(tree, edge_index, include=TRUE) {
   parent <- tree$edge[edge_index, 2]   # end node of the edge
   
@@ -1328,4 +1431,12 @@ get_descendant_edges <- function(tree, edge_index, include=TRUE) {
     all_children <- c(edge_index, all_children)
   }
   return(unique(all_children))
+}
+
+
+make_steps <- function(y, edges){
+  #    (265, y0) → (260, y0) → (260, y1) → (240, y1) → ... → (0, y13)
+  x_step <- c(rbind(edges[-length(edges)], edges[-1]))
+  y_step <- rep(y, each = 2)
+  list(x_step=x_step, y_step=y_step)
 }

@@ -132,7 +132,7 @@ cor.test(neff_r, py_div, method = 'pearson')
 
 cor.test(neff_r[-1], py_div[-1], method = 'pearson')
 ```
-
+## Plot
 
 ```{r}
 plot(neff_r, type = 'l', ylim=c(-0.03, 1.7))
@@ -143,6 +143,41 @@ lines(py_div*10, col='red')
 plot(neff_r[-1], type = 'l', ylim=c(-0.03, 1.7))
 lines(py_div[-1]*10, col='red')
 ```
+
+
+## Plot steps
+
+```{r}
+
+# plot(neff_r[-1], type = 'l', ylim=c(-0.03, 1.7))
+# lines(py_div[-1]*10, col='red')
+
+edges <- c(260, 240, 220, 200, 180, 160, 140, 120, 100, 80, 60, 40, 20, 0)
+
+py_div_step <- make_steps(py_div[-1], edges)
+neff_step <- make_steps(neff_r[-1], edges)
+
+plot(neff_step$x_step, neff_step$y_step, type = "l", xlim = c(265, 0), ylim=c(-0.07, 1.7))
+
+lines(py_div_step$x_step, py_div_step$y_step*17+0.5, xlim = c(265, 0), col='red')
+
+# #----
+# edges <- c(265, 260, 240, 220, 200, 180, 160, 140, 120, 100, 80, 60, 40, 20, 0)
+# # y should be from oldest to present
+# y <- div_sum$mean[1:14]
+# y_up <- div_sum$upper[1:14]
+# y_low <- div_sum$lower[1:14]
+# 
+# py_div_step <- make_steps(y, edges)
+# py_div_step_up <- make_steps(y_up, edges)
+# py_div_step_low <- make_steps(y_low, edges)
+# 
+# 
+# plot(py_div_step$x_step, py_div_step$y_step, type = "l", xlim = c(265, 0), ylim=c(-0.1, 0.15))
+# lines(py_div_step_up$x_step, py_div_step_up$y_step, col='red')
+
+```
+
 
 
 ## Pyrate vs. Proportion Enriched
