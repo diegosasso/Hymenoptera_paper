@@ -209,12 +209,7 @@ ggplot() +
 
 ```{r}
 
-make_steps <- function(y, edges){
-  #    (265, y0) → (260, y0) → (260, y1) → (240, y1) → ... → (0, y13)
-  x_step <- c(rbind(edges[-length(edges)], edges[-1]))
-  y_step <- rep(y, each = 2)
-  list(x_step=x_step, y_step=y_step)
-}
+
 
 
 # 1) Order bins to match intervals: [260,265], [240,260], ..., [0,20]

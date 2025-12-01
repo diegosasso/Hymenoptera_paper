@@ -45,13 +45,15 @@ class(rates)
 dim(rates)
 ```
 
+
+
 ## Correlatoin: Adults vs. Larva
 
 ```{r}
 adult <- apply(rates[,1:15], 1, sum)
 rate_ad_lar <- cbind(adult, larva=rates[,16])
 
-rate_ad_lar
+#rate_ad_lar
 ```
 
 
@@ -59,7 +61,8 @@ rate_ad_lar
 
 ```{r}
 corr_ad_larv <- cor_pairwise(rate_ad_lar, 
-             method = "pearson", 
+             method = "pearson",
+             z_transform = T,
              log_transform = T,
              log_const = 1e-6,
              trim_quantiles = c(0.01, 0.99))
@@ -75,7 +78,8 @@ corr_ad_larv$p_raw
 ```{r}
 
 cor_pw <- cor_pairwise(rates, 
-                      method = "pearson", 
+                      method = "pearson",
+                      z_transform = T,
                       log_transform = TRUE,
                       log_const = 1e-6,
                       trim_quantiles = c(0.01, 0.99))
@@ -90,8 +94,9 @@ str(cor_pw)
 ### Prepare
 
 ```{r}
-# Take absolute correlations and set diag to 0
-mat <- abs(cor_pw$cor_sig)
+# Take  correlations and set diag to 0
+#mat <- abs(cor_pw$cor_sig)
+mat <- cor_pw$cor_sig
 diag(mat) <- 0
 
 
@@ -110,31 +115,14 @@ df_heat$Region2 <- factor(df_heat$Region2, levels = rev(region_order))  # flippe
 
 # Define maximum correlation
 max_val <- max(df_heat$Correlation, na.rm = TRUE)
-
+max_val
+min_val <- min(df_heat$Correlation, na.rm = TRUE)
+min_val
 ```
 
 
-### Stat for Adults only with significant corr only (excluding larvae)
 
-```{r}
-
-mat_adult <- cor_pw$cor_sig[-16,-16]
-upper_adult <- mat_adult[upper.tri(mat_adult, diag = FALSE)]
-upper_adult <- upper_adult[upper_adult > 0]
-
-mean(upper_adult)
-sd(upper_adult)
-median_corr <- median(upper_adult, na.rm = TRUE)
-q_low <- quantile(upper_adult, 0.025, na.rm = TRUE)
-q_up <- quantile(upper_adult, 0.975, na.rm = TRUE)
-max(upper_adult)
-hist(upper_adult)
-
-
-
-```
-
-### Stat for Adults only (excluding larvae)
+### Stat for Adults only, all cor (excluding larvae)
 
 ```{r}
 mat_adult <- mat[-16,-16]
@@ -144,33 +132,52 @@ Ncomp <- length(upper_adult)
 Ncomp.positive <-length(upper_adult[upper_adult>0])
 
 # Proportion of correlation with significant pvals
-Ncomp.positive/Ncomp
 
-mean(upper_adult)
 q_low <- quantile(upper_adult, 0.025, na.rm = TRUE)
 q_up <- quantile(upper_adult, 0.975, na.rm = TRUE)
+
+#Ncomp.positive/Ncomp
+Ncomp
+Ncomp.positive
+mean(upper_adult)
 sd(upper_adult)
-max(upper_adult)
+#max(upper_adult)
 hist(upper_adult)
 
 
 
 ```
 
+### Stat for Larval pvals (Bonferoni)
 
-
-### Plot heatmap
 ```{r}
-# Plot heatmap
-ggplot(df_heat, aes(x = Region1, y = Region2, fill = Correlation)) +
+cor_pw$p_bonf[16,]
+```
+
+
+
+### Plot heatmap with cor values
+
+```{r}
+p <- ggplot(df_heat, aes(x = Region1, y = Region2, fill = Correlation)) +
   geom_tile(data = subset(df_heat, !is_diag),
             color = "grey85", linewidth = 0.3) +
   geom_tile(data = subset(df_heat, is_diag),
             fill = "grey", color = "grey85", linewidth = 0.3) +
+
+  ## --- Add this block ---
+  geom_text(
+    data = subset(df_heat, Correlation > 0 & !is_diag),
+    aes(label = round(Correlation, 2)),
+    color = "black",
+    size = 3
+  ) +
+  ## -----------------------
+
   scale_fill_gradient(
     low = "white", high = "#b2182b",
     limits = c(0, max_val),
-    name = "Abs. correlation"
+    name = "Correlation"
   ) +
   scale_x_discrete(position = "top") +
   coord_fixed() +
@@ -185,50 +192,25 @@ ggplot(df_heat, aes(x = Region1, y = Region2, fill = Correlation)) +
     plot.margin = margin(10, 10, 10, 10)
   )
 
+p
+
+ggsave("figures/cor/pairwise-corr.pdf", p, width = 3.5*5, height = 1.6*5, dpi = 300, units = "in")
 ```
+
 
 
 ## Integration: Mesosoma vs. Others
 
-### T-test
+### Prepare
 
 ```{r}
 
-#cor_raw <- mat_adult
-
 cor_raw <- abs(cor_pw$cor_raw)
+#cor_raw <- abs(cor_pw$cor_raw)
 # remove larva
 cor_raw <-cor_raw[-16, -16]
 diag(cor_raw) <- 0
 
-
-
-group_traits <- c(
-  "pronotum", "propectus", "mesonotum", 
-  "mesopectus", "metanotum", "metapectal-propodeal complex"
-)
-
-
-# Extract all trait names
-all_traits <- colnames(cor_raw)
-
-# 1. Within-group correlations
-within_vals <- cor_raw[group_traits, group_traits]
-within_vals <- within_vals[upper.tri(within_vals, diag = FALSE)]
-
-# 2. Between-group correlations
-other_traits <- setdiff(all_traits, group_traits)
-between_vals <- cor_raw[group_traits, other_traits]
-between_vals <- as.vector(between_vals)
-
-# 3. Compare with a statistical test
-#t_res <- t.test(within_vals, between_vals, alternative = "greater")
-t_res <- t.test(within_vals, between_vals, alternative = "two.sided")
-t_res
-# 4. Summary
-cat("Mean within-group correlation:", mean(within_vals, na.rm = TRUE), "\n")
-cat("Mean between-group correlation:", mean(between_vals, na.rm = TRUE), "\n")
-cat("T-test p-value (greater):", signif(t_res$p.value, 4), "\n")
 
 ```
 
@@ -266,7 +248,9 @@ permutation_test_modularity <- function(cor_mat, group_traits, n_perm = 10000, a
   }
   
   # empirical one-tailed p-value
-  p_emp <- mean(deltas >= delta_obs)
+  # p_emp <- mean(deltas >= delta_obs)
+  # empirical two-tailed p-value
+  p_emp <- mean(abs(deltas) >= abs(delta_obs))
   
   # return summary
   list(
@@ -289,6 +273,7 @@ group_traits <- c(
 )
 
 res_perm <- permutation_test_modularity(cor_raw, group_traits, n_perm = 10000)
+#hist(res_perm$deltas)
 
 cat("Observed Δ =", round(res_perm$delta_obs, 3), "\n")
 cat("p-value =", signif(res_perm$p_value, 3), "\n")

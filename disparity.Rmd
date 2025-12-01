@@ -99,10 +99,5 @@ p
 ggsave("figures/metrics_thru_time/disp-unnorm-thru-time.pdf", p, width = 3.5*2, height = 1.6*2, dpi = 300, units = "in")
 ```
 
-## Correlations
-
-```{r}
-
-```
 
 

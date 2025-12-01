@@ -1140,7 +1140,8 @@ fixed_bin_correlation <- function(rates,
 }
 
 cor_pairwise <- function(rates, 
-                         method = "pearson", 
+                         method = "pearson",
+                         z_transform = FALSE,
                          log_transform = FALSE, 
                          log_const = 1e-6,
                          trim_quantiles = NULL) {
@@ -1156,6 +1157,10 @@ cor_pairwise <- function(rates,
   # optional log transform
   if (log_transform) {
     mat <- log(mat + log_const)
+  }
+  
+  if (z_transform) {
+    mat <- scale(mat)
   }
   
   # optional trimming per column

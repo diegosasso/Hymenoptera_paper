@@ -132,7 +132,7 @@ p <- ggplot() +
   theme_minimal()
 
 p
-ggsave("figures/rate-thru-time/rate-thru-time.pdf", p, width = 3.5*2, height = 1.6*2, dpi = 300, units = "in")
+ggsave("figures/metrics_thru_time/rate-thru-time.pdf", p, width = 3.5*2, height = 1.6*2, dpi = 300, units = "in")
 ```
 
 
@@ -164,7 +164,6 @@ p <- ggplot() +
 
 p
 
-# ggsave("figures/rate-thru-time/rate-thru-time-norm.pdf", p, width = 3.5*2, height = 1.6*2, dpi = 300, units = "in")
 ```
 
 ## Correlations
@@ -259,7 +258,7 @@ res$correlation
 
 cor.test(res$x , res$y,  method = 'pearson')
 ```
-#### Plot Regression with lag
+#### Plot metrics with lag
 
 ```{r}
 plot(res$x,   type = 'l', ylim=c(-4, 0))
@@ -291,9 +290,9 @@ abline(model, col = "red", lwd = 2)
 x <- (rates_unique$mean + 1e-7) %>% log 
 y <- (dis_uni$Mean_norm_disparity + 1e-7) %>% log
 t <- (rates_unique$time + 1e-7) %>% log
-x
-y
-t
+# x
+# y
+# t
 
 # compute lagged residual correlations
 results <- lapply(1:20, function(k) pearson_lag_residual(x, y, t, k))
