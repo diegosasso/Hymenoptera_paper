@@ -82,8 +82,6 @@ dim(replicate_list[[1]]) # 152 x 1
 rates_time <- branch_rate_thru_time_Multi(tree, replicate_list, n_points = 1000, time_points = NULL)
 head(rates_time)
 
-#plot(rates_time$time, rates_time$mean, type = 'l', xlim=c(280,0))
-#plot(rates_time$time, rates_time$upper, type = 'l', xlim=c(280,0))
 ```
 
 
@@ -200,3 +198,44 @@ cor.test(res_x, res_se, method = "pearson")
 ```
 
 
+
+### Rate vs. BAMM
+
+```{r}
+
+x <- (rates_unique$mean + 1e-7) %>% log
+
+y <- function(z)  -0.00298507 * z + 0.06
+ba <- y(rates_unique$time) 
+plot(rates_unique$time, ba, xlim=c(280,0))
+```
+
+#### Pval
+```{r}
+cor.test(x , ba,  method = 'pearson')
+```
+#### Plot
+
+```{r}
+model <- lm(ba ~ x)
+summary(model)
+
+plot(x, ba)
+# Fit linear model
+abline(model, col = "red", lwd = 2)
+```
+#### Residuals
+
+```{r}
+
+
+t <- rates_unique$time
+
+m_x  <- lm(x  ~ t)
+m_ba <- lm(ba ~ t)
+
+res_x  <- resid(m_x)
+res_ba <- resid(m_ba)
+
+cor.test(res_x, res_ba, method = "pearson")
+```

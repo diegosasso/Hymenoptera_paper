@@ -58,9 +58,13 @@ dis_tb <- readRDS("data_out/data_disparity_var-hm.RDS")
 #   mutate(Time = rev(Time))
 head(dis_tb)
 
-# Rate thru time
+# Rate thru time adult
 rates_thru_time <- readRDS('data_out/rates-thru-time.RDS')
 head(rates_thru_time)
+
+# Rate thru time larva
+rates_thru_time_la <- readRDS('data_out/rates-thru-time-larva.RDS')
+head(rates_thru_time_la)
 ```
 
 
@@ -103,7 +107,7 @@ avg_dis <- aggregate(Mean_norm_disparity ~ bin, data=dis_tb, FUN=mean)
 avg_dis
 plot(avg_dis)
 ```
-## Make average Rate
+## Make average Rate Adult
 
 ```{r}
 # bin edges
@@ -118,6 +122,22 @@ avg_rate
 plot(avg_rate)
 ```
 
+## Make average Rate Larva
+
+```{r}
+# bin edges
+bins <- c(265, seq(260, 0, by = -20) )  
+length(bins)
+
+rates_thru_time_la$bin <- cut(rates_thru_time_la$time, breaks=bins, right=FALSE)
+
+# average per bin
+avg_rate_la <- aggregate(mean ~ bin, data=rates_thru_time_la, FUN=mean)
+avg_rate_la
+plot(avg_rate_la)
+```
+
+
 ## Make final
 
 ```{r}
@@ -126,6 +146,7 @@ py_div <- div_sum$mean[-1]
 neff_r <- rev(avg_neff[,2])[-1]
 dis_r <- rev(avg_dis[,2])[-1]
 rate_r <- rev(avg_rate[,2])[-1]
+rate_la <- rev(avg_rate_la[,2])[-1]
 ```
 
 
@@ -185,7 +206,7 @@ lines(py_div*800, col='red')
 
 
 
-## Pyrate vs. Rate
+## Pyrate vs. Rate Adult
 
 ```{r}
 
@@ -194,6 +215,18 @@ model <- lm(py_div ~ rate_r)
 abline(model, col = "red", lwd = 2) 
 
 cor.test(rate_r, py_div, method = 'pearson')
+```
+
+## Pyrate vs. Rate Larval
+
+```{r}
+
+plot(rate_la, py_div)     
+model <- lm(py_div ~ rate_la)       
+abline(model, col = "red", lwd = 2) 
+
+cor.test(rate_la, py_div, method = 'pearson')
+
 ```
 
 
