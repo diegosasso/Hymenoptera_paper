@@ -35,7 +35,7 @@ knitr::opts_chunk$set(
 
 
 
-# Read data
+## Read data
 
 ```{r}
 
@@ -58,7 +58,7 @@ dim(rates)
 
 
 
-# Reshape as list of 1000 tables 152 x 15
+## Reshape as list of 1000 tables 152 x 15
 
 ```{r}
 # names of body regions
@@ -91,17 +91,14 @@ max(abs(diff))
 
 
 
-# Calculate Se for each replicate
-
-May take a while
+## Calculate Se for each replicate
 
 ```{r}
-
 s_list <- map(replicate_list, function(mat) {
   enr <- get_enrichment_mask(mat, lower_q = 0.05, upper_q = 0.95,
                              direction = "over", return_type = "binary")
-  out <- plot_enrichment_strength(tree, enr, type = "not_scaled",
-                                 n_points = 1000)$data
+  enr.prop <- apply(enr, 1, function(x) sum(x)/length(x))
+  out <- branch_rate_thru_time(tree, enr.prop, n_points = 1000, time_points=NULL)
   out
 })
 
@@ -109,20 +106,48 @@ s_df <- bind_rows(s_list, .id = "replicate")
 head(s_df)
 ```
 
-# Reshape
+
+### Reshape
 
 ```{r}
-
 summary_s_df <- s_df %>%
   group_by(time) %>%
   summarise(
-    mean_s = mean(strength, na.rm = TRUE),
-    lower = quantile(strength, 0.025, na.rm = TRUE),
-    median = quantile(strength, 0.5, na.rm = TRUE),
-    upper = quantile(strength, 0.975, na.rm = TRUE),
+    mean_s = mean(rate, na.rm = TRUE),
+    lower = quantile(rate, 0.025, na.rm = TRUE),
+    median = quantile(rate, 0.5, na.rm = TRUE),
+    upper = quantile(rate, 0.975, na.rm = TRUE),
   )
 head(summary_s_df)
 ```
+
+## Calculate Se for each replicate: OLD
+
+```{r}
+# s_list <- map(replicate_list, function(mat) {
+#   enr <- get_enrichment_mask(mat, lower_q = 0.05, upper_q = 0.95,
+#                              direction = "over", return_type = "binary")
+#   out <- plot_enrichment_strength(tree, enr, type = "not_scaled",
+#                                  n_points = 1000)$data
+#   out
+# })
+# 
+# s_df <- bind_rows(s_list, .id = "replicate")
+# head(s_df)
+# 
+# # Reshape
+# summary_s_df <- s_df %>%
+#   group_by(time) %>%
+#   summarise(
+#     mean_s = mean(strength, na.rm = TRUE),
+#     lower = quantile(strength, 0.025, na.rm = TRUE),
+#     median = quantile(strength, 0.5, na.rm = TRUE),
+#     upper = quantile(strength, 0.975, na.rm = TRUE),
+#   )
+# head(summary_s_df)
+```
+
+
 
 # Save
 

@@ -118,7 +118,6 @@ avg_rate
 plot(avg_rate)
 ```
 
-
 ## Make final
 
 ```{r}
@@ -195,11 +194,7 @@ model <- lm(py_div ~ rate_r)
 abline(model, col = "red", lwd = 2) 
 
 cor.test(rate_r, py_div, method = 'pearson')
-
-
 ```
-
-
 
 
 ## Tesing effect of Neff and its components

@@ -644,64 +644,64 @@ plot_enrichment_entropy <- function(tree, enr, n_points = 100, time_points=NULL,
 # n_points = 100
 # time_points=NULL
 # base = exp(1)
-
-plot_enrichment_branch <- function(tree, enr, n_points = 100, time_points=NULL,  base = exp(1)) {
-  # enr: matrix (branches × body regions), 0/1 enrichment
-  
-  # branch times (start, end for each edge)
-  H <- nodeHeights(tree)
-  max_height <- max(H)
-  if (is.null(time_points)){
-    times <- seq(0, max_height, length.out = n_points)
-    times[n_points] <- times[n_points] - 1e-4
-  } else { # time points provided by user
-    times <- time_points
-  }
-  
-  
-  #entropy_vals <- numeric(n_points)
-  entropy_vals <- numeric(length(times))
-  # prop_enriched <- numeric(length(times)) 
-  # N_unique_enriched <- numeric(length(times))
-  # N_enriched <- numeric(length(times))
-  # H_plus <- numeric(length(times))
-  # H_plus_exp <- numeric(length(times))
-  # i=10
-  for (i in seq_along(times)) {
-    t <- times[i]
-    edge_ids <- which(t >= H[,1] & t <= H[,2])  # edges active at time t
-    if (length(edge_ids) > 0) {
-      # enrichment states for active branches
-      enr_now <- enr[edge_ids, , drop = FALSE]
-      states <- apply(enr_now, 1, paste0, collapse = "")
-      # states
-      entropy_vals[i] <- diversity_metric(states, type=type, base=base)
-      #---- extra statistics
-      enriched_states <- states[grepl("1", states)]
-      prop_enriched[i] <- mean(grepl("1", states))
-      N_unique_enriched[i] <- length(unique(enriched_states))
-      N_enriched[i] <- length(enriched_states)
-      H_plus[i] <- shannon_entropy(enriched_states)
-      H_plus_exp[i] <- base ^ H_plus[i]
-      
-    } else {
-      entropy_vals[i] <- NA
-    }
-  }
-  
-  df <- data.frame(time = rev(times), entropy = entropy_vals, prop_enriched=prop_enriched,  
-                   N_unique_enriched=N_unique_enriched, N_enriched=N_enriched,
-                   H_plus=H_plus, H_plus_exp=H_plus_exp
-  )
-  
-  p <- ggplot(df, aes(x = time, y = entropy)) +
-    geom_line() +
-    theme_minimal() +
-    scale_x_reverse(breaks = seq(0, max_height, by = 50)) +
-    labs(x = "Time", y = "Entropy of enrichment")
-  
-  return(list(data = df, plot = p))
-}
+# 
+# plot_enrichment_branch <- function(tree, enr, n_points = 100, time_points=NULL,  base = exp(1)) {
+#   # enr: matrix (branches × body regions), 0/1 enrichment
+#   
+#   # branch times (start, end for each edge)
+#   H <- nodeHeights(tree)
+#   max_height <- max(H)
+#   if (is.null(time_points)){
+#     times <- seq(0, max_height, length.out = n_points)
+#     times[n_points] <- times[n_points] - 1e-4
+#   } else { # time points provided by user
+#     times <- time_points
+#   }
+#   
+#   
+#   #entropy_vals <- numeric(n_points)
+#   entropy_vals <- numeric(length(times))
+#   # prop_enriched <- numeric(length(times)) 
+#   # N_unique_enriched <- numeric(length(times))
+#   # N_enriched <- numeric(length(times))
+#   # H_plus <- numeric(length(times))
+#   # H_plus_exp <- numeric(length(times))
+#   # i=10
+#   for (i in seq_along(times)) {
+#     t <- times[i]
+#     edge_ids <- which(t >= H[,1] & t <= H[,2])  # edges active at time t
+#     if (length(edge_ids) > 0) {
+#       # enrichment states for active branches
+#       enr_now <- enr[edge_ids, , drop = FALSE]
+#       states <- apply(enr_now, 1, paste0, collapse = "")
+#       # states
+#       entropy_vals[i] <- diversity_metric(states, type=type, base=base)
+#       #---- extra statistics
+#       enriched_states <- states[grepl("1", states)]
+#       prop_enriched[i] <- mean(grepl("1", states))
+#       N_unique_enriched[i] <- length(unique(enriched_states))
+#       N_enriched[i] <- length(enriched_states)
+#       H_plus[i] <- shannon_entropy(enriched_states)
+#       H_plus_exp[i] <- base ^ H_plus[i]
+#       
+#     } else {
+#       entropy_vals[i] <- NA
+#     }
+#   }
+#   
+#   df <- data.frame(time = rev(times), entropy = entropy_vals, prop_enriched=prop_enriched,  
+#                    N_unique_enriched=N_unique_enriched, N_enriched=N_enriched,
+#                    H_plus=H_plus, H_plus_exp=H_plus_exp
+#   )
+#   
+#   p <- ggplot(df, aes(x = time, y = entropy)) +
+#     geom_line() +
+#     theme_minimal() +
+#     scale_x_reverse(breaks = seq(0, max_height, by = 50)) +
+#     labs(x = "Time", y = "Entropy of enrichment")
+#   
+#   return(list(data = df, plot = p))
+# }
 
 
 
@@ -1334,7 +1334,8 @@ branch_rate_thru_time_Multi <- function(tree, replicate_list, n_points = 100, ti
   
   # Compute rate-through-time for each replicate
   rate_list <- lapply(replicate_list, function(mat) {
-    branch_rate <- rowMeans(mat)  # average across body regions per branch
+    # branch_rate <- rowMeans(mat)  # average across body regions per branch
+    branch_rate <- rowSums(mat)
     one_map_rate <- branch_rate_thru_time(tree, branch_rate,
                                           n_points = n_points,
                                           time_points = time_points)
