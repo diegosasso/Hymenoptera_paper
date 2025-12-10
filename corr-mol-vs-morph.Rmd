@@ -38,8 +38,17 @@ tree_ml_mol <- read.tree("data/HYM-NUC-70%-SWSC.tre")
 
 # READING IQTREE
 # - nex tree  is derived from original iqtree by manually rerooting (Athalia)
-tree_ml_morph <- read.nexus("ml-morpho/iqtree/ml-morpho.nex")
+# tree_ml_morph <- read.nexus("ml-morpho/iqtree/ml-morpho.nex")
+tree_ml_morph <- read.tree("ml-morpho/iqtree/ml-morpho.treefile")
 ```
+
+## Root tree_ml_morph
+
+```{r}
+node <- findMRCA(tree_ml_morph, c("Abia_lonicerae_USNMENT01322220", "Lophyrotoma_zonalis_USNMENT01339631"))
+tree_ml_morph <- root(tree_ml_morph, node=node, resolve.root = T)
+```
+
 
 ## Align tree_ml_morph
 ```{r}
