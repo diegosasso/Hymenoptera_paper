@@ -3,3 +3,4 @@
 .RData
 .Ruserdata
 *.Rproj
+make-BAMM/data/bamm_data.RDA

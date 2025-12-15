@@ -123,6 +123,10 @@ rates_time <- readRDS('data_out/rates-thru-time-larva.RDS')
 # Se
 Se <- readRDS('data_out/s-per-replicate.RDS')
 
+# BAMM
+# reading func to get BAMM div rates, see make-BAMM/make-BAMM-data.R
+bamm_fun <- readRDS('data/bamm_fun.rds')
+# bamm_fun(1)
 
 head(rates_time)
 head(Se)
@@ -151,6 +155,8 @@ plot(rates_unique$time, rates_unique$mean)
 se_uni <- Se %>%
   filter(time %in% time_uni)
 head(se_uni)
+
+bamm <- bamm_fun(time_uni)
 
 ```
 
@@ -203,10 +209,17 @@ cor.test(res_x, res_se, method = "pearson")
 
 ```{r}
 
-x <- (rates_unique$mean + 1e-7) %>% log
+x <- (rates_unique$mean + 1e-7) %>% log 
 
-y <- function(z)  -0.00298507 * z + 0.06
-ba <- y(rates_unique$time) 
+#x <- (rates_unique$mean + 1e-7) %>% asinh
+
+#signed_log <- function(x) sign(x) * log(abs(x))
+
+ ba <- (0.004+bamm) %>%log
+#ba <-  asinh(bamm)
+#ba <-  bamm #%>% asinh
+#ba <- bamm %>% signed_log
+
 plot(rates_unique$time, ba, xlim=c(280,0))
 ```
 
@@ -238,4 +251,10 @@ res_x  <- resid(m_x)
 res_ba <- resid(m_ba)
 
 cor.test(res_x, res_ba, method = "pearson")
+
+m1 <- lm(ba ~ t)
+m2 <- lm(ba ~ t + x)
+summary(m2)
+anova(m1, m2)
+
 ```

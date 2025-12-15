@@ -185,10 +185,16 @@ dis_tb <- dis_tb %>%
 # Neff
 neff_repl <- readRDS('data_out/neff-per-replicate.RDS')
 
+# BAMM
+# reading func to get BAMM div rates, see make-BAMM/make-BAMM-data.R
+bamm_fun <- readRDS('data/bamm_fun.rds')
+# bamm_fun(1)
+
 head(rates_time)
 head(Se)
 head(dis_tb)
 head(neff_repl)
+
 ```
 
 ### Select unique rates for correlation
@@ -207,7 +213,7 @@ nrow(rates_unique)
 plot(rates_unique$time, rates_unique$mean)
 ```
 
-### Select unique Se and Dispr
+### Select unique Se, Dispr, Neff, Bamm
 
 ```{r}
 se_uni <- Se %>%
@@ -221,6 +227,8 @@ head(dis_uni)
 neff_uni <- neff_repl %>%
   filter(time %in% time_uni)
 head(neff_uni)
+
+bamm <- bamm_fun(time_uni)
 
 ```
 
@@ -417,9 +425,16 @@ cor.test(res_x, res_ne, method = "pearson")
 ```{r}
 
 x <- (rates_unique$mean + 1e-7) %>% log
+# ba <- (0.01+bamm) %>%log
 
-y <- function(z)  -0.00298507 * z + 0.06
-ba <- y(rates_unique$time) 
+#x <- (rates_unique$mean + 1e-7) %>% asinh
+
+ba <- asinh(bamm)
+#ba <- sign(bamm) * log(abs(bamm))
+
+#x <- (rates_unique$mean + 1e-7) %>% scale
+#ba <- scale(bamm)
+
 plot(rates_unique$time, ba, xlim=c(280,0))
 ```
 
@@ -456,23 +471,30 @@ cor.test(res_x, res_ba, method = "pearson")
 ### BAMM vs Neff
 
 ```{r}
+#ne_ba <- (neff_uni$mean_entropy + 1e-7) %>% scale
+#ne_ba <- (neff_uni$mean_entropy + 1e-7) %>% asinh
 
-y <- function(z)  -0.00298507 * z + 0.06
-ba <- y(rates_unique$time) 
+ne_ba <- (neff_uni$mean_entropy + 1e-7) %>% log
+
+ba <- bamm %>% asinh
+#ba <- (bamm) %>% log
+#ba <- sign(bamm) * (abs(bamm))^(1/3)
+#ba <- sign(bamm) * log(abs(bamm))
+
 plot(rates_unique$time, ba, xlim=c(280,0))
 ```
 
 #### Pval
 ```{r}
-cor.test(ne , ba,  method = 'pearson')
+cor.test(ne_ba , ba,  method = 'pearson')
 ```
 #### Plot
 
 ```{r}
-model <- lm(ba ~ ne)
+model <- lm(ba ~ ne_ba)
 summary(model)
 
-plot(ne, ba)
+plot(ne_ba, ba)
 abline(model, col = "red", lwd = 2)
 ```
 
@@ -482,7 +504,7 @@ abline(model, col = "red", lwd = 2)
 t <- rates_unique$time
 
 m_ba <- lm(ba ~ t)
-m_ne <- lm(ne ~ t)
+m_ne <- lm(ne_ba ~ t)
 
 res_ba <- resid(m_ba)
 res_ne <- resid(m_ne)

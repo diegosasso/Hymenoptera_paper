@@ -15,9 +15,9 @@ library(BAMMtools)
 #-------------------------------------------------------------------------#
 
 # Load data.
-load("data/paramo_stm_final.RDA")
+load("make-BAMM/data/paramo_stm_final.RDA")
 # NOTE: The RDA file is a copy of the original file from the analysis conditioned on data (folder: "1_empirical_analyses").
-load("data/bamm_data.RDA")
+load("make-BAMM/data/bamm_data.RDA")
 # NOTE: in the original Blaimer's et al. study, the diversification rates were estimated using BAMM.
 
 ## GET DIVERSIFICATION DATA ##
@@ -107,7 +107,7 @@ suppressWarnings(dir.create("figures"))
 
 # Net diversification.
 # Save a figure.
-png(paste0("figures/netdiv_baam_tree_pruned.png"), units = "in", width = 8, height = 8, bg = "white", res = 300)
+png(paste0("make-BAMM/figures/netdiv_baam_tree_pruned.png"), units = "in", width = 8, height = 8, bg = "white", res = 300)
 
 par(mfrow = c(1,1), mai = c(0,0,0,0))
 
@@ -124,7 +124,7 @@ dev.off()
 
 # Speciation.
 # Save a figure.
-png(paste0("figures/speciation_baam_tree_pruned.png"), units = "in", width = 8, height = 8, bg = "white", res = 300)
+png(paste0("make-BAMM/figures/speciation_baam_tree_pruned.png"), units = "in", width = 8, height = 8, bg = "white", res = 300)
 
 par(mfrow = c(1,1), mai = c(0,0,0,0))
 
@@ -141,7 +141,7 @@ dev.off()
 
 # Extinction.
 # Save a figure.
-png(paste0("figures/extinction_baam_tree_pruned.png"), units = "in", width = 8, height = 8, bg = "white", res = 300)
+png(paste0("make-BAMM/figures/extinction_baam_tree_pruned.png"), units = "in", width = 8, height = 8, bg = "white", res = 300)
 
 par(mfrow = c(1,1), mai = c(0,0,0,0))
 
@@ -167,7 +167,7 @@ dev.off()
 #-------------------------------#
 
 # Import raw BAMM data (again).
-load("data/bamm_data.RDA")
+load("make-BAMM/data/bamm_data.RDA")
 
 ########
 # FULL #
@@ -200,8 +200,10 @@ load("data/bamm_data.RDA")
 # Get data for the sub-tree containing the sampling from the present study.
 div_shifts <- subtreeBAMM(shifts, tips = hym_data$Blaimer_taxa)
 
+
+
 # PNG #
-png(paste0("curves_baam_tree_pruned.png"), units = "in", width = 16, height = 8, bg = "white", res = 300)
+png(paste0("make-BAMM/curves_baam_tree_pruned.png"), units = "in", width = 16, height = 8, bg = "white", res = 300)
 
 plotRateThroughTime(div_shifts, intervals = NULL, smooth = FALSE, ylim = c(0, 0.5),
                     ratetype = "netdiv", avgCol = "green")

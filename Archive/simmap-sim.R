@@ -26,6 +26,11 @@ maps3 <- make.simmap(tree, char3, model = "SYM", nsim = 5)
 plot(maps1[[2]])
 edgelabels()
 
+tr <- maps1[[1]]
+tr$mapped.edge
+tr$maps
+nodelabels()
+edgelabels()
 #-----
 stm <- maps1[[2]]
 plot(stm)
