@@ -1,0 +1,260 @@
+---
+title: "toy plots"
+date: "`r Sys.Date()`"
+output: 
+  html_document:
+    df_print: paged
+---
+
+
+```{r setup, include=F}
+
+library(ape)
+library(phytools)
+library(ontophylo)
+library(dplyr)
+library(parallel)
+library(viridis)
+library(ggplot2)
+library(abind)
+library(dplyr)
+library(purrr)
+library(tidyr)
+source("R/utils-ST.R")
+source('R/region_class.R')
+
+
+knitr::opts_chunk$set(
+  echo = TRUE,       # show code by default
+  warning = FALSE,
+  message = FALSE
+)
+```
+
+
+
+
+## Read data
+
+```{r}
+
+# read replicates
+tree <-readRDS("data/hym_tree.RDS")
+rates.multi <- readRDS("data_out/br_rates_all.RDS")
+
+class(rates.multi)
+length(rates.multi)
+dim(rates.multi$cranium)
+
+# read mean rates
+rates <-readRDS("data_out/br_rates_all_ind.RDS")
+rates <- do.call(cbind,rates)
+# drop larva
+rates <- rates[,-16]
+class(rates)
+dim(rates)
+```
+
+
+
+## Reshape as list of 1000 tables 152 x 15
+
+```{r}
+# names of body regions
+regions <- names(rates.multi)
+n_reps  <- ncol(rates.multi[[1]])   # 1000
+n_branches <- nrow(rates.multi[[1]]) # 152
+
+# build new list: one element per replicate
+replicate_list <- lapply(1:n_reps, function(j) {
+  # extract column j from each body region and bind
+  mat <- sapply(rates.multi, function(region_mat) region_mat[, j])
+  # ensure it's a matrix with rows = branches, cols = body regions
+  mat <- matrix(mat, nrow = n_branches, ncol = length(regions))
+  colnames(mat) <- regions
+  mat
+})
+
+# drop larva
+replicate_list <- lapply(replicate_list, function(x) x[, -16, drop = FALSE])
+
+# check dims
+length(replicate_list)   # 1000
+dim(replicate_list[[1]]) # 152 x 15
+
+# check if rates.multi==rates
+col_means <- Reduce("+", replicate_list) / length(replicate_list)
+diff <- col_means-rates
+max(abs(diff))
+```
+
+
+
+
+```{r}
+i <- replicate_list[[1]]
+```
+
+## Calculate Se for one replicate
+```{r}
+
+enr <- get_enrichment_mask(i, lower_q = 0.05, upper_q = 0.95, direction = "over", return_type = "binary")
+enr.prop <- apply(enr, 1, function(x) sum(x)/length(x))
+out <- branch_rate_thru_time(tree, enr.prop, n_points = 1000, time_points=NULL)
+```
+
+
+## Calculate Neff for one replicate
+
+```{r}
+  # enr <- get_enrichment_mask(mat, lower_q = 0.05, upper_q = 0.95, direction = "over", return_type = "binary")
+  out <- plot_enrichment_entropy(tree, enr, type = "Neff_scaled", n_points = 1000)$data
+  out
+```
+
+
+```{r}
+
+# tree
+#enr
+type = "Neff_scaled"
+n_points = 1000
+time_points=NULL
+base = exp(1)
+
+# enr: matrix (branches × body regions), 0/1 enrichment
+
+# branch times (start, end for each edge)
+H <- nodeHeights(tree)
+max_height <- max(H)
+if (is.null(time_points)){
+  times <- seq(0, max_height, length.out = n_points)
+  times[n_points] <- times[n_points] - 1e-4
+} else { # time points provided by user
+  times <- time_points
+}
+
+
+#entropy_vals <- numeric(n_points)
+entropy_vals <- numeric(length(times))
+prop_enriched <- numeric(length(times)) 
+N_unique_enriched <- numeric(length(times))
+N_enriched <- numeric(length(times))
+H_plus <- numeric(length(times))
+H_plus_exp <- numeric(length(times))
+# i=10
+for (i in seq_along(times)) {
+  t <- times[i]
+  edge_ids <- which(t >= H[,1] & t <= H[,2])  # edges active at time t
+  if (length(edge_ids) > 0) {
+    # enrichment states for active branches
+    enr_now <- enr[edge_ids, , drop = FALSE]
+    states <- apply(enr_now, 1, paste0, collapse = "")
+    # states
+    entropy_vals[i] <- diversity_metric(states, type=type, base=base)
+    #---- extra statistics
+    # enriched_states <- states[grepl("1", states)]
+    # prop_enriched[i] <- mean(grepl("1", states))
+    # N_unique_enriched[i] <- length(unique(enriched_states))
+    # N_enriched[i] <- length(enriched_states)
+    # H_plus[i] <- shannon_entropy(enriched_states)
+    # H_plus_exp[i] <- base ^ H_plus[i]
+    
+  } else {
+    entropy_vals[i] <- NA
+  }
+}
+  
+```
+
+
+```{r}
+# diversity_metric <- function(states, type = c("Neff", "Neff_scaled", "weighted"), base = exp(1)) {
+#   type <- match.arg(type)
+  
+  shannon_entropy <- function(x) {
+    freqs <- table(x) / length(x)
+    -sum(freqs * log(freqs, base = base))
+  }
+  
+  if (type == "Neff") {
+    enriched_states <- states[grepl("1", states)]
+    if (length(enriched_states) == 0) return(0)
+    H_plus <- shannon_entropy(enriched_states)
+    return(base ^ H_plus)
+  }
+  
+  if (type == "Neff_scaled") {
+    enriched_states <- states[grepl("1", states)]
+    prop_enriched <- mean(grepl("1", states))
+    if (length(enriched_states) == 0) return(0)
+    H_plus <- shannon_entropy(enriched_states)
+    Neff_plus <- base ^ H_plus
+    return(Neff_plus * prop_enriched)
+  }
+  
+  if (type == "weighted") {
+    H <- shannon_entropy(states)
+    f_enriched <- mean(grepl("1", states))
+    return(H + f_enriched)
+  }
+# }
+
+#---------------------------
+
+# "Neff_scaled"
+states <- c('0001', '0000', '0000', '0000')
+enriched_states <- states[grepl("1", states)]
+prop_enriched <- mean(grepl("1", states))
+if (length(enriched_states) == 0) return(0)
+H_plus <- shannon_entropy(enriched_states)
+Neff_plus <- base ^ H_plus
+return(Neff_plus * prop_enriched)
+```
+
+
+## Scenarios
+
+### Se funciton
+```{r}
+se_metric <- function(x) {
+  # Step 1: convert to matrix
+  mat <- do.call(rbind, strsplit(x, ""))
+  mat <- matrix(as.numeric(mat), nrow = length(x))
+  
+  # Step 2: row sums divided by number of columns
+  row_props <- rowSums(mat) / ncol(mat)
+  
+  # Step 3: mean across rows
+  mean(row_props)
+}
+```
+
+
+
+```{r}
+s1 <- c('0000', '0000', '0000', '0000') # low Se and low  Neff
+s2 <- c('1000', '1000', '1000', '1000')
+s3 <- c('1000', '0100', '0010', '0001')
+s4 <- c('1111', '1111', '1111', '1111')
+
+
+s1 <- c('000', '000', '000') 
+s2 <- c('100', '100', '100') 
+s3 <- c('100', '010', '001') 
+s4 <- c('111', '111', '111') 
+
+diversity_metric(s1, type="Neff_scaled", base=exp(1))
+se_metric(s1)
+
+diversity_metric(s2, type="Neff_scaled", base=exp(1))
+se_metric(s2)
+
+diversity_metric(s3, type="Neff_scaled", base=exp(1))
+se_metric(s3)
+
+diversity_metric(s4, type="Neff_scaled", base=exp(1))
+se_metric(s4)
+
+```
+

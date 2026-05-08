@@ -175,6 +175,11 @@ head(summary_df)
 saveRDS(summary_df, file='data_out/neff-per-replicate.RDS')
 ```
 
+# Read
+
+```{r}
+summary_df <- readRDS(file='data_out/neff-per-replicate.RDS')
+```
 
 
 # Plot median with empirical 95% confidence interval
@@ -183,10 +188,10 @@ Alternatively: quantile interval or uncertainty interval
 
 ```{r}
 ggplot() +
-  geom_ribbon(data = summary_df, aes(x = time, ymin = lower, ymax = upper),
+  geom_ribbon(data = summary_df, aes(x = time, ymin = lower_entropy, ymax = upper_entropy),
               fill = "blue", alpha = 0.2) +
   scale_x_reverse(breaks = seq(0, 280, by = 50)) +
-  geom_line(data = summary_df, aes(x = time, y = median),
+  geom_line(data = summary_df, aes(x = time, y = median_entropy),
             color = "black", size = 1) +
   theme_minimal()
 ```
@@ -194,7 +199,7 @@ ggplot() +
 
 ```{r}
 ggplot() +
-  geom_ribbon(data = summary_df, aes(x = time, ymin = lower, ymax = upper),
+  geom_ribbon(data = summary_df, aes(x = time, ymin = lower_entropy, ymax = upper_entropy),
               fill = "blue", alpha = 0.2) +
   scale_x_reverse(breaks = seq(0, 280, by = 50)) +
   geom_line(data = summary_df, aes(x = time, y = mean_entropy),
@@ -203,35 +208,25 @@ ggplot() +
 ```
 
 # Plot proportion of enriched states
-
 ```{r}
-#summary_df <- read_rds('data_out/neff-per-replicate.RDS')
-
 ggplot() +
-  geom_ribbon(data = summary_df, aes(x = time, ymin = prop_enriched_lower, ymax = prop_enriched_upper),
-              fill = "red", alpha = 0.4) +
+  geom_ribbon(data = summary_df, aes(x = time, ymin = lower_f_plus, ymax = upper_f_plus),
+              fill = "blue", alpha = 0.2) +
   scale_x_reverse(breaks = seq(0, 280, by = 50)) +
-  geom_line(data = summary_df, aes(x = time, y = mean_prop_enriched),
-            color = "red", size = 1) +
+  geom_line(data = summary_df, aes(x = time, y = mean_f_plus),
+            color = "black", size = 1) +
   theme_minimal()
 ```
 
-# Plot proportion of enriched vs Mean
+# Plot Shannon entropy H
 
 ```{r}
-X <- 4
-
 ggplot() +
-  geom_ribbon(data = summary_df, aes(x = time, ymin = lower, ymax = upper),
+  geom_ribbon(data = summary_df, aes(x = time, ymin = lower_H_plus, ymax = upper_H_plus),
               fill = "blue", alpha = 0.2) +
   scale_x_reverse(breaks = seq(0, 280, by = 50)) +
-  geom_line(data = summary_df, aes(x = time, y = mean_entropy),
+  geom_line(data = summary_df, aes(x = time, y = mean_H_plus),
             color = "black", size = 1) +
-  #
-    geom_ribbon(data = summary_df, aes(x = time, ymin = prop_enriched_lower *X, ymax = prop_enriched_upper*X),
-              fill = "red", alpha = 0.4) +
-  geom_line(data = summary_df, aes(x = time, y = mean_prop_enriched*X),
-            color = "red", size = 1) +
   theme_minimal()
 ```
 
