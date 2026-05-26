@@ -107,26 +107,6 @@ head(n_eff_df)
 # Reshape (per replicate Neff as list)
 
 ```{r}
-# # eps is chosen to be a few orders of magnitude smaller than the smallest nonzero value observed, e.g.:
-# eps <- min(n_eff_df$entropy[n_eff_df$entropy > 0]) * 1e-3
-# 
-# summary_df <- n_eff_df %>%
-#   group_by(time) %>%
-#   summarise(
-#     mean_entropy = mean(entropy, na.rm = TRUE),
-#     lower = quantile(entropy, 0.025, na.rm = TRUE),
-#     median = quantile(entropy, 0.5, na.rm = TRUE),
-#     upper = quantile(entropy, 0.975, na.rm = TRUE),
-#     #
-#     mean_f_plus= mean(prop_enriched, na.rm = TRUE),
-#     f_plus_lower = quantile(prop_enriched, 0.025, na.rm = TRUE),
-#     f_plus_upper = quantile(prop_enriched, 0.975, na.rm = TRUE),
-#     #
-#     log_mean_entropy = mean(log(entropy+eps), na.rm = TRUE),
-#     log_f_plus
-#   )
-# head(summary_df)
-
 
 # pick epsilon safely
 eps <- min(n_eff_df$entropy[n_eff_df$entropy > 0], na.rm = TRUE) * 1e-3
@@ -184,8 +164,6 @@ summary_df <- readRDS(file='data_out/neff-per-replicate.RDS')
 
 # Plot median with empirical 95% confidence interval
 
-Alternatively: quantile interval or uncertainty interval
-
 ```{r}
 ggplot() +
   geom_ribbon(data = summary_df, aes(x = time, ymin = lower_entropy, ymax = upper_entropy),
@@ -203,29 +181,6 @@ ggplot() +
               fill = "blue", alpha = 0.2) +
   scale_x_reverse(breaks = seq(0, 280, by = 50)) +
   geom_line(data = summary_df, aes(x = time, y = mean_entropy),
-            color = "black", size = 1) +
-  theme_minimal()
-```
-
-# Plot proportion of enriched states
-```{r}
-ggplot() +
-  geom_ribbon(data = summary_df, aes(x = time, ymin = lower_f_plus, ymax = upper_f_plus),
-              fill = "blue", alpha = 0.2) +
-  scale_x_reverse(breaks = seq(0, 280, by = 50)) +
-  geom_line(data = summary_df, aes(x = time, y = mean_f_plus),
-            color = "black", size = 1) +
-  theme_minimal()
-```
-
-# Plot Shannon entropy H
-
-```{r}
-ggplot() +
-  geom_ribbon(data = summary_df, aes(x = time, ymin = lower_H_plus, ymax = upper_H_plus),
-              fill = "blue", alpha = 0.2) +
-  scale_x_reverse(breaks = seq(0, 280, by = 50)) +
-  geom_line(data = summary_df, aes(x = time, y = mean_H_plus),
             color = "black", size = 1) +
   theme_minimal()
 ```

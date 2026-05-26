@@ -310,3 +310,23 @@ rel <- calc.relimp(m1, type = "lmg")$lmg
 rel / sum(rel)
 ```
 
+#### Corr
+
+```{r}
+# df <- data.frame(
+#   py_div = py_div,
+#   neff_r = neff_r,
+#   f_plus_r=f_plus_r,
+#   log_f_plus_r = log_f_plus_r,
+#   H_plus_r = H_plus_r
+#   
+# )
+
+plot(f_plus_r, py_div)     
+model <- lm(py_div ~ neff_r)       
+abline(model, col = "red", lwd = 2) 
+
+cor.test(f_plus_r, py_div, method = 'pearson')
+cor.test(log_f_plus_r, py_div, method = 'pearson')
+cor.test(H_plus_r, py_div, method = 'pearson')
+```

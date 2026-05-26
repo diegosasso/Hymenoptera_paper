@@ -142,7 +142,7 @@ N_unique_enriched <- numeric(length(times))
 N_enriched <- numeric(length(times))
 H_plus <- numeric(length(times))
 H_plus_exp <- numeric(length(times))
-# i=10
+i=10
 for (i in seq_along(times)) {
   t <- times[i]
   edge_ids <- which(t >= H[,1] & t <= H[,2])  # edges active at time t
@@ -187,6 +187,16 @@ for (i in seq_along(times)) {
   if (type == "Neff_scaled") {
     enriched_states <- states[grepl("1", states)]
     prop_enriched <- mean(grepl("1", states))
+    if (length(enriched_states) == 0) return(0)
+    H_plus <- shannon_entropy(enriched_states)
+    Neff_plus <- base ^ H_plus
+    return(Neff_plus * prop_enriched)
+  }
+
+  if (type == "Neff_scaled_new") {
+    enriched_states <- states[grepl("1", states)]
+    # prop_enriched <- mean(grepl("1", states))
+    
     if (length(enriched_states) == 0) return(0)
     H_plus <- shannon_entropy(enriched_states)
     Neff_plus <- base ^ H_plus
