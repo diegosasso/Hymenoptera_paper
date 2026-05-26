@@ -123,52 +123,16 @@ div_sum <- mcmc_div %>%
 ```
 
 
-```{r}
-lambda_sum <- mcmc_div %>%
-  select(starts_with("lambda_")) %>%
-  pivot_longer(everything(), names_to = "bin", values_to = "lambda") %>%
-  mutate(bin = as.integer(str_extract(bin, "\\d+"))) %>%
-  group_by(bin) %>%
-  summarise(
-    mean = mean(lambda, na.rm = TRUE),
-    lower  = quantile(lambda, 0.25, na.rm = TRUE),
-    upper  = quantile(lambda, 0.75, na.rm = TRUE),
-    .groups = "drop"
-  )
-```
-
-```{r}
-mu_sum <- mcmc_div %>%
-  select(starts_with("mu_")) %>%
-  pivot_longer(everything(), names_to = "bin", values_to = "mu") %>%
-  mutate(bin = as.integer(str_extract(bin, "\\d+"))) %>%
-  group_by(bin) %>%
-  summarise(
-    mean = mean(mu, na.rm = TRUE),
-    lower  = quantile(mu, 0.25, na.rm = TRUE),
-    upper  = quantile(mu, 0.75, na.rm = TRUE),
-    .groups = "drop"
-  )
-```
-
-
-
-
-
 ### Save
 
 ```{r}
 saveRDS(div_sum, file='data_out/pyrate-dive.RDS')
-saveRDS(mu_sum, file='data_out/pyrate-mu.RDS')
-saveRDS(lambda_sum, file='data_out/pyrate-lambda.RDS')
 ```
 
-## Read Data
+### Read
 
 ```{r}
 div_sum <- readRDS(file='data_out/pyrate-dive.RDS')
-lambda_sum <- readRDS(file='data_out/pyrate-lambda.RDS')
-mu_sum <- readRDS(file='data_out/pyrate-mu.RDS')
 ```
 
 
@@ -281,44 +245,108 @@ lines(py_div_step_low$x_step, py_div_step_low$y_step, col='red')
 
 ```
 
-## Plot origination (lambda) and extinction (mu) 
+```{r}
+neff_repl <- read_rds('data_out/neff-per-replicate.RDS')
+head(neff_repl)
+```
+
+
+```{r}
+ggplot() +
+  geom_ribbon(data = neff_repl, aes(x = time, ymin = lower_entropy, ymax = upper_entropy),
+              fill = "blue", alpha = 0.2) +
+  scale_x_reverse(breaks = seq(0, 280, by = 50)) +
+  geom_line(data = neff_repl, aes(x = time, y = mean_entropy),
+            color = "black", size = 1) +
+  theme_minimal()
+```
+
+
+
+# Plot Publication
+
 
 ```{r}
 
-pdf("figures/lambda_mu_pyrate.pdf", width = 8, height = 4.8, useDingbats = FALSE)
-
-# Plot origination (lambda) and extinction (mu) on the same time axis
-#edges <- c(265, 260, 240, 220, 200, 180, 160, 140, 120, 100, 80, 60, 40, 20, 0)
-
-edges <- c(260, 240, 220, 200, 180, 160, 140, 120, 100, 80, 60, 40, 20, 0)
-
-lambda_step <- make_steps(lambda_sum$mean[2:14], edges)
-mu_step <- make_steps(mu_sum$mean[2:14], edges)
-
-y_lim <- range(c(lambda_step$y_step, mu_step$y_step), na.rm = TRUE)
-
-plot(
-  lambda_step$x_step,
-  lambda_step$y_step,
-  type = "l",
-  col = "blue",
-  lwd = 2,
-  xlim = c(265, 0),
-  ylim = y_lim,
-  xaxt = "n",
-  xlab = "Time (Ma)",
-  ylab =  expression("Rate"~(Myr^{-1})),
-  main = "Origination and extinction through time"
-)
-axis(1, at = seq(0, 250, by = 50))
-lines(mu_step$x_step, mu_step$y_step, col = "red", lwd = 2)
-legend(
-  "topleft",
-  legend = c("Origination rate", "Extinction rate"),
-  col = c("blue", "red"),
-  lwd = 3,
-  bty = "n"
+df_div <- tibble(
+  time  = py_div_step$x_step,
+  div   = py_div_step$y_step,
+  lower = py_div_step_low$y_step,   # <-- note: use LOW y here
+  upper = py_div_step_up$y_step     # <-- and UP y here
 )
 
-dev.off()
+df_div <- df_div %>%
+  rename(lower_div = lower, upper_div = upper)
+
+p <- ggplot() +
+  # Diversification (ochre)
+  geom_ribbon(data = df_div,
+              aes(x = time, ymin = lower_div*40 + 2.5, ymax = upper_div*40 + 2.5),
+              fill = "#D9B27C", alpha = 0.55) +
+  geom_line(data = df_div,
+            aes(x = time, y = div*40 + 2.5),
+            color = "#A66E2E", linewidth = 1.1) +
+  
+  # Neff (green)
+  geom_ribbon(data = neff_repl,
+              aes(x = time, ymin = lower_entropy, ymax = upper_entropy),
+              fill = "#33a02c", alpha = 0.45) +
+  geom_line(data = neff_repl,
+            aes(x = time, y = mean_entropy),
+            color = "#006d2c", linewidth = 0.6) +
+  
+    # Geological bar
+  # coord_geo(
+  #   dat = "periods",
+  #   pos = "bottom",
+  #   size = 3,
+  #   expand = FALSE,
+  #   height = unit(0.25, "cm"),
+  #   lab = FALSE
+  # ) +
+  
+  coord_geo(
+    dat = "periods",
+    pos = "bottom",
+    size = 3,
+    expand = FALSE,
+    #height = unit(0.25, "cm"),
+    lab = T
+  ) +
+  
+  # Axes
+  scale_x_reverse(expand = c(0, 0),
+                  breaks = seq(0, 300, 20)) +
+  scale_y_continuous(
+    limits = c(-0.1, 6),
+    name = expression(N[eff]),  # left y-axis label
+    sec.axis = sec_axis(~ (. - 2.5) / 40,
+                        name = expression(r ))  # right axis for diversification
+  ) +
+  
+  # Theme
+  theme_classic(base_size = 14) +
+  theme(
+    #panel.border = element_rect(color = "black", fill = NA, linewidth = 1.9),
+    axis.line = element_line(color = "black"),
+    axis.ticks = element_line(color = "black"),
+    axis.text = element_text(color = "black"),
+    
+    #axis.text.x = element_blank(),
+    #axis.ticks.x = element_blank(),
+    
+    panel.grid = element_blank(),
+    axis.title.y.left  = element_text(color = "#006d2c"),
+    axis.title.y.right = element_text(color = "#A66E2E")
+  ) +
+  labs(x = "Time (Ma)")
+
+p
+
+ggsave("figures/neff/neff-pyrate.pdf", p, width = 3.5*2, height = 1.6*2, dpi = 300, units = "in")
+
 ```
+
+
+
+

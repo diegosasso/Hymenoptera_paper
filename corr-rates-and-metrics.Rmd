@@ -49,26 +49,20 @@ head(neff_repl)
 div_sum <- readRDS('data_out/pyrate-dive.RDS')
 head(div_sum)
 
-# Disparity
-#dis_tb <- readRDS("data_out/data_disparity_final.RDS")
-dis_tb <- readRDS("data_out/data_disparity_var-hm.RDS")
-# !!! This may not be necessary
-# dis_tb <- dis_tb %>%
-#   arrange(Time) %>%
-#   mutate(Time = rev(Time))
-head(dis_tb)
-
 # Rate thru time adult
 rates_thru_time <- readRDS('data_out/rates-thru-time.RDS')
 head(rates_thru_time)
 
-# Rate thru time larva
-rates_thru_time_la <- readRDS('data_out/rates-thru-time-larva.RDS')
-head(rates_thru_time_la)
+# BAMMM
+bamm <- readRDS('data/bamm.rds')
+head(bamm)
+
+# Pc
+Pc <- readRDS('data_out/pc-per-replicate.RDS')
 ```
 
 
-## Make average Neff
+### Make average Neff
 
 ```{r}
 # bin edges
@@ -92,22 +86,7 @@ avg_mean_H_plus <- aggregate(mean_H_plus ~ bin, data=neff_repl, FUN=mean)
 
 ```
 
-## Make average Disparity
-
-```{r}
-# bin edges
-bins <- c(265, seq(260, 0, by = -20) )  
-length(bins)
-
-# cut times into bins (right=FALSE so [lower,upper) )
-dis_tb$bin <- cut(dis_tb$Time, breaks=bins, right=FALSE)
-
-# average per bin
-avg_dis <- aggregate(Mean_norm_disparity ~ bin, data=dis_tb, FUN=mean)
-avg_dis
-plot(avg_dis)
-```
-## Make average Rate Adult
+### Make average Rate Adult
 
 ```{r}
 # bin edges
@@ -121,32 +100,49 @@ avg_rate <- aggregate(mean ~ bin, data=rates_thru_time, FUN=mean)
 avg_rate
 plot(avg_rate)
 ```
-
-## Make average Rate Larva
+### Make average BAMM
 
 ```{r}
 # bin edges
 bins <- c(265, seq(260, 0, by = -20) )  
 length(bins)
 
-rates_thru_time_la$bin <- cut(rates_thru_time_la$time, breaks=bins, right=FALSE)
+bamm$bin <- cut(bamm$time, breaks=bins, right=FALSE)
 
 # average per bin
-avg_rate_la <- aggregate(mean ~ bin, data=rates_thru_time_la, FUN=mean)
-avg_rate_la
-plot(avg_rate_la)
+avg_bamm <- aggregate(rate ~ bin, data=bamm, FUN=mean)
+avg_bamm
+plot(avg_bamm)
 ```
 
 
-## Make final
+### Make average Pc
+
+```{r}
+# bin edges
+bins <- c(265, seq(260, 0, by = -20) )  
+length(bins)
+
+Pc$bin <- cut(Pc$time, breaks=bins, right=FALSE)
+
+# average per bin
+avg_Pc <- aggregate(mean_s ~ bin, data=Pc, FUN=mean)
+avg_Pc
+plot(avg_Pc)
+```
+
+
+
+### Make final
 
 ```{r}
 # get metrics and remove last bin
 py_div <- div_sum$mean[-1]
 neff_r <- rev(avg_neff[,2])[-1]
-dis_r <- rev(avg_dis[,2])[-1]
 rate_r <- rev(avg_rate[,2])[-1]
-rate_la <- rev(avg_rate_la[,2])[-1]
+bamm_r <- rev(avg_bamm[,2])[-1]
+pc_r <- rev(avg_Pc[,2])[-1]
+ti <- rev(1:14)[-1]
 ```
 
 
@@ -161,6 +157,7 @@ abline(model, col = "red", lwd = 2)
 cor.test(neff_r, py_div, method = 'pearson')
 
 ```
+
 ### Plot
 
 ```{r}
@@ -185,25 +182,43 @@ lines(py_div_step$x_step, py_div_step$y_step*17+0.5, xlim = c(265, 0), col='red'
 
 ```
 
-
-
-## Pyrate vs. Disp
+### Residuals
 
 ```{r}
 
-plot(dis_r, py_div)     
-model <- lm(py_div ~ dis_r)       
+m1 <- lm(neff_r ~ ti)
+m2 <- lm(py_div ~ ti)
+
+neff_res <- resid(m1)
+py_res <- resid(m2)
+
+cor.test(neff_res, py_res, method = "pearson")
+
+```
+
+## BAMM vs. Neff 
+
+```{r}
+
+plot(neff_r, bamm_r)     
+model <- lm(bamm_r ~ neff_r)       
 abline(model, col = "red", lwd = 2) 
 
-cor.test(dis_r, py_div, method = 'pearson')
-
+cor.test(neff_r, bamm_r, method = 'pearson')
 ```
+### Residuals
 
 ```{r}
-plot(dis_r, type = 'l', ylim=c(-10, 100))
-lines(py_div*800, col='red')
-```
 
+m1 <- lm(neff_r ~ ti)
+m2 <- lm(bamm_r ~ ti)
+
+neff_res <- resid(m1)
+bamm_res <- resid(m2)
+
+cor.test(neff_res, bamm_res, method = "pearson")
+
+```
 
 
 ## Pyrate vs. Rate Adult
@@ -217,18 +232,33 @@ abline(model, col = "red", lwd = 2)
 cor.test(rate_r, py_div, method = 'pearson')
 ```
 
-## Pyrate vs. Rate Larval
+
+
+## Pc vs. Rate Adult
 
 ```{r}
 
-plot(rate_la, py_div)     
-model <- lm(py_div ~ rate_la)       
+plot(rate_r, pc_r)     
+model <- lm(pc_r ~ rate_r)       
 abline(model, col = "red", lwd = 2) 
 
-cor.test(rate_la, py_div, method = 'pearson')
+cor.test(rate_r, pc_r, method = 'pearson')
+```
+### Residuals
+
+```{r}
+
+m1 <- lm(rate_r ~ ti)
+m2 <- lm(pc_r ~ ti)
+
+rate_res <- resid(m1)
+pc_res <- resid(m2)
+
+cor.test(rate_res, pc_res, method = "pearson")
 
 ```
 
+## -------
 
 ## Tesing effect of Neff and its components
 

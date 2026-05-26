@@ -21,7 +21,7 @@ library(deeptime)
 library(mgcv)
 source("R/utils-ST.R")
 source('R/region_class.R')
-
+source('R/utils-edge-age.R')
 
 knitr::opts_chunk$set(
   echo = TRUE,       # show code by default
@@ -86,6 +86,16 @@ edgelabels(cex=0.5)
 plot(tree_ml_morph, show.tip.label = F, use.edge.length=F)
 edgelabels(cex=0.5)
 ```
+
+
+## Edge Ages
+
+```{r}
+edge_age_tbl <- edge_average_age_table(tree)
+edgelabels(cex=0.5)
+```
+
+
 ## Correlation
 
 ```{r}
@@ -95,18 +105,25 @@ edgelabels(cex=0.5)
 # filter out very small rates in morphology
 df <- tibble(
   mor = tree_ml_morph$edge.length,
-  mol = tree_mol$edge.length
+  mol = tree_mol$edge.length,
+  age = edge_age_tbl$avg_edge_age
 ) %>%
   filter(mor >= 0.00001)
 
+
+df <- df %>% mutate(across(everything(), log))
 df
 ```
 
 ```{r}
-cor_test <- cor.test(df$mor %>% log, df$mol %>% log, method = "pearson")
+cor_test <- cor.test(df$mor, df$mol, method = "pearson")
 cor_test
 
-model <- lm(log(mol) ~ log(mor), data = df)
+cor_test2 <- cor.test(df$mor, df$age,  method = "pearson")
+cor_test2
+
+# model <- lm(log(mol) ~ log(mor) + log(age), data = df)
+model <- lm(mor  ~ mol + age, data = df)
 summary(model)
 ```
 
@@ -120,10 +137,76 @@ ggplot(df, aes(x = mor %>% log, y = mol %>% log)) +
   geom_smooth(method = "lm", se = TRUE, linewidth = 1) +
   theme_minimal() +
   labs(
-    x = "Morphological branch length (mor)",
-    y = "Molecular branch length (mol)",
+    x = "Morphological branch length",
+    y = "Molecular branch length",
     title = "Morphological vs Molecular Branch Lengths"
   )
 ```
 
+```{r}
+library(ggpubr)
 
+
+p <- ggscatter(
+  df,
+  x = "mor",
+  y = "mol",
+  add = "reg.line",
+  conf.int = TRUE,
+
+  add.params = list(
+    color = "steelblue4",
+    fill = "lightsteelblue",
+    linewidth = 1.2
+  ),
+
+  xlab = "Log morphological branch length",
+  ylab = "Log molecular branch length"
+
+) +
+  stat_cor(
+    method = "pearson")
+
+
+ggsave(
+  "figures/morph_vs_mol.pdf",
+  plot = p,
+  width = 7.2,
+  height = 3.5
+
+)
+```
+
+
+
+```{r}
+library(ggplot2)
+
+p <- ggscatter(
+  df,
+  x = "mor",
+  y = "age",
+  add = "reg.line",
+  conf.int = TRUE,
+
+  add.params = list(
+    color = "steelblue4",
+    fill = "lightsteelblue",
+    linewidth = 1.2
+  ),
+
+  xlab = "Log morphological branch length",
+  ylab = "Log average branch age"
+
+) +
+  stat_cor(
+    method = "pearson")
+
+ggsave(
+  "figures/morph_vs_age.pdf",
+  plot = p,
+  width = 7.2,
+  height = 3.5
+
+)
+```

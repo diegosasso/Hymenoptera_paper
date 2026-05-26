@@ -1,5 +1,5 @@
 ---
-title: "Make Se statistics for enrichment strength"
+title: "Make Pc for enrichment strength"
 date: "`r Sys.Date()`"
 output: 
   html_document:
@@ -91,7 +91,7 @@ max(abs(diff))
 
 
 
-## Calculate Se for each replicate
+## Calculate Pc for each replicate
 
 ```{r}
 s_list <- map(replicate_list, function(mat) {
@@ -121,38 +121,12 @@ summary_s_df <- s_df %>%
 head(summary_s_df)
 ```
 
-## Calculate Se for each replicate: OLD
-
-```{r}
-# s_list <- map(replicate_list, function(mat) {
-#   enr <- get_enrichment_mask(mat, lower_q = 0.05, upper_q = 0.95,
-#                              direction = "over", return_type = "binary")
-#   out <- plot_enrichment_strength(tree, enr, type = "not_scaled",
-#                                  n_points = 1000)$data
-#   out
-# })
-# 
-# s_df <- bind_rows(s_list, .id = "replicate")
-# head(s_df)
-# 
-# # Reshape
-# summary_s_df <- s_df %>%
-#   group_by(time) %>%
-#   summarise(
-#     mean_s = mean(strength, na.rm = TRUE),
-#     lower = quantile(strength, 0.025, na.rm = TRUE),
-#     median = quantile(strength, 0.5, na.rm = TRUE),
-#     upper = quantile(strength, 0.975, na.rm = TRUE),
-#   )
-# head(summary_s_df)
-```
-
 
 
 # Save
 
 ```{r}
-saveRDS(summary_s_df, file='data_out/s-per-replicate.RDS')
+saveRDS(summary_s_df, file='data_out/pc-per-replicate.RDS')
 ```
 
 
@@ -179,5 +153,5 @@ p <- ggplot() +
   theme_minimal()
 
 p
-ggsave("figures/metrics_thru_time/Se-time.pdf", p, width = 3.5*2, height = 1.6*2, dpi = 300, units = "in")
+ggsave("figures/metrics_thru_time/Pc-metric.pdf", p, width = 3.5*2, height = 1.6*2, dpi = 300, units = "in")
 ```
