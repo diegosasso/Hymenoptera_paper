@@ -347,7 +347,7 @@ cor.test(neff_r_925, py_div, method = 'pearson')
 
 ```
 
-##---------
+## -------
 
 
 ## Tesing effect of Neff and its components
@@ -355,35 +355,9 @@ cor.test(neff_r_925, py_div, method = 'pearson')
 ### Make Neff components
 
 ```{r}
-f_plus_r <- rev(avg_mean_f_plus[,2])[-1]
 log_f_plus_r <- rev(avg_mean_log_f_plus[,2])[-1]
 H_plus_r <- rev(avg_mean_H_plus[,2])[-1]
 ```
-
-
-
-### Linear regression: Neff, Pyrate, Disp
-
-```{r}
-df <- data.frame(
-  py_div = py_div,
-  neff_r = neff_r,
-  dis_r  = dis_r
-  
-)
-
-model <- lm(py_div ~ neff_r + dis_r, data = df)
-summary(model)
-```
-
-#### Collinearity
-```{r}
-
-cor(df$neff_r, df$dis_r)
-car::vif(lm(py_div ~ neff_r + dis_r, data = df))
-```
-
-
 
 
 ### Relative imporance: Neff components
@@ -395,7 +369,6 @@ car::vif(lm(py_div ~ neff_r + dis_r, data = df))
 df <- data.frame(
   py_div = py_div,
   neff_r = neff_r,
-  f_plus_r=f_plus_r,
   log_f_plus_r = log_f_plus_r,
   H_plus_r = H_plus_r
   
@@ -404,15 +377,12 @@ df <- data.frame(
 m1 <- lm(py_div ~ log_f_plus_r * H_plus_r, data = df)
 summary(m1)
 
-m2 <- lm(py_div ~ f_plus_r * H_plus_r, data = df)
-summary(m2)
 
-m3 <- lm(py_div ~ log_f_plus_r + H_plus_r, data = df)
-summary(m3)
+m2 <- lm(py_div ~ log_f_plus_r + H_plus_r, data = df)
+summary(m2)
 
 AIC(m1)
 AIC(m2)
-AIC(m3)
 ```
 
 
@@ -430,23 +400,3 @@ rel <- calc.relimp(m1, type = "lmg")$lmg
 rel / sum(rel)
 ```
 
-#### Corr
-
-```{r}
-# df <- data.frame(
-#   py_div = py_div,
-#   neff_r = neff_r,
-#   f_plus_r=f_plus_r,
-#   log_f_plus_r = log_f_plus_r,
-#   H_plus_r = H_plus_r
-#   
-# )
-
-plot(f_plus_r, py_div)     
-model <- lm(py_div ~ neff_r)       
-abline(model, col = "red", lwd = 2) 
-
-cor.test(f_plus_r, py_div, method = 'pearson')
-cor.test(log_f_plus_r, py_div, method = 'pearson')
-cor.test(H_plus_r, py_div, method = 'pearson')
-```
