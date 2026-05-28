@@ -260,6 +260,96 @@ cor.test(rate_res, pc_res, method = "pearson")
 
 ## -------
 
+
+## Neff Sensitivity
+
+### Read data
+
+```{r}
+
+# Neff 97.5%
+neff_975 <- readRDS(file='data_out/neff-97-5.RDS')
+
+# Neff 92.5%
+neff_925 <- readRDS(file='data_out/neff-92-5.RDS')
+```
+
+
+### Make average Neff 97.5%
+
+```{r}
+
+# bin edges
+bins <- c(265, seq(260, 0, by = -20) )  
+length(bins)
+
+# cut times into bins (right=FALSE so [lower,upper) )
+neff_975$bin <- cut(neff_975$time, breaks=bins, right=FALSE)
+
+# average per bin
+avg_neff_975 <- aggregate(mean_entropy ~ bin, data=neff_975, FUN=mean)
+
+avg_neff_975
+plot(avg_neff_975)
+
+```
+
+### Make average Neff 92.5%
+
+```{r}
+
+# bin edges
+bins <- c(265, seq(260, 0, by = -20) )  
+length(bins)
+
+# cut times into bins (right=FALSE so [lower,upper) )
+neff_925$bin <- cut(neff_925$time, breaks=bins, right=FALSE)
+
+# average per bin
+avg_neff_925 <- aggregate(mean_entropy ~ bin, data=neff_925, FUN=mean)
+
+avg_neff_925
+plot(avg_neff_925)
+
+```
+
+
+### Make final
+
+```{r}
+# get metrics and remove last bin
+neff_r_975 <- rev(avg_neff_975[,2])[-1]
+neff_r_925 <- rev(avg_neff_925[,2])[-1]
+```
+
+### Pyrate vs. Neff 97.5%
+
+
+```{r}
+
+plot(neff_r_975, py_div)     
+model <- lm(py_div ~ neff_r_975)       
+abline(model, col = "red", lwd = 2) 
+
+cor.test(neff_r_975, py_div, method = 'pearson')
+
+```
+### Pyrate vs. Neff 92.5%
+
+
+```{r}
+
+plot(neff_r_925, py_div)     
+model <- lm(py_div ~ neff_r_925)       
+abline(model, col = "red", lwd = 2) 
+
+cor.test(neff_r_925, py_div, method = 'pearson')
+
+```
+
+##---------
+
+
 ## Tesing effect of Neff and its components
 
 ### Make Neff components
