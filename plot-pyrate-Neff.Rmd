@@ -98,7 +98,7 @@ mcmc_div <- mcmc_combined %>%
 
 # Inspect results
 mcmc_div %>%
-  select(starts_with("div_")) %>%
+  dplyr::select(starts_with("div_")) %>%
   head()
 ```
 
@@ -106,7 +106,7 @@ mcmc_div %>%
 
 ```{r}
 div_sum <- mcmc_div %>%
-  select(starts_with("div_")) %>%
+  dplyr::select(starts_with("div_")) %>%
   pivot_longer(everything(), names_to = "bin", values_to = "div") %>%
   mutate(bin = as.integer(str_extract(bin, "\\d+"))) %>%
   group_by(bin) %>%
@@ -128,6 +128,11 @@ div_sum <- mcmc_div %>%
 ```{r}
 saveRDS(div_sum, file='data_out/pyrate-dive.RDS')
 ```
+
+
+
+
+
 
 ### Read
 
@@ -244,6 +249,7 @@ lines(py_div_step_up$x_step, py_div_step_up$y_step, col='red')
 lines(py_div_step_low$x_step, py_div_step_low$y_step, col='red')
 
 ```
+### Read Neff
 
 ```{r}
 neff_repl <- read_rds('data_out/neff-per-replicate.RDS')
@@ -316,10 +322,10 @@ p <- ggplot() +
   
   # Axes
   scale_x_reverse(expand = c(0, 0),
-                  breaks = seq(0, 300, 20)) +
+                  breaks = seq(0, 300, 50)) +
   scale_y_continuous(
     limits = c(-0.1, 6),
-    name = expression(N[eff]),  # left y-axis label
+    name = expression(N[eff]^"+"),  # left y-axis label
     sec.axis = sec_axis(~ (. - 2.5) / 40,
                         name = expression(r ))  # right axis for diversification
   ) +
@@ -336,17 +342,144 @@ p <- ggplot() +
     #axis.ticks.x = element_blank(),
     
     panel.grid = element_blank(),
-    axis.title.y.left  = element_text(color = "#006d2c"),
-    axis.title.y.right = element_text(color = "#A66E2E")
+    # axis.title.y.left  = element_text(color = "#006d2c"),
+    # axis.title.y.right = element_text(color = "#A66E2E")
   ) +
   labs(x = "Time (Ma)")
 
 p
 
-ggsave("figures/neff/neff-pyrate.pdf", p, width = 3.5*2, height = 1.6*2, dpi = 300, units = "in")
+ggsave("figures/metrics_thru_time/neff-pyrate-bin-50.pdf", p, width = 3.5*2, height = 1.6*2, dpi = 300, units = "in")
+
+
+# ggsave("figures/metrics_thru_time/neff-pyrate-bin-20.pdf", p, width = 3.5*2, height = 1.6*2, dpi = 300, units = "in")
+
+```
+
+# Stepping Plot Publication
+
+### Make average Neff
+
+```{r}
+# bin edges
+bins <- c(280, seq(260, 0, by = -20) )  
+length(bins)
+
+# cut times into bins (right=FALSE so [lower,upper) )
+neff_repl$bin <- cut(neff_repl$time, breaks=bins, right=FALSE)
+
+# average per bin
+avg_neff <- aggregate(mean_entropy ~ bin, data=neff_repl, FUN=mean)
+avg_neff
+# plot(avg_neff)
+
+avg_mean_f_plus <- aggregate(mean_f_plus ~ bin, data=neff_repl, FUN=mean)
+# avg_mean_f_plus
+# plot(avg_mean_f_plus)
+
+avg_mean_log_f_plus <- aggregate(mean_log_f_plus ~ bin, data=neff_repl, FUN=mean)
+avg_mean_H_plus <- aggregate(mean_H_plus ~ bin, data=neff_repl, FUN=mean)
 
 ```
 
 
+### Make final
+
+```{r}
+# get metrics and remove last bin
+py_div <- div_sum$mean
+neff_r <- rev(avg_neff[,2])
+
+
+```
+
+### Plot steps
+
+```{r}
+
+edges <- c(265, 260, 240, 220, 200, 180, 160, 140, 120, 100, 80, 60, 40, 20, 0)
+py_div_step <- make_steps(py_div, edges)
+
+edges2 <- c(280,  260, 240, 220, 200, 180, 160, 140, 120, 100, 80, 60, 40, 20, 0)
+neff_step <- make_steps(neff_r, edges2)
+
+
+df <- bind_rows(
+  data.frame(
+    x = neff_step$x_step,
+    y = neff_step$y_step,
+    curve = "Neff"
+  ),
+  data.frame(
+    x = py_div_step$x_step,
+    y = py_div_step$y_step * 17 + 0.5,
+    curve = "PyRate"
+  )
+)
+
+plot(neff_step$x_step, neff_step$y_step, type = "l", xlim = c(265, 0), ylim=c(-0.07, 1.7))
+lines(py_div_step$x_step, py_div_step$y_step*17+0.5, xlim = c(265, 0), col='red')
+
+```
+
+```{r}
+
+
+
+p <- ggplot(df, aes(x, y, colour = curve, linetype = curve)) +
+  geom_line(linewidth = 1.1) +
+  scale_x_reverse(expand = c(0, 0),
+                  breaks = seq(0, 300, 50)) +
+  scale_y_continuous(
+    name = expression(N[eff]^"+"),
+    limits = c(-0.07, 1.7),
+    sec.axis = sec_axis(
+      trans = ~ (. - 0.5) / 17,
+      name = "net diversification rate (PyRate)"
+    )
+  ) +
+  
+  coord_geo(
+    dat = "periods",
+    pos = "bottom",
+    size = 2,
+    expand = FALSE,
+    height = unit(0.35, "cm"),
+    lab = T
+  ) +
+  
+  scale_colour_manual(
+    values = c(
+      "Neff" = "#006d2c",
+      "PyRate" = "#A66E2E"
+    )
+  ) +
+  scale_linetype_manual(
+    values = c(
+      "Neff" = "solid",
+      "PyRate" = "solid"
+    )
+  ) +
+  labs(
+    x = "Time (Ma)",
+    colour = NULL,
+    linetype = NULL
+  ) +
+  theme_classic() +
+  theme(
+    panel.grid.major.x = element_line(
+      colour = "grey80",
+      linewidth = 0.4
+    ),
+    panel.grid.minor.x = element_blank(),
+    axis.title.y.right = element_text(angle = 90),
+    legend.position = "top"
+  )
+
+p
+
+ggsave("figures/metrics_thru_time/neff-pyrate-steps.pdf", p, width = 3.5*2, height = 1.6*2, dpi = 300, units = "in")
+
+```
 
 
