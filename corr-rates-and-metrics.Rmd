@@ -158,6 +158,49 @@ cor.test(neff_r, py_div, method = 'pearson')
 
 ```
 
+### Plot publication
+
+```{r}
+
+df_neff_py <- tibble(
+    neff_r = neff_r, 
+    py_div = py_div
+)
+
+
+
+p <- ggscatter(
+  df_neff_py,
+  x = "neff_r",
+  y = "py_div",
+  add = "reg.line",
+  conf.int = TRUE,
+
+  add.params = list(
+    color = "steelblue4",
+    fill = "lightsteelblue",
+    linewidth = 1.2
+  ),
+
+  xlab = "",
+  ylab = "net diversification rate (PyRate)"
+
+) +
+  labs(x = expression(N[eff]^"+")) +
+  stat_cor(
+    method = "pearson")
+
+p
+ggsave(
+  "figures/metrics_thru_time/pyrate_vs_neff.pdf",
+  plot = p,
+  width = 3.5,
+  height = 3.2
+
+)
+```
+
+
 ### Plot
 
 ```{r}

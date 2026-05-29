@@ -134,7 +134,7 @@ saveRDS(div_sum, file='data_out/pyrate-dive.RDS')
 
 
 
-### Read
+## Read
 
 ```{r}
 div_sum <- readRDS(file='data_out/pyrate-dive.RDS')
@@ -421,6 +421,7 @@ plot(neff_step$x_step, neff_step$y_step, type = "l", xlim = c(265, 0), ylim=c(-0
 lines(py_div_step$x_step, py_div_step$y_step*17+0.5, xlim = c(265, 0), col='red')
 
 ```
+### Publication plot
 
 ```{r}
 
@@ -466,6 +467,7 @@ p <- ggplot(df, aes(x, y, colour = curve, linetype = curve)) +
     linetype = NULL
   ) +
   theme_classic() +
+  # theme_minimal() +
   theme(
     panel.grid.major.x = element_line(
       colour = "grey80",
@@ -476,9 +478,10 @@ p <- ggplot(df, aes(x, y, colour = curve, linetype = curve)) +
     legend.position = "top"
   )
 
+
 p
 
-ggsave("figures/metrics_thru_time/neff-pyrate-steps.pdf", p, width = 3.5*2, height = 1.6*2, dpi = 300, units = "in")
+ggsave("figures/metrics_thru_time/neff-pyrate-steps.pdf", p, width = 5, height = 3.2, dpi = 300, units = "in")
 
 ```
 
