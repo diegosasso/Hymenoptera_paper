@@ -281,44 +281,85 @@ lines(py_div_step_low$x_step, py_div_step_low$y_step, col='red')
 
 ```
 
+
 ## Plot origination (lambda) and extinction (mu) 
+
+### Make
+
+```{r}
+edges <- c(265, 260, 240, 220, 200, 180, 160, 140, 120, 100, 80, 60, 40, 20, 0)
+
+lambda_step <- make_steps(lambda_sum$mean[1:14], edges)
+mu_step     <- make_steps(mu_sum$mean[1:14], edges)
+
+rate_df <- bind_rows(
+  data.frame(
+    x = lambda_step$x_step,
+    y = lambda_step$y_step,
+    rate = "origination rate"
+  ),
+  data.frame(
+    x = mu_step$x_step,
+    y = mu_step$y_step,
+    rate = "extinction rate"
+  )
+)
+```
+
+
+### Plot
 
 ```{r}
 
-pdf("figures/lambda_mu_pyrate.pdf", width = 8, height = 4.8, useDingbats = FALSE)
 
-# Plot origination (lambda) and extinction (mu) on the same time axis
-#edges <- c(265, 260, 240, 220, 200, 180, 160, 140, 120, 100, 80, 60, 40, 20, 0)
 
-edges <- c(260, 240, 220, 200, 180, 160, 140, 120, 100, 80, 60, 40, 20, 0)
 
-lambda_step <- make_steps(lambda_sum$mean[2:14], edges)
-mu_step <- make_steps(mu_sum$mean[2:14], edges)
+p <- ggplot(rate_df, aes(x = x, y = y, colour = rate)) +
+  geom_line(linewidth = 1.2) +
+  # geom_vline(
+  #   xintercept = seq(0, 250, by = 50),
+  #   colour = "grey85",
+  #   linewidth = 0.35
+  # ) +
+  scale_x_reverse(
+    limits = c(280, 0),
+    breaks = seq(0, 250, by = 50)
+  ) +
+  
+  scale_y_continuous(
+    limits = c(-0.01, 0.1)) +
+  
+  coord_geo(
+    dat = "periods",
+    pos = "bottom",
+    size = 2,
+    expand = FALSE,
+    height = unit(0.35, "cm"),
+    lab = T
+  ) +
+  
+  
+  scale_colour_manual(
+    values = c(
+      "origination rate" = "#1f78b4",
+      "extinction rate"  = "#ff0000"
+    )
+  ) +
+  labs(
+    x = "Time (Ma)",
+    y = expression("Rate"~(Myr^{-1})),
+    colour = NULL
+  ) +
+  theme_classic() +
+  theme(
+    legend.position = "top",
+    panel.grid.major.x = element_blank(),
+    panel.grid.minor = element_blank()
+  )
 
-y_lim <- range(c(lambda_step$y_step, mu_step$y_step), na.rm = TRUE)
+p
 
-plot(
-  lambda_step$x_step,
-  lambda_step$y_step,
-  type = "l",
-  col = "blue",
-  lwd = 2,
-  xlim = c(265, 0),
-  ylim = y_lim,
-  xaxt = "n",
-  xlab = "Time (Ma)",
-  ylab =  expression("Rate"~(Myr^{-1})),
-  main = "Origination and extinction through time"
-)
-axis(1, at = seq(0, 250, by = 50))
-lines(mu_step$x_step, mu_step$y_step, col = "red", lwd = 2)
-legend(
-  "topleft",
-  legend = c("Origination rate", "Extinction rate"),
-  col = c("blue", "red"),
-  lwd = 3,
-  bty = "n"
-)
-
-dev.off()
+ggsave("figures/lambda-mu-rate.pdf", p, width = 6, height = 3.2, dpi = 300, units = "in")
 ```
+
+

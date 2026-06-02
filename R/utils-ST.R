@@ -878,6 +878,30 @@ get_tip_path <- function(tree, tip) {
 }
 
 
+# get_tip_enrichment <- function(tree, enr.masked){
+#   tree.height <- max(node.depth.edgelength(tree))
+#   ntip <- Ntip(tree)
+#   
+#   enr.tip <- matrix(NA, nrow=ntip, ncol=ncol(enr.masked))
+#   # dim(enr.tip)
+#   colnames(enr.tip) <- colnames(enr.masked)
+#   # br_index <- 1
+#   for (br_index in 1:ncol(enr.masked)){
+#     br <- enr.masked[,br_index]
+#     #tip_total_rate <- rep(NA,  ntip)
+#     # tip_index <- 1
+#     for (tip_index in 1:ntip){
+#       #tip_index <- 1
+#       #tree$tip.label[77]
+#       tip_path <- get_tip_path(tree, tip_index)
+#       tip_path_rates <- br[tip_path]
+#       # we scale it by tot time over path
+#       enr.tip[tip_index, br_index] <- sum(tip_path_rates)/tree.height
+#     }
+#   }
+#   return(enr.tip)
+# }
+
 get_tip_enrichment <- function(tree, enr.masked){
   tree.height <- max(node.depth.edgelength(tree))
   ntip <- Ntip(tree)
@@ -885,18 +909,23 @@ get_tip_enrichment <- function(tree, enr.masked){
   enr.tip <- matrix(NA, nrow=ntip, ncol=ncol(enr.masked))
   # dim(enr.tip)
   colnames(enr.tip) <- colnames(enr.masked)
-  #br_index <- 1
+  # br_index <- 1
   for (br_index in 1:ncol(enr.masked)){
     br <- enr.masked[,br_index]
     #tip_total_rate <- rep(NA,  ntip)
-    #tip_index <- 1
+    # tip_index <- 1
     for (tip_index in 1:ntip){
       #tip_index <- 1
       #tree$tip.label[77]
       tip_path <- get_tip_path(tree, tip_index)
       tip_path_rates <- br[tip_path]
+      #---- get distances = rate x time
+      tip_edge_length <- tree$edge.length[tip_path]
+      tip_path_distance <-  tip_path_rates * tip_edge_length
+      #----
       # we scale it by tot time over path
-      enr.tip[tip_index, br_index] <- sum(tip_path_rates)/tree.height
+      #enr.tip[tip_index, br_index] <- sum(tip_path_rates)/tree.height
+      enr.tip[tip_index, br_index] <- sum(tip_path_distance)
     }
   }
   return(enr.tip)

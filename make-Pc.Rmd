@@ -130,6 +130,14 @@ saveRDS(summary_s_df, file='data_out/pc-per-replicate.RDS')
 ```
 
 
+
+# Read
+
+```{r}
+summary_s_df <- readRDS(file='data_out/pc-per-replicate.RDS')
+```
+
+
 # Plot median with empirical 95% confidence interval
 
 ```{r}
@@ -148,9 +156,31 @@ p <- ggplot() +
   geom_ribbon(data = summary_s_df, aes(x = time, ymin = lower, ymax = upper),
               fill = "red", alpha = 0.2) +
   scale_x_reverse(breaks = seq(0, 280, by = 50)) +
+  
   geom_line(data = summary_s_df, aes(x = time, y = mean_s),
             color = "red", size = 1) +
-  theme_minimal()
+  
+  coord_geo(
+    dat = "periods",
+    pos = "bottom",
+    size = 2,
+    expand = FALSE,
+    height = unit(0.35, "cm"),
+    lab = T
+  ) +
+  
+  labs(
+    x = "Time (Ma)",
+    y = expression(P[c]),
+    colour = NULL
+  ) +
+  #theme_minimal()
+  theme_classic() +
+  theme(
+    legend.position = "top",
+    panel.grid.major.x = element_blank(),
+    panel.grid.minor = element_blank()
+  )
 
 p
 ggsave("figures/metrics_thru_time/Pc-metric.pdf", p, width = 3.5*2, height = 1.6*2, dpi = 300, units = "in")
