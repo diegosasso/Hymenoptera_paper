@@ -331,6 +331,9 @@ entropy <- function(p, epsilon = 1e-6, normalize = TRUE) {
 }
 
 
+
+# rate_matrix <- replicate_list[[1]]
+# rate_matrix[,1] %>% hist(., breaks=30)
 # lower_q = 0.05 
 # upper_q = 0.95
 # direction = "under"

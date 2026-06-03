@@ -133,13 +133,40 @@ p <- ggplot() +
   geom_ribbon(data = summary_neff_under_df, aes(x = time, ymin = lower, ymax = upper),
               fill = "#1f78b4", alpha = 0.2) +
   scale_x_reverse(breaks = seq(0, 280, by = 50)) +
+  
   geom_line(data = summary_neff_under_df, aes(x = time, y = mean_neff),
             color = "#1f78b4", size = 1) +
-  theme_minimal()
+  
+  coord_geo(
+    dat = "periods",
+    pos = "bottom",
+    size = 2,
+    expand = FALSE,
+    height = unit(0.35, "cm"),
+    lab = T
+  ) +
+  
+  labs(
+    x = "Time (Ma)",
+    y = expression(N[eff]^"-"),
+    colour = NULL
+  ) +
+  #theme_minimal()
+  theme_classic() +
+  theme(
+    legend.position = "top",
+    panel.grid.major.x = element_blank(),
+    panel.grid.minor = element_blank()
+  )
 
 p
-ggsave("figures/metrics_thru_time/neff-under-time.pdf", p, width = 3.5*2, height = 1.6*2, dpi = 300, units = "in")
+
+ggsave("figures/metrics_thru_time/neff-minus.pdf", p, width = 3.5*2, height = 1.6*2, dpi = 300, units = "in")
+
 ```
+
+
+
 
 
 

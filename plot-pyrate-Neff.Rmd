@@ -316,7 +316,7 @@ p <- ggplot() +
     pos = "bottom",
     size = 3,
     expand = FALSE,
-    #height = unit(0.25, "cm"),
+    height = unit(0.55, "cm"),
     lab = T
   ) +
   

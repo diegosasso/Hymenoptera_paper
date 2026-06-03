@@ -19,6 +19,7 @@ library(ggplot2)
 library(abind)
 library(dplyr)
 library(purrr)
+library(deeptime)
 source("R/utils-ST.R")
 source('R/region_class.R')
 
@@ -129,14 +130,35 @@ p <- ggplot() +
   geom_ribbon(data = rates_time, aes(x = time, ymin = lower, ymax = upper),
               fill = "blue", alpha = 0.2) +
   scale_x_reverse(breaks = seq(0, 280, by = 50)) +
+  
   geom_line(data = rates_time, aes(x = time, y = mean),
             color = "black", size = .3) +
-  theme_minimal()
-
+  
+  coord_geo(
+    dat = "periods",
+    pos = "bottom",
+    size = 2,
+    expand = FALSE,
+    height = unit(0.35, "cm"),
+    lab = T
+  ) +
+  
+  labs(
+    x = "Time (Ma)",
+    y = expression("Rate"~(Myr^{-1})),
+    colour = NULL
+  ) +
+  #theme_minimal()
+  theme_classic() +
+  theme(
+    legend.position = "top",
+    panel.grid.major.x = element_blank(),
+    panel.grid.minor = element_blank()
+  )
 p
-#ggsave("figures/metrics_thru_time/rate-thru-time.pdf", p, width = 3.5*2, height = 1.6*2, dpi = 300, units = "in")
-```
+ggsave("figures/metrics_thru_time/marginal_rate.pdf", p, width = 3.5*2, height = 1.6*2, dpi = 300, units = "in")
 
+```
 
 
 
