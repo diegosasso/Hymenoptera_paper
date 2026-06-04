@@ -83,7 +83,10 @@ min(tip.enr[tip.enr > 0])
 tip.total.changes <- get_tip_enrichment(tree, rates)
 tip.total.changes_log <- log(tip.total.changes)
 tip.prop.enriched <- tip.enr/tip.total.changes
-# tip.enr <-tip.prop
+
+#-----
+min(tip.total.changes)
+max(tip.total.changes)
 hist(tip.total.changes)
 hist(tip.total.changes_log)
 ```

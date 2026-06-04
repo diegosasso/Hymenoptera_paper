@@ -15,6 +15,11 @@ group_pal <- c(
   body     = "#2d2d2d"
 )
 
+"#76b7b2"   # teal
+"#edc948"  # mustard yellow
+"#9c755f"  # brown
+"#ff9da7"  # pink
+
 # ── edges ──────────────────────────────────────────────────────────────────────
 # "metasoma_g" is the internal Level-2 group node; avoids name collision with
 # the Level-1 leaf also called "metasoma" (cleaned from "metasoma gen.").
@@ -103,13 +108,13 @@ g <- graph_from_data_frame(edges, vertices = nodes, directed = TRUE)
 node_style <- "rect"
 
 # Circle options
-circle_size_internal <- 6   # dot diameter for root + Level-2 nodes
-circle_size_leaf     <- 6    # dot diameter for leaf nodes
-circle_label_size    <- 3    # text size inside circles
+circle_size_internal <- 2   # dot diameter for root + Level-2 nodes
+circle_size_leaf     <- 2    # dot diameter for leaf nodes
+circle_label_size    <- 1    # text size inside circles
 
 # Rect options
 rect_corner_radius   <- 0.3  # unit(r, "lines"); 0 = sharp rectangle
-rect_label_size      <- 2.6  # text size inside rectangles
+rect_label_size      <- 1  # text size inside rectangles
 # ══════════════════════════════════════════════════════════════════════════════
 
 # ── node layers ───────────────────────────────────────────────────────────────
@@ -120,12 +125,12 @@ if (node_style == "circle") {
     geom_node_point(
       data = function(x) x[!x$leaf, ],
       aes(fill = group), shape = 21, size = circle_size_internal,
-      colour = "white", stroke = 1.2
+      colour = "white", stroke = .5
     ),
     geom_node_point(
       data = function(x) x[x$leaf, ],
       aes(fill = group), shape = 21, size = circle_size_leaf,
-      colour = "white", stroke = 1
+      colour = "white", stroke = .5
     ),
     geom_node_text(
       data = function(x) x[!x$leaf, ],
@@ -147,12 +152,12 @@ if (node_style == "circle") {
     geom_node_point(
       data = function(x) x[!x$leaf, ],
       aes(fill = group), shape = 22, size = circle_size_internal,
-      colour = "white", stroke = 1.2
+      colour = "white", stroke = .5
     ),
     geom_node_point(
       data = function(x) x[x$leaf, ],
       aes(fill = group), shape = 22, size = circle_size_leaf,
-      colour = "white", stroke = 1
+      colour = "white", stroke = .5
     ),
     geom_node_text(
       data = function(x) x[!x$leaf, ],
@@ -179,12 +184,12 @@ p <- ggraph(g, layout = "dendrogram") +
   # root → Level-2 edges: one neutral colour
   geom_edge_diagonal(
     aes(filter = node1.group == "body"),
-    colour = body_edge_col, width = 1.2, alpha = 1
+    colour = body_edge_col, width = .5, alpha = 1
   ) +
   # Level-2 → Level-1 edges: coloured by child's group
   geom_edge_diagonal(
     aes(colour = node2.group, filter = node1.group != "body"),
-    width = 1.2, alpha = 1
+    width = .5, alpha = 1
   ) +
   node_geoms +
   scale_fill_manual(values = group_pal,  guide = "none") +
@@ -197,6 +202,6 @@ p <- ggraph(g, layout = "dendrogram") +
 print(p)
 
 # ── save ──────────────────────────────────────────────────────────────────────
-ggsave("alluvial-plot/anatomy_tree.pdf", p, width = 3, height = 8,
+ggsave("alluvial-plot/anatomy_tree.pdf", p, width = 1.5, height = 5,
         device = cairo_pdf)
 # ggsave("../figures/anatomy_tree.svg", p, width = 14, height = 8)
