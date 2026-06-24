@@ -97,6 +97,9 @@ hist(tip.total.changes_log)
 
 ```{r}
 colMeans(tip.prop.enriched)
+colMeans(tip.prop.enriched) %>% max()
+colMeans(tip.prop.enriched) %>% min()
+
 mean(tip.prop.enriched)
 sd(tip.prop.enriched)
 
@@ -112,6 +115,9 @@ tip.enr.time <- get_tip_enrichment(tree, enr.masked.binary)
 enriched_time_prop <- tip.enr.time/280.0259
 
 colMeans(enriched_time_prop)
+colMeans(enriched_time_prop) %>% max()
+colMeans(enriched_time_prop) %>% min()
+
 mean(enriched_time_prop)
 
 ```
