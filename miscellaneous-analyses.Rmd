@@ -1,0 +1,113 @@
+---
+title: "Miscellaneous analyses"
+date: "`r Sys.Date()`"
+output: 
+  html_document:
+    df_print: paged
+---
+
+```{r setup, include=F}
+
+library(phytools)
+library(stringdist)
+
+knitr::opts_chunk$set(
+  echo = TRUE,       # show code by default
+  warning = FALSE,
+  message = FALSE
+)
+```
+
+# Hamming distances: Apocritan transition
+```{r}
+# Load data.
+load("data_out/paramo_stm_adult_final.RDA")
+
+# Import amalgamated stochastic maps from adult phenome.
+stm <- readRDS("stmaps_amalg/adult_phenome.RDS")
+
+# Check branches from "Apocritan transition".
+plot.phylo(stm$phenome_full[[1]], cex = 0.5)
+edgelabels(frame = "none", col = "blue", cex = 0.5)
+nodelabels(frame = "none", col = "red", cex = 0.5)
+dev.off()
+
+# Vespina branch:  branch 5 (nodes 83-83)
+# Apocrita branch: branch 6 (nodes 83-84)
+
+# Get all phenomic state changes on branches.
+# Vespina (br5)
+br1 <- lapply(stm$phenome, function(x) names(x$maps[[5]]) )
+
+# Apocrita (br6)
+br2 <- lapply(stm$phenome, function(x) names(x$maps[[6]]) )
+
+# Calculate total Hamming distances.
+br1_hm <- sapply(br1, function(x) sum(stringdist(tail(x, -1), head(x, -1))))
+br2_hm <- sapply(br2, function(x) sum(stringdist(tail(x, -1), head(x, -1))))
+
+# Check summaries.
+summary(br1_hm) # Vespina: median = 31, mean = 30.9
+summary(br2_hm) # Apocrita: median = 31, mean = 30.6
+
+# Standard deviations.
+sd(br1_hm) # 3.81
+sd(br2_hm) # 3.42
+
+# Check histograms.
+hist(br1_hm, main = "Vespina", xlab = "", xlim = c(20, 40), border = NA)
+hist(br2_hm, main = "Apocrita", xlab = "", xlim = c(20, 40), border = NA)
+```
+
+# Peak rates from adult phenome
+```{r}
+# Import ontophylo nhpp data from adult phenome.
+nhpp_ad <- readRDS("data_nhpp/adult_phenome_phenome_full.RDS")
+
+# Get rates from edgeplot.
+rates_ad_edg <- nhpp_ad$edgeplot
+rates_ad_edg <- rates_ad_edg[rates_ad_edg$edge.type == "main",]
+
+# Get mean rate.
+rate_ad_mean <- mean(rates_ad_edg$Y)
+rate_ad_mean # 0.31
+
+# Get peak rate.
+rate_ad_peak <- rates_ad_edg[which(rates_ad_edg$Y == max(rates_ad_edg$Y)),]$Y
+rate_ad_peak # 1.44
+
+# Get peak period.
+peak_ad_time <- max(rates_ad_edg$X) - rates_ad_edg[which(rates_ad_edg$Y == max(rates_ad_edg$Y)),]$X
+peak_ad_time <- round(unname(peak_ad_time),2)
+peak_ad_time # ~226 Mya
+
+# Rate magnitudes.
+rate_ad_peak/rate_ad_mean # ~4.7x
+```
+
+# Peak rates from larval characters
+```{r}
+# Import ontophylo nhpp data from larval phenome.
+nhpp_lv <- readRDS("data_nhpp/larval.RDS")
+
+# Get rates from edgeplot.
+rates_lv_edg <- nhpp_lv$edgeplot
+rates_lv_edg <- rates_lv_edg[rates_lv_edg$edge.type == "main",]
+
+# Get mean rate.
+rate_lv_mean <- mean(rates_lv_edg$Y)
+rate_lv_mean # 0.013
+
+# Get peak rate.
+rate_lv_peak <- rates_lv_edg[which(rates_lv_edg$Y == max(rates_lv_edg$Y)),]$Y
+rate_lv_peak # 0.033
+
+# Get peak period.
+peak_lv_time <- max(rates_lv_edg$X) - rates_lv_edg[which(rates_lv_edg$Y == max(rates_lv_edg$Y)),]$X
+peak_lv_time <- round(unname(peak_lv_time),2)
+peak_lv_time # ~247 Mya
+
+# Rate magnitudes.
+rate_lv_peak/rate_lv_mean # ~2.5x
+
+```

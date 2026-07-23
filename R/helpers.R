@@ -548,32 +548,33 @@ make_morphospace <- function(stm, n_samples) {
 
 ### Wrapper function for making edgeplots ###
 make_edgeplot <- function(cont_data, edg_data, tip_lb, ana_name) {
-  
+
   # Workaround for improve plotting of zero-rates.
   if (any(edge_data$Y <= 0)) { edge_data$Y <- replace_zero(edge_data$Y) }
-  
+
   # Get tree height.
   Tmax <- max(nodeHeights(cont_data$tree))
-  
+
   # Set plot layout.
   layout(matrix(c(1,2),ncol = 1), heights = c(2,1))
-  
+
   # Plot contmap.
   plot.contMap(cont_data, lwd = 3, outline = F, legend = F, ftype = "off", plot = F, mar = c(0.1, 3.45, 0.1, 0.35))
-  
+
   # Add tip labels.
   tiplabels(pch = 19, col = tip_lb, cex = 0.6)
-  
+
   # Plot edgeplot.
   plot_edgeprof <-
-    
-    ggplot(data = edge_data, aes(x = X-Tmax, y =  Y, group = edge.id, color = Y)) +
-    
+
+    ggplot(data = edge_data, aes(x = X - Tmax, y = Y, group = edge.id, color = Y)) +
+
     geom_line(alpha = 1, linewidth = 0.5) +
-    
-    scale_color_gradientn(colours = rev(rainbow(5, start = 0, end = 0.7)) ) +
-    
-    theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
+
+    scale_color_gradientn(colours = rev(rainbow(5, start = 0, end = 0.7))) +
+
+    theme(panel.grid.major = element_blank(),
+          panel.grid.minor = element_blank(),
           panel.background = element_rect(fill = "transparent",colour = NA),
           plot.background = element_rect(fill = "transparent",colour = NA),
           axis.line = element_line(colour = "black"),
@@ -581,23 +582,31 @@ make_edgeplot <- function(cont_data, edg_data, tip_lb, ana_name) {
           axis.text.x = element_text(size = 16),
           axis.title.y = element_text(size = 18),
           axis.text.y = element_text(size = 16),
-          plot.margin = unit(c(2.3,0.87,0.1,0.1), 'cm'),
-          legend.position = 'none') +
-    
-    xlab('time') + ylab('rate') +
-    
-    scale_x_continuous(limits = c(-round(Tmax + 5, 0), 0),
-                       breaks = -1*seq(from = 0, to = Tmax, by = Tmax/5) %>% round(0),
-                       labels = seq(from = 0, to = Tmax, by = Tmax/5) %>% round(0) ) +
-    scale_y_continuous(limits = c(0, round(max(nhpp$edgeplot$Y)*1.2, 3))) +
-    coord_cartesian(expand = FALSE)
-  
+          plot.margin = unit(c(2.3,0.87,0.1,0.1), "cm"),
+          legend.position = "none") +
+
+    xlab("time (Mya)") + ylab("rate") +
+
+
+    scale_x_continuous(position = "bottom",
+                       limits = c(-Tmax, 0),
+                       #breaks = seq(-Tmax, 0, by = 20) %>% round(0),
+                       breaks = unique(c(-Tmax, seq(-250, 0, by = 50), 0)) %>% round(0),
+                       #labels = seq(Tmax, 0, by = -20) %>% round(0)
+                       labels = unique(c(-Tmax, seq(250, 0, by = -50), 0)) %>% round(0)) +
+
+    scale_y_continuous(limits = c(0, round(max(nhpp$edgeplot$Y) * 1.2, 3)),
+                       breaks = c(0, max(nhpp$edgeplot$Y)/2, max(nhpp$edgeplot$Y)),
+                       labels = scales::label_number() ) +
+
+    coord_geo(dat = "period", pos = "bottom", height = unit(0.5, "cm"), neg = TRUE, expand = FALSE)
+
   vp <- grid::viewport(height = unit(0.5,"npc"), width = unit(1, "npc"), just = c("left",'top'), y = 0.5, x = 0)
-  
+
   print(plot_edgeprof, vp = vp)
-  
+
   title(main = paste0(ana_name), font.main = 2, line = -0.5, cex.main = 0.8)
-  
+
 }
 
 #--------------------#

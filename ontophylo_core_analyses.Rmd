@@ -1,0 +1,589 @@
+---
+title: "Ontophylo: Core analyses and raw figure exports"
+date: "`r Sys.Date()`"
+output: 
+  html_document:
+    df_print: paged
+---
+
+
+
+```{r setup, include=F}
+
+library(tidyverse)
+library(ontologyIndex)
+library(ontophylo)
+library(phytools)
+library(deeptime)
+source("R/helpers.R")
+
+
+knitr::opts_chunk$set(
+  echo = TRUE,       # show code by default
+  warning = FALSE,
+  message = FALSE
+)
+```
+
+
+-----
+
+## ADULT CHARACTERS 
+
+-----
+
+## Adult characters: Stochastic map amalgamation
+```{r}
+# Load data.
+load("data_out/paramo_stm_adult_final.RDA")
+
+# Import HAO ontology.
+onto <- get_OBO("data/HAO.obo", extract_tags = "everything", propagate_relationships = c("BFO:0000050", "is_a"))
+
+# Create folder to save amalgamated stochastic maps (uncomment if saving stochastic maps to folders).
+suppressWarnings(dir.create("stmaps_amalg"))
+
+# Set some parameters.
+n_samples = 100
+```
+
+```{r}
+## PARAMO: AMALGAMATIONS ##
+
+# Set character annotation info.
+char_info <- hym_annot_final %>% select(char_id, onto_id)
+
+# Create temporary list to store stochastic maps.
+smaps <- setNames(vector(mode = "list", length = length(hym_annot_final$char_id)), hym_annot_final$char_id)
+
+# Import all stochastic maps (can take a lot of memory space!).
+for (i in 1:length(hym_annot_final$char_id)) {
+  
+  # Import stochastic map.
+  stm <- readRDS(paste0("stmaps/", hym_annot_final$char_id[[i]], ".RDS"))
+  
+  # Get a sample of stochastic maps.
+  stm <- stm[seq((length(stm)/n_samples), length(stm), (length(stm)/n_samples))]
+  
+  # Store discretized maps.
+  smaps[[i]] <- discr_Simmap_all(stm, res = res)
+  
+}
+```
+
+```{r}
+# LEVEL 1: ELEMENTARY ANATOMICAL ENTITIES (=ANATOMICAL REGIONS) #
+
+# Get ontology term labels.
+anat_lb <- unique(hym_annot_final$label)
+
+# Organize terms in a particular order (to facilitate discussion).
+anat_lb <- anat_lb[c(1,2,3,4,6,7,9,11,13,15,5,8,12,14,10)]
+
+# Get groups of characters by elementary anatomical entities.
+anat_ent <- lapply(anat_lb, function(x) hym_annot_final$char_id[hym_annot_final$label %in% x] )
+anat_ent <- set_names(anat_ent, anat_lb)
+
+# Check number of characters in each group.
+sapply(anat_ent, length)
+sum(sapply(anat_ent, length))
+
+# Amalgamate characters by elementary anatomical entities.
+stm_amalg_anat <- paramo(rac_query = anat_ent, tree.list = smaps, ntrees = n_samples)
+
+# Save RDS (uncomment if saving stochastic maps to folders).
+saveRDS(stm_amalg_anat, "stmaps_amalg/adult_anat_ent.RDS")
+
+# Clean workspace.
+rm(stm_amalg_anat)
+```
+
+```{r}
+# LEVEL 2: MAJOR BODY PARTS #
+
+# Get groups of characters for legs.
+legs <- RAC_query(char_info, onto, c("fore leg", "mid leg", "hind leg"))
+legs <- list("legs" = sort(unname(do.call(c, legs))))
+
+# Get groups of characters for wings.
+wings <- RAC_query(char_info, onto, c("wing"))
+wings <- setNames(wings, "wings")
+
+# Get groups of characters for major body parts.
+body_reg <- RAC_query(char_info, onto, c("head", "mesosoma", "metasoma"))
+
+# Remove legs and wings from mesosoma (i.e., leave just core-mesosoma).
+body_reg[[2]] <- body_reg[[2]][!body_reg[[2]] %in% legs[[1]]]
+body_reg[[2]] <- body_reg[[2]][!body_reg[[2]] %in% wings[[1]]]
+
+# Organize final list of groups.
+body_reg <- c(body_reg, legs, wings)
+
+# Check number of characters in each group.
+sapply(body_reg, length)
+sum(sapply(body_reg, length))
+
+# Amalgamate characters by major body parts.
+stm_amalg_anat <- paramo(rac_query = body_reg, tree.list = smaps, ntrees = n_samples)
+
+# Save RDS (uncomment if saving stochastic maps to folders).
+saveRDS(stm_amalg_anat, "stmaps_amalg/adult_body_reg.RDS")
+
+# Clean workspace.
+rm(stm_amalg_anat)
+```
+
+```{r}
+# LEVEL 3: ENTIRE ADULT PHENOME #
+
+# Set label for the entire phenome.
+anat_lb <- "phenome_full"
+
+# Get all characters.
+phenome <- list(hym_annot_final$char_id)
+phenome <- set_names(phenome, anat_lb)
+
+# Amalgamate characters from the entire phenome.
+stm_amalg_anat <- paramo(rac_query = phenome, tree.list = smaps, ntrees = n_samples)
+
+# Save RDS (uncomment if saving stochastic maps to folders).
+saveRDS(stm_amalg_anat, "stmaps_amalg/adult_phenome.RDS")
+
+# Clean workspace.
+rm(stm_amalg_anat)
+```
+
+```{r}
+# Clean workspace.
+rm(i, char_info, smaps, anat_lb)
+
+# Save data set.
+save(onto, anat_ent, body_reg, phenome, file = "data_out/paramo_amalg_adult.RDA")
+```
+
+```{r}
+# Get character and state numbers for downstream analyses.
+# Extract all characters.
+anat_ent_char <- anat_ent
+
+# Extract all states.
+st <- lapply(fitted_models_final, function(x) rownames(x$Q_matrix))
+anat_ent_state <- lapply(anat_ent_char, function(x) st[x])
+
+# Count characters and states.
+anat_ent_char_n <- sapply(anat_ent_char, function(x) length(x) )
+anat_ent_state_n <- sapply(anat_ent_state, function(x) sum(sapply(x, function(y) length(y))) )
+
+# Save data.
+save(anat_ent_char, anat_ent_state, anat_ent_char_n, anat_ent_state_n, 
+     file = "data/char_num.RDA")
+```
+
+## Adult characters: Ontophylo - rates estimation
+```{r}
+### MAKE ONTOPHYLO RATE DATA ###
+
+# Load data.
+load("data_out/paramo_amalg_adult.RDA")
+
+# Set some parameters.
+in_dir = "stmaps_amalg"
+out_dir = "data_nhpp"
+
+# Create folders to store data objects.
+suppressWarnings(dir.create(out_dir))
+```
+
+```{r}
+# LEVEL 1: ELEMENTARY ANATOMICAL ENTITIES (=ANATOMICAL REGIONS) #
+
+# Set analysis name.
+ana_tag = "adult_anat_ent"
+
+# Import list of amalgamated stochastic maps.
+stm_amalg_list <- readRDS(paste0(in_dir, "/", ana_tag, ".RDS"))
+
+# Loop over all anatomical partitions.
+for (i in 1:length(stm_amalg_list)) {
+  
+  cat(paste0("\n", "Working on: ", names(stm_amalg_list)[[i]], " ", Sys.time(), "\n"))
+  
+  # Get analysis name.
+  ana_name <- names(stm_amalg_list)[[i]]
+  
+  # Get sub-list of amalgamated stochastic maps.
+  stm_amalg <- stm_amalg_list[[i]]
+  
+  # Get all pnhpp data.
+  nhpp <- pnhpp_rates(stm = stm_amalg, res = res, b_width = "bw.nrd")
+  
+  # Save data objects.
+  saveRDS(nhpp, paste0(out_dir, "/", ana_tag, "_", ana_name, ".RDS"))
+  
+}
+```
+
+```{r}
+# LEVEL 2: MAJOR BODY PARTS #
+
+# Set some parameters.
+ana_tag = "adult_body_reg"
+
+# Create folders to store data objects.
+suppressWarnings(dir.create(out_dir))
+
+# Import list of amalgamated stochastic maps.
+stm_amalg_list <- readRDS(paste0(in_dir, "/", ana_tag, ".RDS"))
+
+# Loop over all anatomical partitions.
+for (i in 1:length(stm_amalg_list)) {
+  
+  cat(paste0("\n", "Working on: ", names(stm_amalg_list)[[i]], " ", Sys.time(), "\n"))
+  
+  # Get analysis name.
+  ana_name <- names(stm_amalg_list)[[i]]
+  
+  # Get sub-list of amalgamated stochastic maps.
+  stm_amalg <- stm_amalg_list[[i]]
+  
+  # Get all pnhpp data.
+  nhpp <- pnhpp_rates(stm = stm_amalg, res = res, b_width = "bw.nrd")
+  
+  # Save data objects.
+  saveRDS(nhpp, paste0(out_dir, "/", ana_tag, "_", ana_name, ".RDS"))
+  
+}
+```
+
+```{r}
+# LEVEL 3: ENTIRE ADULT PHENOME #
+
+# Set some parameters.
+ana_tag = "adult_phenome"
+
+# Import list of amalgamated stochastic maps.
+stm_amalg_list <- readRDS(paste0(in_dir, "/", ana_tag, ".RDS"))
+
+# Loop over all anatomical partitions.
+for (i in 1:length(stm_amalg_list)) {
+  
+  cat(paste0("\n", "Working on: ", names(stm_amalg_list)[[i]], " ", Sys.time(), "\n"))
+  
+  # Get analysis name.
+  ana_name <- names(stm_amalg_list)[[i]]
+  
+  # Get sub-list of amalgamated stochastic maps.
+  stm_amalg <- stm_amalg_list[[i]]
+  
+  # Get all pnhpp data.
+  nhpp <- pnhpp_rates(stm = stm_amalg, res = res, b_width = "bw.nrd")
+  
+  # Save data objects.
+  saveRDS(nhpp, paste0(out_dir, "/", ana_tag, "_", ana_name, ".RDS"))
+  
+}
+```
+
+## Adult characters: Ontophylo - edgeplots and contmaps
+```{r}
+### MAKE PLOTS ###
+
+# Load data.
+load("data_out/paramo_stm_adult_final.RDA")
+load("data_out/paramo_amalg_adult.RDA")
+
+# Create a folder to store figures.
+suppressWarnings(dir.create("figures/evo_rates", recursive = T))
+
+# Set some parameters.
+in_dir = "data_nhpp"
+out_dir = "figures/evo_rates"
+
+# Get tip label colors matching ggplot2.
+gg_cols <- scales::hue_pal()(4)
+
+tip_lb <- rep(gg_cols[[3]], length(hym_tree$tip.label))
+tip_lb[hym_data$Tag == "AcuEva"] <- gg_cols[[1]]
+tip_lb[hym_data$Tag == "Ichneu"] <- gg_cols[[2]]
+tip_lb[hym_data$Tag == "Procto"] <- gg_cols[[4]]
+```
+
+```{r}
+# LEVEL 1: ELEMENTARY ANATOMICAL ENTITIES (=ANATOMICAL REGIONS) #
+
+# Set some parameters.
+ana_tag = "adult_anat_ent"
+
+# Loop over anatomical partitions.
+for (i in 1:length(anat_ent)) {
+  
+  # Get analysis name.
+  ana_name <- names(anat_ent)[[i]]
+  
+  # Import nhpp data.
+  nhpp <- readRDS(paste0(in_dir, "/", ana_tag, "_", ana_name, ".RDS"))
+  
+  # Get data for contmap and edgeplot.
+  cont_data <- nhpp$contmap
+  edge_data <- nhpp$edgeplot
+  
+  # Save edgeplot.
+  png(paste0(out_dir, "/", ana_tag, "_", ana_name, "_edgeplot.png"), 
+      units = "in", width = 7, height = 7, res = 300)
+  #pdf(file = paste0(out_dir, "/", ana_tag, "_", ana_name, "_edgeplot.pdf"), 
+  #    width = 10, height = 10)
+  
+  # Make plot.
+  make_edgeplot(cont_data, edg_data, tip_lb, ana_name)
+  
+  dev.off()
+  
+}
+```
+
+```{r}
+# LEVEL 2: BODY REGIONS #
+
+# Set some parameters.
+ana_tag = "adult_body_reg"
+
+# Loop over anatomical partitions.
+for (i in 1:length(body_reg)) {
+  
+  # Get analysis name.
+  ana_name <- names(body_reg)[[i]]
+  
+  # Import nhpp data.
+  nhpp <- readRDS(paste0(in_dir, "/", ana_tag, "_", ana_name, ".RDS"))
+  
+  # Get data for contmap and edgeplot.
+  cont_data <- nhpp$contmap
+  edge_data <- nhpp$edgeplot
+  
+  # Save edgeplot.
+  png(paste0(out_dir, "/", ana_tag, "_", ana_name, "_edgeplot.png"), 
+      units = "in", width = 7, height = 7, res = 300)
+  #pdf(file = paste0(out_dir, "/", ana_tag, "_", ana_name, "_edgeplot.pdf"), 
+  #    width = 10, height = 10)
+    
+  # Make plot.
+  make_edgeplot(cont_data, edg_data, tip_lb, ana_name)
+  
+  dev.off()
+  
+}
+```
+
+```{r}
+# LEVEL 3: ENTIRE ADULT PHENOME #
+
+# Set some parameters.
+ana_tag = "adult_phenome"
+
+# Loop over anatomical partitions.
+for (i in 1:length(phenome)) {
+  
+  # Get analysis name.
+  ana_name <- names(phenome)[[i]]
+  
+  # Import nhpp data.
+  nhpp <- readRDS(paste0(in_dir, "/", ana_tag, "_", ana_name, ".RDS"))
+  
+  # Get data for contmap and edgeplot.
+  cont_data <- nhpp$contmap
+  edge_data <- nhpp$edgeplot
+  
+  # Save edgeplot.
+  png(paste0(out_dir, "/", ana_tag, "_", ana_name, "_edgeplot.png"), 
+      units = "in", width = 7, height = 7, res = 300)
+  #pdf(file = paste0(out_dir, "/", ana_tag, "_", ana_name, "_edgeplot.pdf"), 
+  #    width = 10, height = 10)
+  
+  # Make plot.
+  make_edgeplot(cont_data, edg_data, tip_lb, ana_name)
+  
+  dev.off()
+  
+}
+```
+
+
+## Adult characters: Ontophylo - morphospaces
+```{r}
+# Load data.
+load("data_out/paramo_stm_adult_final.RDA")
+
+# Set some parameters.
+in_dir = "stmaps_amalg"
+out_dir = "data_mds"
+ana_tag = "adult_phenome"
+n_samples = 10
+
+ana_type = "groups" 
+tip_tags = hym_data$Tag
+add_noise = T
+noise = c(0.3, 0.3)
+
+# Create folder to store data objects.
+suppressWarnings(dir.create(out_dir))
+
+# Create folder to store figures.
+suppressWarnings(dir.create("figures/morphospaces", recursive = T))
+
+# Import list of amalgamated stochastic maps.
+stm_amalg_list <- readRDS(paste0(in_dir, "/", ana_tag, ".RDS"))
+```
+
+```{r}
+# FULL PHENOME #
+
+# Set some parameters.
+ana_name = "phenome_full"
+
+# Get sub-list of amalgamated stochastic maps.
+stm_amalg <- stm_amalg_list[[ana_name]]
+
+# Make morphospace data for the full adult phenome.
+#MDS_list <- make_morphospace(stm = stm_amalg, n_samples)
+
+# Save MDS data objects.
+#saveRDS(MDS_list, paste0(out_dir, "/", ana_name, "_MDS.RDS"))
+
+# Import data.
+MDS_list <- readRDS(paste0(out_dir, "/", ana_name, "_MDS.RDS"))
+
+# Get a sample.
+MDS <- MDS_list[[5]]
+
+# Make a plot.
+MDS_plot <- make_morphospace_plot(MDS, ana_type, tip_tags, add_noise = T, noise)
+MDS_plot
+
+# Save a png of the morphospace.
+cowplot::ggsave2(paste0("figures/morphospaces", "/", ana_name, "_mds.png"), 
+                 units = "in", width = 7, height = 7, bg = "white")
+#ggsave(paste0("figures/morphospaces", "/", ana_name, "_mds.pdf"), 
+#                 width = 10, height = 10)
+```
+
+-----
+
+## LARVAL CHARACTERS 
+
+-----
+
+## Larval characters: Stochastic map amalgamation: 
+```{r}
+## PARAMO AMALGAMATIONS ##
+
+# Load data.
+load("data_out/paramo_stm_larval_final.RDA")
+
+# Create folder to save amalgamated stochastic maps (uncomment if saving stochastic maps to folders).
+suppressWarnings(dir.create("stmaps_amalg"))
+
+# Set some parameters.
+in_dir = "stmaps_amalg"
+out_dir = "data_nhpp"
+n_samples = 100
+
+# Get character names.
+char_names <- colnames(hym_larval_final)[-1]
+
+# Create temporary list to store stochastic maps.
+smaps <- setNames(vector(mode = "list", length = length(char_names)), char_names)
+
+# Import all stochastic maps.
+for (i in 1:length(char_names)) {
+  
+  # Import stochastic map.
+  stm <- readRDS(paste0("stmaps/larval/", char_names[[i]], ".RDS"))
+  
+  # Get a sample of stochastic maps.
+  stm <- stm[seq((length(stm)/n_samples), length(stm), (length(stm)/n_samples))]
+  
+  # Store discretized maps.
+  smaps[[i]] <- discr_Simmap_all(stm, res = res)
+  
+}
+
+# Amalgamate larval characters.
+stm_amalg_larval <- paramo.list(char_names, tree.list = smaps, ntrees = n_samples)
+
+# Organize larval data as a list.
+stm_amalg_larval <- setNames(list(do.call(c, stm_amalg_larval)), "larval")
+
+# Save RDS (uncomment if saving stochastic maps to folders).
+saveRDS(stm_amalg_larval, "stmaps_amalg/larval.RDS")
+
+# Clean workspace.
+rm(stm_amalg_larval)
+```
+
+## Larval characters: Ontophylo - rates estimation
+```{r}
+# LARVAL CHARACTERS #
+
+# Set some parameters.
+ana_tag = "larval"
+
+# Import list of amalgamated stochastic maps.
+stm_amalg_list <- readRDS(paste0(in_dir, "/", ana_tag, ".RDS"))
+
+# Get sub-list of amalgamated stochastic maps.
+stm_amalg <- stm_amalg_list[[1]]
+
+# Get all pnhpp data.
+nhpp <- pnhpp_rates(stm = stm_amalg, res = res, b_width = "bw.nrd")
+
+# Save data objects.
+saveRDS(nhpp, paste0(out_dir, "/", ana_tag, ".RDS"))
+```
+
+## Larval characters: Ontophylo - edgeplots and contmaps
+```{r}
+### MAKE PLOTS ###
+
+# Load data.
+load("data_out/paramo_stm_larval_final.RDA")
+
+# Create a folder to store figures.
+suppressWarnings(dir.create("figures/evo_rates", recursive = T))
+
+# Set some parameters.
+in_dir = "data_nhpp"
+out_dir = "figures/evo_rates"
+
+# Get tip label colors matching ggplot2.
+gg_cols <- scales::hue_pal()(4)
+
+tip_lb <- rep(gg_cols[[3]], length(hym_tree$tip.label))
+tip_lb[hym_data$Tag == "AcuEva"] <- gg_cols[[1]]
+tip_lb[hym_data$Tag == "Ichneu"] <- gg_cols[[2]]
+tip_lb[hym_data$Tag == "Procto"] <- gg_cols[[4]]
+```
+
+```{r}
+# LARVAL CHARACTERS #
+
+# Set some parameters.
+ana_tag = "larval"
+
+# Import nhpp data.
+nhpp <- readRDS(paste0(in_dir, "/", ana_tag, ".RDS"))
+
+# Get data for contmap and edgeplot.
+cont_data <- nhpp$contmap
+edge_data <- nhpp$edgeplot
+
+# Save edgeplot.
+png(paste0(out_dir, "/", ana_tag, "_edgeplot.png"), 
+    units = "in", width = 7, height = 7, res = 300)
+#pdf(file = paste0(out_dir, "/", ana_tag, "_edgeplot.pdf"), 
+#    width = 10, height = 10)
+
+# Make plot.
+make_edgeplot(cont_data, edg_data, tip_lb, ana_tag)
+
+dev.off()
+```

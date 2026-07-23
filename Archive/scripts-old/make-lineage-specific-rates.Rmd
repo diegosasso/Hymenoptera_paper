@@ -1,0 +1,211 @@
+---
+title: "Lineage Specific rates"
+date: "`r Sys.Date()`"
+output: 
+  html_document:
+    df_print: paged
+---
+
+
+
+
+```{r setup, include=F}
+
+library(ape)
+library(phytools)
+library(ontophylo)
+library(dplyr)
+library(parallel)
+library(viridis)
+library(ggplot2)
+library(abind)
+library(dplyr)
+library(purrr)
+library(tidyr)
+source("R/utils-ST.R")
+source('R/region_class.R')
+
+
+knitr::opts_chunk$set(
+  echo = TRUE,       # show code by default
+  warning = FALSE,
+  message = FALSE
+)
+```
+
+
+
+## Read data
+
+```{r}
+
+# read replicates
+tree <-readRDS("data/hym_tree.RDS")
+rates.multi <- readRDS("data_out/br_rates_all.RDS")
+
+class(rates.multi)
+length(rates.multi)
+dim(rates.multi$cranium)
+
+# read mean rates
+rates <-readRDS("data_out/br_rates_all_ind.RDS")
+rates <- do.call(cbind,rates)
+# drop larva
+rates <- rates[,-16]
+class(rates)
+dim(rates)
+```
+
+## Reshape as list of 1000 tables 152 x 15
+
+```{r}
+# names of body regions
+regions <- names(rates.multi)
+n_reps  <- ncol(rates.multi[[1]])   # 1000
+n_branches <- nrow(rates.multi[[1]]) # 152
+
+# build new list: one element per replicate
+replicate_list <- lapply(1:n_reps, function(j) {
+  # extract column j from each body region and bind
+  mat <- sapply(rates.multi, function(region_mat) region_mat[, j])
+  # ensure it's a matrix with rows = branches, cols = body regions
+  mat <- matrix(mat, nrow = n_branches, ncol = length(regions))
+  colnames(mat) <- regions
+  mat
+})
+
+# drop larva
+replicate_list <- lapply(replicate_list, function(x) x[, -16, drop = FALSE])
+
+# check dims
+length(replicate_list)   # 1000
+dim(replicate_list[[1]]) # 152 x 15
+
+# check if rates.multi==rates
+col_means <- Reduce("+", replicate_list) / length(replicate_list)
+diff <- col_means-rates
+max(abs(diff))
+```
+
+## Get overal rate
+
+```{r}
+rate_tot <- lapply(replicate_list, function(x) apply(x,1,sum))
+rate_tot[[1]]
+length(rate_tot)
+```
+
+
+
+## Plot tree
+```{r}
+plot.phylo(tree, show.tip.label = F)
+edgelabels()
+```
+## Get descendants for focal clades
+
+```{r}
+
+des_all <- c(1:152)
+des_apo <- get_descendant_edges(tree, 6, include = T)
+des_sym <- des_all[-des_apo]
+des_ich <- get_descendant_edges(tree, 110, include = T)
+des_eva <- get_descendant_edges(tree, 75, include = T)
+des_procto <- get_descendant_edges(tree, 8, include = T)
+```
+
+## Plot focal clades
+
+```{r}
+
+col <- rep(1,152)
+col[des_all] <- 2
+plot(tree, edge.color = col, show.tip.label = F)
+title("all")
+
+col <- rep(1,152)
+col[des_apo] <- 2
+plot(tree, edge.color = col, show.tip.label = F)
+title("apo")
+
+col <- rep(1,152)
+col[des_sym] <- 2
+plot(tree, edge.color = col, show.tip.label = F)
+title("sym")
+
+col <- rep(1,152)
+col[des_ich] <- 2
+plot(tree, edge.color = col, show.tip.label = F)
+title("ich")
+
+col <- rep(1,152)
+col[des_eva] <- 2
+plot(tree, edge.color = col, show.tip.label = F)
+title("eva")
+
+col <- rep(1,152)
+col[des_procto] <- 2
+plot(tree, edge.color = col, show.tip.label = F)
+title("procto")
+```
+
+## Get rates
+
+```{r}
+## 1. Collect your vectors
+r_sym    <- lapply(rate_tot, function(x) x[des_sym])    %>% unlist() %>% log()
+r_apo    <- lapply(rate_tot, function(x) x[des_apo])    %>% unlist() %>% log()
+r_ich    <- lapply(rate_tot, function(x) x[des_ich])    %>% unlist() %>% log()
+r_eva    <- lapply(rate_tot, function(x) x[des_eva])    %>% unlist() %>% log()
+r_procto <- lapply(rate_tot, function(x) x[des_procto]) %>% unlist() %>% log()
+```
+
+
+## Plot
+
+```{r}
+
+
+## (optional but often sensible for rates)
+## r_sym <- log(r_sym); r_apo <- log(r_apo); etc.
+
+## 2. Set common x-range for all densities
+all_vals <- c(r_sym, r_apo, r_ich, r_eva, r_procto)
+x_min <- min(all_vals, na.rm = TRUE)
+x_max <- max(all_vals, na.rm = TRUE)
+
+## 3. Compute kernel densities with shared range
+dens_sym    <- density(r_sym,    na.rm = TRUE, adjust = 4)
+dens_apo    <- density(r_apo,    na.rm = TRUE, adjust = 4)
+dens_ich    <- density(r_ich,    na.rm = TRUE, adjust = 4)
+dens_eva    <- density(r_eva,    na.rm = TRUE, adjust = 4)
+dens_procto <- density(r_procto, na.rm = TRUE, adjust = 4)
+
+## 4. Choose some colors
+col_sym    <- "#1b9e77"
+col_apo    <- "#d95f02"
+col_ich    <- "#7570b3"
+col_eva    <- "#e7298a"
+col_procto <- "#66a61e"
+
+## 5. Plot all densities together
+plot(dens_sym,
+     type = "l",
+     col  = col_sym,
+     lwd  = 2,
+     xlab = "Evolutionary rate",
+     ylab = "Density",
+     main = "Kernel density of rates by clade")
+
+lines(dens_apo,    col = col_apo,    lwd = 2)
+lines(dens_ich,    col = col_ich,    lwd = 2)
+lines(dens_eva,    col = col_eva,    lwd = 2)
+lines(dens_procto, col = col_procto, lwd = 2)
+
+legend("topright",
+       legend = c("Symphyta", "Apocrita", "Ichneumonoidea", "Evanioidea", "Proctotrupomorpha"),
+       col    = c(col_sym, col_apo, col_ich, col_eva, col_procto),
+       lwd    = 2,
+       bty    = "n")
+```
+
