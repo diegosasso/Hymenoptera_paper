@@ -154,7 +154,8 @@ hist(upper_adult)
 cor_pw$p_bonf[16,]
 ```
 
-
+# Create folder to store images.
+dir.create("figures/cor/", recursive = TRUE)
 
 ### Plot heatmap with cor values
 
@@ -280,4 +281,5 @@ cat("p-value =", signif(res_perm$p_value, 3), "\n")
 cat("Within mean =", round(res_perm$mean_within, 3),
     "Between mean =", round(res_perm$mean_between, 3), "\n")
 ```
-
+# Save permutation results.
+saveRDS(res_perm, "data_out/rates-perm.RDS")
