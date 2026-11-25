@@ -23,6 +23,8 @@ library(readr)
 library(tidyr)
 library(stringr)
 library(deeptime)
+library(nlme)
+library(ggpubr)
 source("R/utils-ST.R")
 source('R/region_class.R')
 
@@ -161,7 +163,7 @@ cor.test(neff_r, py_div, method = 'pearson')
 ### Plot publication
 
 ```{r}
-library("ggpubr")
+
 
 df_neff_py <- tibble(
     neff_r = neff_r, 
@@ -240,6 +242,26 @@ cor.test(neff_res, py_res, method = "pearson")
 
 ```
 
+### Adjacent-bin changes
+
+
+
+```{r}
+
+# Changes between adjacent bins (13 bins give 12 changes).
+neff_change <- diff(neff_r)
+pyrate_change <- diff(py_div)
+
+plot(neff_change, pyrate_change)
+model <- lm(pyrate_change ~ neff_change) 
+abline(model, col = "red", lwd = 2)
+
+cor.test(neff_change, pyrate_change, method = 'pearson')
+
+```
+
+
+
 ## BAMM vs. Neff 
 
 ```{r}
@@ -263,6 +285,23 @@ bamm_res <- resid(m2)
 cor.test(neff_res, bamm_res, method = "pearson")
 
 ```
+
+### Adjacent-bin changes
+
+```{r}
+
+# Changes between adjacent bins (13 bins give 12 changes).
+neff_change <- diff(neff_r)
+bamm_change <- diff(bamm_r)
+
+plot(neff_change, bamm_change)
+model <- lm(bamm_change ~ neff_change) 
+abline(model, col = "red", lwd = 2)
+
+cor.test(neff_change, bamm_change, method = 'pearson')
+```
+
+
 
 
 ## Pyrate vs. Rate Adult

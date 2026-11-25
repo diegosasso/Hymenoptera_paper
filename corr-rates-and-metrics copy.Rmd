@@ -1,0 +1,446 @@
+---
+title: "Correlation between pyrate rates and other metrics"
+date: "`r Sys.Date()`"
+output: 
+  html_document:
+    df_print: paged
+---
+
+
+
+```{r setup, include=F}
+library(ape)
+library(phytools)
+library(ontophylo)
+library(dplyr)
+library(parallel)
+library(viridis)
+library(ggplot2)
+library(abind)
+library(dplyr)
+library(purrr)
+library(readr)
+library(tidyr)
+library(stringr)
+library(deeptime)
+source("R/utils-ST.R")
+source('R/region_class.R')
+
+
+knitr::opts_chunk$set(
+  echo = TRUE,       # show code by default
+  warning = FALSE,
+  message = FALSE
+)
+```
+
+
+
+
+## Read data
+
+```{r}
+
+# Neff
+neff_repl <- readRDS('data_out/neff-per-replicate.RDS')
+head(neff_repl)
+
+# Pyrate div
+div_sum <- readRDS('data_out/pyrate-dive.RDS')
+head(div_sum)
+
+# Rate thru time adult
+rates_thru_time <- readRDS('data_out/rates-thru-time.RDS')
+head(rates_thru_time)
+
+# BAMMM
+bamm <- readRDS('data/bamm.rds')
+head(bamm)
+
+# Pc
+Pc <- readRDS('data_out/pc-per-replicate.RDS')
+```
+
+
+### Make average Neff
+
+```{r}
+# bin edges
+bins <- c(265, seq(260, 0, by = -20) )  
+length(bins)
+
+# cut times into bins (right=FALSE so [lower,upper) )
+neff_repl$bin <- cut(neff_repl$time, breaks=bins, right=FALSE)
+
+# average per bin
+avg_neff <- aggregate(mean_entropy ~ bin, data=neff_repl, FUN=mean)
+avg_neff
+plot(avg_neff)
+
+avg_mean_f_plus <- aggregate(mean_f_plus ~ bin, data=neff_repl, FUN=mean)
+avg_mean_f_plus
+plot(avg_mean_f_plus)
+
+avg_mean_log_f_plus <- aggregate(mean_log_f_plus ~ bin, data=neff_repl, FUN=mean)
+avg_mean_H_plus <- aggregate(mean_H_plus ~ bin, data=neff_repl, FUN=mean)
+
+```
+
+### Make average Rate Adult
+
+```{r}
+# bin edges
+bins <- c(265, seq(260, 0, by = -20) )  
+length(bins)
+
+rates_thru_time$bin <- cut(rates_thru_time$time, breaks=bins, right=FALSE)
+
+# average per bin
+avg_rate <- aggregate(mean ~ bin, data=rates_thru_time, FUN=mean)
+avg_rate
+plot(avg_rate)
+```
+### Make average BAMM
+
+```{r}
+# bin edges
+bins <- c(265, seq(260, 0, by = -20) )  
+length(bins)
+
+bamm$bin <- cut(bamm$time, breaks=bins, right=FALSE)
+
+# average per bin
+avg_bamm <- aggregate(rate ~ bin, data=bamm, FUN=mean)
+avg_bamm
+plot(avg_bamm)
+```
+
+
+### Make average Pc
+
+```{r}
+# bin edges
+bins <- c(265, seq(260, 0, by = -20) )  
+length(bins)
+
+Pc$bin <- cut(Pc$time, breaks=bins, right=FALSE)
+
+# average per bin
+avg_Pc <- aggregate(mean_s ~ bin, data=Pc, FUN=mean)
+avg_Pc
+plot(avg_Pc)
+```
+
+
+
+### Make final
+
+```{r}
+# get metrics and remove last bin
+py_div <- div_sum$mean[-1]
+neff_r <- rev(avg_neff[,2])[-1]
+rate_r <- rev(avg_rate[,2])[-1]
+bamm_r <- rev(avg_bamm[,2])[-1]
+pc_r <- rev(avg_Pc[,2])[-1]
+ti <- rev(1:14)[-1]
+```
+
+
+## Pyrate vs. Neff
+
+```{r}
+
+plot(neff_r, py_div)     
+model <- lm(py_div ~ neff_r)       
+abline(model, col = "red", lwd = 2) 
+
+cor.test(neff_r, py_div, method = 'pearson')
+
+```
+
+### Plot publication
+
+```{r}
+library("ggpubr")
+
+df_neff_py <- tibble(
+    neff_r = neff_r, 
+    py_div = py_div
+)
+
+
+
+p <- ggscatter(
+  df_neff_py,
+  x = "neff_r",
+  y = "py_div",
+  add = "reg.line",
+  conf.int = TRUE,
+
+  add.params = list(
+    color = "steelblue4",
+    fill = "lightsteelblue",
+    linewidth = 1.2
+  ),
+
+  xlab = "",
+  ylab = "net diversification rate (PyRate)"
+
+) +
+  labs(x = expression(N[eff]^"+")) +
+  stat_cor(
+    method = "pearson")
+
+p
+ggsave(
+  "figures/metrics_thru_time/pyrate_vs_neff.pdf",
+  plot = p,
+  width = 3.5,
+  height = 3.2
+
+)
+```
+
+
+### Plot
+
+```{r}
+plot(neff_r, type = 'l', ylim=c(-0.03, 1.7))
+lines(py_div*10, col='red')
+```
+
+
+
+### Plot steps
+
+```{r}
+
+edges <- c(260, 240, 220, 200, 180, 160, 140, 120, 100, 80, 60, 40, 20, 0)
+
+py_div_step <- make_steps(py_div, edges)
+neff_step <- make_steps(neff_r, edges)
+
+plot(neff_step$x_step, neff_step$y_step, type = "l", xlim = c(265, 0), ylim=c(-0.07, 1.7))
+
+lines(py_div_step$x_step, py_div_step$y_step*17+0.5, xlim = c(265, 0), col='red')
+
+```
+
+### Residuals
+
+```{r}
+
+m1 <- lm(neff_r ~ ti)
+m2 <- lm(py_div ~ ti)
+
+neff_res <- resid(m1)
+py_res <- resid(m2)
+
+cor.test(neff_res, py_res, method = "pearson")
+
+```
+
+## BAMM vs. Neff 
+
+```{r}
+
+plot(neff_r, bamm_r)     
+model <- lm(bamm_r ~ neff_r)       
+abline(model, col = "red", lwd = 2) 
+
+cor.test(neff_r, bamm_r, method = 'pearson')
+```
+### Residuals
+
+```{r}
+
+m1 <- lm(neff_r ~ ti)
+m2 <- lm(bamm_r ~ ti)
+
+neff_res <- resid(m1)
+bamm_res <- resid(m2)
+
+cor.test(neff_res, bamm_res, method = "pearson")
+
+```
+
+
+## Pyrate vs. Rate Adult
+
+```{r}
+
+plot(rate_r, py_div)     
+model <- lm(py_div ~ rate_r)       
+abline(model, col = "red", lwd = 2) 
+
+cor.test(rate_r, py_div, method = 'pearson')
+```
+
+
+
+## Pc vs. Rate Adult
+
+```{r}
+
+plot(rate_r, pc_r)     
+model <- lm(pc_r ~ rate_r)       
+abline(model, col = "red", lwd = 2) 
+
+cor.test(rate_r, pc_r, method = 'pearson')
+```
+### Residuals
+
+```{r}
+
+m1 <- lm(rate_r ~ ti)
+m2 <- lm(pc_r ~ ti)
+
+rate_res <- resid(m1)
+pc_res <- resid(m2)
+
+cor.test(rate_res, pc_res, method = "pearson")
+
+```
+
+## -------
+
+
+## Neff Sensitivity
+
+### Read data
+
+```{r}
+
+# Neff 97.5%
+neff_975 <- readRDS(file='data_out/neff-97-5.RDS')
+
+# Neff 92.5%
+neff_925 <- readRDS(file='data_out/neff-92-5.RDS')
+```
+
+
+### Make average Neff 97.5%
+
+```{r}
+
+# bin edges
+bins <- c(265, seq(260, 0, by = -20) )  
+length(bins)
+
+# cut times into bins (right=FALSE so [lower,upper) )
+neff_975$bin <- cut(neff_975$time, breaks=bins, right=FALSE)
+
+# average per bin
+avg_neff_975 <- aggregate(mean_entropy ~ bin, data=neff_975, FUN=mean)
+
+avg_neff_975
+plot(avg_neff_975)
+
+```
+
+### Make average Neff 92.5%
+
+```{r}
+
+# bin edges
+bins <- c(265, seq(260, 0, by = -20) )  
+length(bins)
+
+# cut times into bins (right=FALSE so [lower,upper) )
+neff_925$bin <- cut(neff_925$time, breaks=bins, right=FALSE)
+
+# average per bin
+avg_neff_925 <- aggregate(mean_entropy ~ bin, data=neff_925, FUN=mean)
+
+avg_neff_925
+plot(avg_neff_925)
+
+```
+
+
+### Make final
+
+```{r}
+# get metrics and remove last bin
+neff_r_975 <- rev(avg_neff_975[,2])[-1]
+neff_r_925 <- rev(avg_neff_925[,2])[-1]
+```
+
+### Pyrate vs. Neff 97.5%
+
+
+```{r}
+
+plot(neff_r_975, py_div)     
+model <- lm(py_div ~ neff_r_975)       
+abline(model, col = "red", lwd = 2) 
+
+cor.test(neff_r_975, py_div, method = 'pearson')
+
+```
+### Pyrate vs. Neff 92.5%
+
+
+```{r}
+
+plot(neff_r_925, py_div)     
+model <- lm(py_div ~ neff_r_925)       
+abline(model, col = "red", lwd = 2) 
+
+cor.test(neff_r_925, py_div, method = 'pearson')
+
+```
+
+## -------
+
+
+## Tesing effect of Neff and its components
+
+### Make Neff components
+
+```{r}
+log_f_plus_r <- rev(avg_mean_log_f_plus[,2])[-1]
+H_plus_r <- rev(avg_mean_H_plus[,2])[-1]
+```
+
+
+### Relative imporance: Neff components
+
+#### Linear regression, contributions
+
+```{r}
+
+df <- data.frame(
+  py_div = py_div,
+  neff_r = neff_r,
+  log_f_plus_r = log_f_plus_r,
+  H_plus_r = H_plus_r
+  
+)
+
+m1 <- lm(py_div ~ log_f_plus_r * H_plus_r, data = df)
+summary(m1)
+
+
+m2 <- lm(py_div ~ log_f_plus_r + H_plus_r, data = df)
+summary(m2)
+
+AIC(m1)
+AIC(m2)
+```
+
+
+#### Relative importance analysis
+
+```{r}
+library(relaimpo)
+calc.relimp(m1, type = "lmg")
+```
+
+#### Absolute importance
+
+```{r}
+rel <- calc.relimp(m1, type = "lmg")$lmg
+rel / sum(rel)
+```
+
