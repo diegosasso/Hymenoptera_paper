@@ -1,0 +1,43 @@
+R version 4.6.1 (2026-06-24)
+Platform: x86_64-pc-linux-gnu
+Running under: Rocky Linux 9.8 (Blue Onyx)
+
+Matrix products: default
+BLAS/LAPACK: /opt/intel/oneapi/mkl/2026.1/lib/libmkl_gf_lp64.so.3;  LAPACK version 3.12.1
+
+locale:
+ [1] LC_CTYPE=en_US.UTF-8       LC_NUMERIC=C              
+ [3] LC_TIME=en_US.UTF-8        LC_COLLATE=en_US.UTF-8    
+ [5] LC_MONETARY=en_US.UTF-8    LC_MESSAGES=en_US.UTF-8   
+ [7] LC_PAPER=en_US.UTF-8       LC_NAME=C                 
+ [9] LC_ADDRESS=C               LC_TELEPHONE=C            
+[11] LC_MEASUREMENT=en_US.UTF-8 LC_IDENTIFICATION=C       
+
+time zone: Europe/Helsinki
+tzcode source: system (glibc)
+
+attached base packages:
+[1] stats     graphics  grDevices utils     datasets  methods   base     
+
+other attached packages:
+[1] ontophylo_0.3.0 ape_5.8-1      
+
+loaded via a namespace (and not attached):
+ [1] Matrix_1.7-5            gtable_0.3.6            expm_1.0-0             
+ [4] dplyr_1.2.1             compiler_4.6.1          phytools_2.5-2         
+ [7] maps_3.4.3              tidyselect_1.2.1        Rcpp_1.1.2             
+[10] parallel_4.6.1          dichromat_2.0-1         tidyr_1.3.2            
+[13] scales_1.4.0            optimParallel_1.0-2     lattice_0.22-9         
+[16] coda_0.19-4.1           ggplot2_4.0.3           R6_2.6.1               
+[19] generics_0.1.4          igraph_2.3.3            DEoptim_2.2-8          
+[22] iterators_1.0.14        MASS_7.3-65             ontologyIndex_2.12     
+[25] tibble_3.3.1            pillar_1.11.1           RColorBrewer_1.1-3     
+[28] rlang_1.3.0             fastmatch_1.1-8         quadprog_1.5-8         
+[31] S7_0.2.2                doParallel_1.0.17       cli_3.6.6              
+[34] phangorn_2.12.1         magrittr_2.0.5          stringdist_0.9.17      
+[37] combinat_0.0-8          digest_0.6.39           foreach_1.5.2          
+[40] grid_4.6.1              lifecycle_1.0.5         nlme_3.1-169           
+[43] clusterGeneration_1.3.8 vctrs_0.7.3             scatterplot3d_0.3-45   
+[46] mnormt_2.1.2            glue_1.8.1              numDeriv_2016.8-1.1    
+[49] farver_2.1.2            codetools_0.2-20        purrr_1.2.2            
+[52] tools_4.6.1             pkgconfig_2.0.3        

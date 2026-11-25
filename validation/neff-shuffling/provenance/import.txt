@@ -1,0 +1,4 @@
+Imported the complete, previously calculated unrestricted null on 2026-11-23.
+All 9,999 shuffles retained; no trials selected, replaced or regenerated.
+No length-constrained results are included in this publication package.
+Original empirical input checksums verified before importing.

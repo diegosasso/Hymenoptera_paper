@@ -1,0 +1,25 @@
+HTTP/1.1 206 PARTIAL_CONTENT
+server: nginx
+date: Fri, 20 Nov 2026 16:54:42 GMT
+content-type: application/octet-stream
+content-length: 65536
+content-disposition: attachment; filename="S2. Raw image dataset of insect forewings.zip"
+content-range: bytes 564757198-564822733/564822734
+accept-ranges: bytes
+content-type: application/octet-stream
+content-security-policy: default-src 'self' fonts.googleapis.com *.gstatic.com data: 'unsafe-inline' 'unsafe-eval' blob: zenodo-broker.web.cern.ch zenodo-broker-qa.web.cern.ch maxcdn.bootstrapcdn.com cdnjs.cloudflare.com ajax.googleapis.com webanalytics.web.cern.ch
+x-content-type-options: nosniff
+x-download-options: noopen
+x-permitted-cross-domain-policies: none
+x-frame-options: sameorigin
+x-xss-protection: 1; mode=block
+x-ratelimit-limit: 133
+x-ratelimit-remaining: 131
+x-ratelimit-reset: 1795193731
+retry-after: 48
+strict-transport-security: max-age=31556926; includeSubDomains
+referrer-policy: strict-origin-when-cross-origin
+access-control-allow-origin: *
+access-control-expose-headers: Content-Type, ETag, Link, X-RateLimit-Limit, X-RateLimit-Remaining, X-RateLimit-Reset
+x-source: files-primary
+

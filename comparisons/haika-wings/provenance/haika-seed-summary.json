@@ -1,0 +1,37 @@
+[
+  {
+    "seed": "3407",
+    "rows": 405,
+    "unique_vectors": 404,
+    "constant_features": 33,
+    "same_taxon_labels_as_case2": false
+  },
+  {
+    "seed": "46567",
+    "rows": 405,
+    "unique_vectors": 405,
+    "constant_features": 23,
+    "same_taxon_labels_as_case2": false
+  },
+  {
+    "seed": "91507",
+    "rows": 405,
+    "unique_vectors": 403,
+    "constant_features": 36,
+    "same_taxon_labels_as_case2": false
+  },
+  {
+    "seed": "92779",
+    "rows": 405,
+    "unique_vectors": 404,
+    "constant_features": 28,
+    "same_taxon_labels_as_case2": false
+  },
+  {
+    "seed": "97081",
+    "rows": 405,
+    "unique_vectors": 404,
+    "constant_features": 39,
+    "same_taxon_labels_as_case2": false
+  }
+]

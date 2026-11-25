@@ -1,0 +1,6 @@
+Verified 100 trials and 1996600 maps.
+All variable-character fits and maps succeeded.
+Independent Neff checks: 150000 values.
+P-value counts independently reproduced from per-trial CSVs.
+Frozen inference code, seed manifest and 91 package files unchanged.
+Literal-number LaTeX snippets, compiled document and required figures present.

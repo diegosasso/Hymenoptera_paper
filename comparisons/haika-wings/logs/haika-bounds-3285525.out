@@ -1,0 +1,172 @@
+Refit 1 of 18: seed3407_full77 PC1 lower offset 5 lambda 1 seed 200002 
+Refit 2 of 18: seed3407_full77 PC2 lower offset 5 lambda 1 seed 200005 
+Refit 3 of 18: seed3407_full77 PC3 lower offset 5 lambda 1 seed 200008 
+Refit 4 of 18: seed3407_full77 PC1 lower offset 15 lambda 1 seed 200002 
+Refit 5 of 18: seed3407_full77 PC2 lower offset 15 lambda 1 seed 200005 
+Refit 6 of 18: seed3407_full77 PC3 lower offset 15 lambda 1 seed 200008 
+Refit 7 of 18: seed3407_full77 PC1 lower offset 10 lambda 280.0259 seed 200002 
+Refit 8 of 18: seed3407_full77 PC2 lower offset 10 lambda 280.0259 seed 200005 
+Refit 9 of 18: seed3407_full77 PC3 lower offset 10 lambda 280.0259 seed 200008 
+Refit 10 of 18: seed3407_family48_first PC1 lower offset 5 lambda 1 seed 200011 
+Refit 11 of 18: seed3407_family48_first PC2 lower offset 5 lambda 1 seed 200014 
+Refit 12 of 18: seed3407_family48_first PC3 lower offset 5 lambda 1 seed 200017 
+Refit 13 of 18: seed3407_family48_first PC1 lower offset 15 lambda 1 seed 200011 
+Refit 14 of 18: seed3407_family48_first PC2 lower offset 15 lambda 1 seed 200014 
+Refit 15 of 18: seed3407_family48_first PC3 lower offset 15 lambda 1 seed 200017 
+Refit 16 of 18: seed3407_family48_first PC1 lower offset 10 lambda 280.0259 seed 200011 
+Refit 17 of 18: seed3407_family48_first PC2 lower offset 10 lambda 280.0259 seed 200014 
+Refit 18 of 18: seed3407_family48_first PC3 lower offset 10 lambda 280.0259 seed 200017 
+                  dataset         subset matching_level           axis
+1         seed3407_full77         full77   family_proxy TOTAL_VARIANCE
+2         seed3407_full77         full77   family_proxy TOTAL_VARIANCE
+3         seed3407_full77         full77   family_proxy TOTAL_VARIANCE
+4         seed3407_full77         full77   family_proxy TOTAL_VARIANCE
+5 seed3407_family48_first family48_first   family_proxy TOTAL_VARIANCE
+6 seed3407_family48_first family48_first   family_proxy TOTAL_VARIANCE
+7 seed3407_family48_first family48_first   family_proxy TOTAL_VARIANCE
+8 seed3407_family48_first family48_first   family_proxy TOTAL_VARIANCE
+                   scenario   lambda lower_bound_offset upper_bound_offset
+1         primary_reference   1.0000                 10                 10
+2             lower_offset5   1.0000                  5                 10
+3            lower_offset15   1.0000                 15                 10
+4 strong_smoothing_root_age 280.0259                 10                 10
+5         primary_reference   1.0000                 10                 10
+6             lower_offset5   1.0000                  5                 10
+7            lower_offset15   1.0000                 15                 10
+8 strong_smoothing_root_age 280.0259                 10                 10
+  n_axes n_successful_axes success n_tips n_edges n_interfamily_edges
+1      3                 3    TRUE     77     152                  50
+2      3                 3    TRUE     77     152                  50
+3      3                 3    TRUE     77     152                  50
+4      3                 3    TRUE     77     152                  50
+5      3                 3    TRUE     48      94                  46
+6      3                 3    TRUE     48      94                  46
+7      3                 3    TRUE     48      94                  46
+8      3                 3    TRUE     48      94                  46
+  n_temporal_full_width_bins selected_lower_bound_hits
+1                         28                       184
+2                         28                       230
+3                         28                       174
+4                         28                         0
+5                         28                        11
+6                         28                        57
+7                         28                         1
+8                         28                         0
+  selected_upper_bound_hits lower_bound_hits_all_starts
+1                         0                         552
+2                         0                         688
+3                         0                         514
+4                         0                           0
+5                         0                          31
+6                         0                         163
+7                         0                           3
+8                         0                           0
+  lower_gradients_positive all_likelihood_checks_passed
+1                      184                         TRUE
+2                      230                         TRUE
+3                      174                         TRUE
+4                        0                         TRUE
+5                       11                         TRUE
+6                       57                         TRUE
+7                        1                         TRUE
+8                        0                         TRUE
+  all_objective_checks_passed total_variance_normalization
+1                        TRUE                 1.639499e-04
+2                        TRUE                 1.574516e-04
+3                        TRUE                 1.668090e-04
+4                        TRUE                 9.920019e-05
+5                        TRUE                 1.714719e-04
+6                        TRUE                 1.716806e-04
+7                        TRUE                 1.713325e-04
+8                        TRUE                 1.464442e-04
+  rate_agreement_default_all_edges forewing_rho_all_edges
+1                        1.0000000             0.06788793
+2                        0.9713339             0.09187354
+3                        0.9747221             0.05986717
+4                        0.4793806            -0.11838692
+5                        1.0000000             0.17018217
+6                        0.9955930             0.17456120
+7                        0.9995810             0.16447354
+8                        0.4030271            -0.08621475
+  forewing_rho_default_all_edges forewing_rho_change_all_edges
+1                     0.06788793                   0.000000000
+2                     0.06788793                   0.023985609
+3                     0.06788793                  -0.008020763
+4                     0.06788793                  -0.186274855
+5                     0.17018217                   0.000000000
+6                     0.17018217                   0.004379024
+7                     0.17018217                  -0.005708629
+8                     0.17018217                  -0.256396921
+  rate_agreement_default_exclude_root_edges forewing_rho_exclude_root_edges
+1                                 1.0000000                      0.08380252
+2                                 0.9708140                      0.10643108
+3                                 0.9743856                      0.07613019
+4                                 0.4880417                     -0.13262801
+5                                 1.0000000                      0.13793609
+6                                 0.9953455                      0.14319241
+7                                 0.9995530                      0.13194758
+8                                 0.3750135                     -0.12061026
+  forewing_rho_default_exclude_root_edges
+1                              0.08380252
+2                              0.08380252
+3                              0.08380252
+4                              0.08380252
+5                              0.13793609
+6                              0.13793609
+7                              0.13793609
+8                              0.13793609
+  forewing_rho_change_exclude_root_edges
+1                            0.000000000
+2                            0.022628552
+3                           -0.007672337
+4                           -0.216430540
+5                            0.000000000
+6                            0.005256323
+7                           -0.005988509
+8                           -0.258546344
+  rate_agreement_default_interfamily_edges forewing_rho_interfamily_edges
+1                                1.0000000                     0.08288797
+2                                0.9303465                     0.15597988
+3                                0.9500600                     0.08037767
+4                                0.1781993                    -0.02119267
+5                                1.0000000                     0.18959687
+6                                0.9876657                     0.21158986
+7                                0.9980265                     0.16982789
+8                                0.5235276                    -0.06752342
+  forewing_rho_default_interfamily_edges forewing_rho_change_interfamily_edges
+1                             0.08288797                           0.000000000
+2                             0.08288797                           0.073091910
+3                             0.08288797                          -0.002510294
+4                             0.08288797                          -0.104080637
+5                             0.18959687                           0.000000000
+6                             0.18959687                           0.021992990
+7                             0.18959687                          -0.019768980
+8                             0.18959687                          -0.257120296
+  rate_agreement_default_time_full_width_bins forewing_rho_time_full_width_bins
+1                                   1.0000000                        -0.4634547
+2                                   0.9091158                        -0.4590747
+3                                   0.9479880                        -0.4919244
+4                                   0.4793321                        -0.6534355
+5                                   1.0000000                        -0.5175463
+6                                   0.9950263                        -0.5330202
+7                                   1.0000000                        -0.5175463
+8                                   0.9635258                        -0.5683891
+  forewing_rho_default_time_full_width_bins
+1                                -0.4634547
+2                                -0.4634547
+3                                -0.4634547
+4                                -0.4634547
+5                                -0.5175463
+6                                -0.5175463
+7                                -0.5175463
+8                                -0.5175463
+  forewing_rho_change_time_full_width_bins
+1                              0.000000000
+2                              0.004379962
+3                             -0.028469751
+4                             -0.189980838
+5                              0.000000000
+6                             -0.015473888
+7                              0.000000000
+8                             -0.050842774
+Completed 18 new fits; all eight bound/smoothing dataset summaries valid.

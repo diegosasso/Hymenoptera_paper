@@ -1,0 +1,5 @@
+PASS: six screening trials validated.
+Independent likelihood checks: 51
+Maximum likelihood disagreement: 1.4210854715202e-14
+Maximum independent likelihood improvement: 4.06113223050397e-08
+Maximum marginal disagreement: 0

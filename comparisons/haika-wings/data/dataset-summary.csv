@@ -1,0 +1,14 @@
+"dataset","source","subset","n_tips","n_families","n_distinct_profiles","n_axes","variance_retained"
+"seed3407_full77","seed3407","full77",77,48,48,3,0.969416135146531
+"seed3407_family48_first","seed3407","family48_first",48,48,48,3,0.969416135146531
+"seed3407_family48_last","seed3407","family48_last",48,48,48,3,0.969416135146531
+"seed46567_full77","seed46567","full77",77,48,48,3,0.933481619550281
+"seed46567_family48_first","seed46567","family48_first",48,48,48,3,0.933481619550281
+"seed91507_full77","seed91507","full77",77,48,48,2,0.969656208076928
+"seed91507_family48_first","seed91507","family48_first",48,48,48,2,0.969656208076928
+"seed92779_full77","seed92779","full77",77,48,48,3,0.948862960065934
+"seed92779_family48_first","seed92779","family48_first",48,48,48,3,0.948862960065934
+"seed97081_full77","seed97081","full77",77,48,48,2,0.917370643358485
+"seed97081_family48_first","seed97081","family48_first",48,48,48,2,0.917370643358485
+"released28_full77","released28","full77",77,48,48,2,0.909726231019885
+"released28_family48_first","released28","family48_first",48,48,48,2,0.909726231019885

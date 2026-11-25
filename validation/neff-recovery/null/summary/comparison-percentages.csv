@@ -1,0 +1,73 @@
+"scenario","source","cutoff","alpha","direction","n_planned","n_estimable","n_detected","percent","lower","upper"
+"Associated","truth","strict",0.05,"two_sided_any_sign",100,100,71,71,61.0734041092552,79.6425810749268
+"Associated","truth","strict",0.05,"positive_r",100,100,71,71,61.0734041092552,79.6425810749268
+"Associated","truth","strict",0.01,"two_sided_any_sign",100,100,19,19,11.8443196132544,28.0697957973613
+"Associated","truth","strict",0.01,"positive_r",100,100,19,19,11.8443196132544,28.0697957973613
+"Associated","truth","strict",0.001,"two_sided_any_sign",100,100,2,2,0.243133682394254,7.03839324710701
+"Associated","truth","strict",0.001,"positive_r",100,100,2,2,0.243133682394254,7.03839324710701
+"Associated","truth","inclusive",0.05,"two_sided_any_sign",100,0,0,0,0,3.62166926451765
+"Associated","truth","inclusive",0.05,"positive_r",100,0,0,0,0,3.62166926451765
+"Associated","truth","inclusive",0.01,"two_sided_any_sign",100,0,0,0,0,3.62166926451765
+"Associated","truth","inclusive",0.01,"positive_r",100,0,0,0,0,3.62166926451765
+"Associated","truth","inclusive",0.001,"two_sided_any_sign",100,0,0,0,0,3.62166926451765
+"Associated","truth","inclusive",0.001,"positive_r",100,0,0,0,0,3.62166926451765
+"Associated","truth_retained","strict",0.05,"two_sided_any_sign",100,100,71,71,61.0734041092552,79.6425810749268
+"Associated","truth_retained","strict",0.05,"positive_r",100,100,71,71,61.0734041092552,79.6425810749268
+"Associated","truth_retained","strict",0.01,"two_sided_any_sign",100,100,19,19,11.8443196132544,28.0697957973613
+"Associated","truth_retained","strict",0.01,"positive_r",100,100,19,19,11.8443196132544,28.0697957973613
+"Associated","truth_retained","strict",0.001,"two_sided_any_sign",100,100,2,2,0.243133682394254,7.03839324710701
+"Associated","truth_retained","strict",0.001,"positive_r",100,100,2,2,0.243133682394254,7.03839324710701
+"Associated","truth_retained","inclusive",0.05,"two_sided_any_sign",100,0,0,0,0,3.62166926451765
+"Associated","truth_retained","inclusive",0.05,"positive_r",100,0,0,0,0,3.62166926451765
+"Associated","truth_retained","inclusive",0.01,"two_sided_any_sign",100,0,0,0,0,3.62166926451765
+"Associated","truth_retained","inclusive",0.01,"positive_r",100,0,0,0,0,3.62166926451765
+"Associated","truth_retained","inclusive",0.001,"two_sided_any_sign",100,0,0,0,0,3.62166926451765
+"Associated","truth_retained","inclusive",0.001,"positive_r",100,0,0,0,0,3.62166926451765
+"Associated","reconstructed","strict",0.05,"two_sided_any_sign",100,100,78,78,68.6080346213682,85.6696423250185
+"Associated","reconstructed","strict",0.05,"positive_r",100,100,78,78,68.6080346213682,85.6696423250185
+"Associated","reconstructed","strict",0.01,"two_sided_any_sign",100,100,26,26,17.7394437867653,35.7312063100104
+"Associated","reconstructed","strict",0.01,"positive_r",100,100,26,26,17.7394437867653,35.7312063100104
+"Associated","reconstructed","strict",0.001,"two_sided_any_sign",100,100,6,6,2.23348860713164,12.6029934580823
+"Associated","reconstructed","strict",0.001,"positive_r",100,100,6,6,2.23348860713164,12.6029934580823
+"Associated","reconstructed","inclusive",0.05,"two_sided_any_sign",100,0,0,0,0,3.62166926451765
+"Associated","reconstructed","inclusive",0.05,"positive_r",100,0,0,0,0,3.62166926451765
+"Associated","reconstructed","inclusive",0.01,"two_sided_any_sign",100,0,0,0,0,3.62166926451765
+"Associated","reconstructed","inclusive",0.01,"positive_r",100,0,0,0,0,3.62166926451765
+"Associated","reconstructed","inclusive",0.001,"two_sided_any_sign",100,0,0,0,0,3.62166926451765
+"Associated","reconstructed","inclusive",0.001,"positive_r",100,0,0,0,0,3.62166926451765
+"Root ER control","truth","strict",0.05,"two_sided_any_sign",100,100,4,4,1.10044939861882,9.92571567126599
+"Root ER control","truth","strict",0.05,"positive_r",100,100,4,4,1.10044939861882,9.92571567126599
+"Root ER control","truth","strict",0.01,"two_sided_any_sign",100,100,0,0,0,3.62166926451765
+"Root ER control","truth","strict",0.01,"positive_r",100,100,0,0,0,3.62166926451765
+"Root ER control","truth","strict",0.001,"two_sided_any_sign",100,100,0,0,0,3.62166926451765
+"Root ER control","truth","strict",0.001,"positive_r",100,100,0,0,0,3.62166926451765
+"Root ER control","truth","inclusive",0.05,"two_sided_any_sign",100,100,4,4,1.10044939861882,9.92571567126599
+"Root ER control","truth","inclusive",0.05,"positive_r",100,100,4,4,1.10044939861882,9.92571567126599
+"Root ER control","truth","inclusive",0.01,"two_sided_any_sign",100,100,0,0,0,3.62166926451765
+"Root ER control","truth","inclusive",0.01,"positive_r",100,100,0,0,0,3.62166926451765
+"Root ER control","truth","inclusive",0.001,"two_sided_any_sign",100,100,0,0,0,3.62166926451765
+"Root ER control","truth","inclusive",0.001,"positive_r",100,100,0,0,0,3.62166926451765
+"Root ER control","truth_retained","strict",0.05,"two_sided_any_sign",100,100,4,4,1.10044939861882,9.92571567126599
+"Root ER control","truth_retained","strict",0.05,"positive_r",100,100,4,4,1.10044939861882,9.92571567126599
+"Root ER control","truth_retained","strict",0.01,"two_sided_any_sign",100,100,0,0,0,3.62166926451765
+"Root ER control","truth_retained","strict",0.01,"positive_r",100,100,0,0,0,3.62166926451765
+"Root ER control","truth_retained","strict",0.001,"two_sided_any_sign",100,100,0,0,0,3.62166926451765
+"Root ER control","truth_retained","strict",0.001,"positive_r",100,100,0,0,0,3.62166926451765
+"Root ER control","truth_retained","inclusive",0.05,"two_sided_any_sign",100,100,4,4,1.10044939861882,9.92571567126599
+"Root ER control","truth_retained","inclusive",0.05,"positive_r",100,100,4,4,1.10044939861882,9.92571567126599
+"Root ER control","truth_retained","inclusive",0.01,"two_sided_any_sign",100,100,0,0,0,3.62166926451765
+"Root ER control","truth_retained","inclusive",0.01,"positive_r",100,100,0,0,0,3.62166926451765
+"Root ER control","truth_retained","inclusive",0.001,"two_sided_any_sign",100,100,0,0,0,3.62166926451765
+"Root ER control","truth_retained","inclusive",0.001,"positive_r",100,100,0,0,0,3.62166926451765
+"Root ER control","reconstructed","strict",0.05,"two_sided_any_sign",100,100,0,0,0,3.62166926451765
+"Root ER control","reconstructed","strict",0.05,"positive_r",100,100,0,0,0,3.62166926451765
+"Root ER control","reconstructed","strict",0.01,"two_sided_any_sign",100,100,0,0,0,3.62166926451765
+"Root ER control","reconstructed","strict",0.01,"positive_r",100,100,0,0,0,3.62166926451765
+"Root ER control","reconstructed","strict",0.001,"two_sided_any_sign",100,100,0,0,0,3.62166926451765
+"Root ER control","reconstructed","strict",0.001,"positive_r",100,100,0,0,0,3.62166926451765
+"Root ER control","reconstructed","inclusive",0.05,"two_sided_any_sign",100,100,0,0,0,3.62166926451765
+"Root ER control","reconstructed","inclusive",0.05,"positive_r",100,100,0,0,0,3.62166926451765
+"Root ER control","reconstructed","inclusive",0.01,"two_sided_any_sign",100,100,0,0,0,3.62166926451765
+"Root ER control","reconstructed","inclusive",0.01,"positive_r",100,100,0,0,0,3.62166926451765
+"Root ER control","reconstructed","inclusive",0.001,"two_sided_any_sign",100,100,0,0,0,3.62166926451765
+"Root ER control","reconstructed","inclusive",0.001,"positive_r",100,100,0,0,0,3.62166926451765

@@ -1,0 +1,16 @@
+project_library <- Sys.getenv("PHYLO_SAMPLING_RLIB", "Rlib")
+dependency_library <- Sys.getenv("PHYLO_SAMPLING_DEPENDENCY_RLIB", "")
+dir.create(project_library, recursive = TRUE, showWarnings = FALSE)
+if (nzchar(dependency_library)) .libPaths(c(dependency_library, .libPaths()))
+.libPaths(c(project_library, .libPaths()))
+install.packages("provenance/ontophylo", repos = NULL, type = "source", lib = project_library)
+source("scripts/load-packages.R")
+stopifnot(normalizePath(find.package("ontophylo")) ==
+          normalizePath(file.path(project_library, "ontophylo")))
+capture.output(sessionInfo(), file = "provenance/installed-session.txt")
+packages <- c("ontophylo", "ape", "corHMM", "phytools", "digest", "R.utils")
+versions <- data.frame(package = packages, version = NA_character_)
+for (i in seq_along(packages)) versions$version[i] <- as.character(packageVersion(packages[i]))
+write.csv(versions, "provenance/package-versions.csv", row.names = FALSE)
+print(versions)
+

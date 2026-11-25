@@ -1,0 +1,9 @@
+figures/all-trial-diagnostics.pdf: 100 pages; all fonts embedded.
+figures/all-trial-neff-curves.pdf: 10 pages; all fonts embedded.
+figures/neff-through-time.pdf: 1 pages; all fonts embedded.
+figures/p-value-distribution.pdf: 1 pages; all fonts embedded.
+figures/p-value-percentages.pdf: 1 pages; all fonts embedded.
+figures/recovery-summary.pdf: 1 pages; all fonts embedded.
+figures/trial-001-overview.pdf: 1 pages; all fonts embedded.
+figures/trial-001-unit-acceleration.pdf: 10 pages; all fonts embedded.
+Rendered and inspected final methods pages and representative first/last atlas pages. No clipping or unresolved LaTeX references.

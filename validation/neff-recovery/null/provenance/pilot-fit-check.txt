@@ -1,0 +1,4 @@
+Pilot fitted characters: 200
+Warnings: 0
+Boundary flags: 0
+Optimizer convergence codes are not exposed by this fitting wrapper.

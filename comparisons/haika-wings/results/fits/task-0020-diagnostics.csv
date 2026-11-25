@@ -1,0 +1,4 @@
+"start","objective","convergence","function_evaluations","gradient_evaluations","elapsed_seconds","n_near_lower_bound","n_near_upper_bound","message","task_id","dataset","axis","lambda","seed","task_success","total_elapsed_seconds"
+1,214.062922906752,0,63,63,0.0290000000000001,3,0,"CONVERGENCE: REL_REDUCTION_OF_F <= FACTR*EPSMCH",20,"seed3407_family48_last","PC1",1,200020,TRUE,1.175
+2,214.062923523709,0,60,60,0.0149999999999999,3,0,"CONVERGENCE: REL_REDUCTION_OF_F <= FACTR*EPSMCH",20,"seed3407_family48_last","PC1",1,200020,TRUE,1.175
+3,214.062923829534,0,55,55,0.016,3,0,"CONVERGENCE: REL_REDUCTION_OF_F <= FACTR*EPSMCH",20,"seed3407_family48_last","PC1",1,200020,TRUE,1.175

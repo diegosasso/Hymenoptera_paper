@@ -1,0 +1,2 @@
+"task_id","dataset","axis","lambda","seed","success","elapsed_seconds","started_utc","ended_utc","error"
+44,"seed97081_full77","PC1",1,200044,TRUE,1.243,"2026-11-20 17:07:38 UTC","2026-11-20 17:07:39 UTC",""

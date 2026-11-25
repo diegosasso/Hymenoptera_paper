@@ -1,0 +1,10 @@
+"metric","value"
+"n_trials",100
+"n_reconstructed",100
+"n_constant_characters",0
+"trials_with_constants",0
+"median_recovery_r",0.955249747154051
+"median_RMSE",0.287533176441241
+"median_truth_r_div",0.173094714806254
+"median_reconstructed_r_div",0.190645691233864
+"n_reconstructed_positive_p05",0

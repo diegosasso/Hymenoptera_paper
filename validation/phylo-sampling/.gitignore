@@ -1,0 +1,30 @@
+# Local R and system files
+.DS_Store
+.Rproj.user/
+.Rhistory
+.RData
+.Renviron
+.Rprofile
+Rplots.pdf
+.env
+.env.*
+
+# Installed packages, checkpoints and per-trial output
+/Rlib/
+/fits/
+/results/
+/simulated/
+/summary/marginal-trials.rds
+
+# Logs, previews and temporary files
+/logs/
+/tmp/
+/figures/pilot/
+*.tmp
+*.log
+*.aux
+*.bbl
+*.blg
+*.fls
+*.fdb_latexmk
+*.synctex.gz

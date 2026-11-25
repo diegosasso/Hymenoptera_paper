@@ -1,0 +1,8 @@
+"check","value"
+"Neff mean maximum error",3.44169137633799e-15
+"PyRate mean maximum error",5.55111512312578e-17
+"BAMM mean maximum error",7.63278329429795e-16
+"PyRate direct cor.test r maximum error",0
+"PyRate direct cor.test p maximum error",1.11022302462516e-16
+"BAMM direct cor.test r maximum error",0
+"BAMM direct cor.test p maximum error",2.22044604925031e-16

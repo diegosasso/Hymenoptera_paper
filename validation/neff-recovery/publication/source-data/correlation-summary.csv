@@ -1,0 +1,3 @@
+"scenario","x","n","significant","median_r","median_p","label"
+"Associated",1,100,78,0.58914403476206,0.0208326848555715,"78/100 below 0.05"
+"Unassociated",2,100,0,0.190645691233864,0.496127552635042,"0/100 below 0.05"

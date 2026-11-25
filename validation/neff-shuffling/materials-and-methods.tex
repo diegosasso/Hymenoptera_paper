@@ -1,0 +1,22 @@
+% Copy the subsection below into the manuscript.
+% This minimal wrapper supports the current editor's PDF preview.
+\documentclass[10pt,a4paper]{article}
+\usepackage[margin=22mm]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{amsmath}
+\begin{document}
+
+\subsection*{Testing \(N_{\mathrm{eff}}^{+}\)}
+
+To assess the robustness of the inferred correlation between \(N_{\mathrm{eff}}^{+}\) and PyRate net diversification rates, we ran a series of analyses.
+
+First, we used 100 paired simulation trials to test whether our analysis could detect an association when character evolution was linked to diversification (Correlated scenario) and avoid spurious associations when it was independent (Independent scenario; Supplementary Method 9). Reconstructed \(N_{\mathrm{eff}}^{+}\) yielded significant positive Pearson correlations with simulated net diversification rates in 78/100 Correlated trials; no significant correlations were detected in the 100 Independent trials (nominal two-sided \(p<0.05\)). Thus, the method recovered the expected association in most trials, with no false positives observed under the simulated independent conditions.
+
+We then assessed whether the correlation depended on the threshold used to identify accelerated branches. We recalculated \(N_{\mathrm{eff}}^{+}\) using the 92.5th, 95th and 97.5th branch-rate percentiles. Its association with PyRate net diversification remained positive and significant across these thresholds, indicating that the result was not restricted to a single cutoff (Supplementary Note 1).
+
+We also examined how the two components of \(N_{\mathrm{eff}}^{+}\) contributed to the correlation. The frequency component, \(f^{+}\), is the proportion of lineages with at least one accelerated anatomical unit. The breadth component, \(H^{+}\), describes the diversity of combinations of accelerated anatomical units among those lineages. Both components contributed to the association, and allowing them to interact improved model fit relative to an additive model (Supplementary Note 2).
+
+Finally, \(N_{\mathrm{eff}}^{+}\) depends on the distribution of accelerated patterns across branches, whereas diversification affects the number and timing of branches. Periods with more branches could therefore provide more opportunities to observe distinct acceleration patterns, generating part of the correlation through tree structure alone. To test this, we independently shuffled accelerated-branch assignments within 15 anatomical units on the fixed 77-tip phylogeny, preserving the number of accelerated branches in each unit and reconstruction sample while changing their positions. For each of 9,999 randomizations, we recalculated \(N_{\mathrm{eff}}^{+}\) across the 1,000 existing reconstruction samples, averaged the resulting trajectories and correlated their mean with unchanged PyRate net diversification rates across thirteen 20-Myr bins. None produced a significant positive correlation or reached the observed \(r=0.950\) (one-sided permutation \(p=0.0001\)). Random placement of accelerated branches on the observed tree therefore did not reproduce the positive association.
+
+\end{document}

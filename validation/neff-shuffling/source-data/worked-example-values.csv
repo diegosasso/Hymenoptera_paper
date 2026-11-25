@@ -1,0 +1,6 @@
+"scenario","patterns","f_plus","H_plus","Neff_plus","Pc","Neff_code_error","Pc_code_error"
+"Scenario 1","111, 111, 111",1,0,1,1,0,0
+"Scenario 2","100, 100, 100",1,0,1,0.333333333333333,0,0
+"Scenario 3","001, 010, 100",1,1.09861228866811,3,0.333333333333333,0,0
+"Scenario 4","000, 000, 000",0,not evaluated,0,0,0,0
+"Scenario 3 with third lineage unaccelerated","001, 010, 000",0.666666666666667,0.693147180559945,1.33333333333333,0.222222222222222,2.22044604925031e-16,0

@@ -1,0 +1,7 @@
+2026-11-24
+Extended Data Figure 4 inspected directly: the concept-neff image is the fourth figure after the Extended Data counter reset in main-NEW-DSP-ST.tex.
+Matrix columns follow the image legend: wings, thorax, head; rows follow terminal lineages from top to bottom.
+Pc is mean(rowSums(mask)/ncol(mask)), matching make-Pc.Rmd; unaccelerated rows remain in the mean.
+The additional example modifies Scenario 3 by replacing its third row with 000; it is explicitly described as a modification, not an original figure scenario.
+All five examples matched the existing Neff and Pc helper functions within 1e-12.
+The standalone LaTeX source compiled successfully using the built-in editor compiler.

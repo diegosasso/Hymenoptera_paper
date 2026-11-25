@@ -1,0 +1,171 @@
+Independent interpretation review, 2026-11-20
+
+Defensible main conclusion
+-------------------------
+This analysis does not establish reproducible positive concordance between the
+ontophylo forewing rate reconstruction and the reconstructed HAIKA family-profile
+rates. The primary 77-tip fit has weak branch association and a different temporal
+profile, but temporal direction and some branch associations change among ANN
+initializations and modeling/sampling sensitivities. It is therefore premature
+to interpret the result as a robust biological conflict between the methods.
+
+Suggested short results wording
+------------------------------
+"Using the same dated tree and an explicit family-level alignment, the primary
+HAIKA reconstruction showed little correspondence with ontophylo forewing branch
+rates (Spearman rho = 0.068 across 152 branches; rho = 0.083 across 50 branches
+subtending multiple families). Neither association exceeded the positive
+concordance expected under the conditional homogeneous-BM/proxy null (upper-tail
+probabilities 0.895 and 0.955). Relative marginal rates were negatively associated
+in the primary 77-tip analysis (rho = -0.463 across 28 full-width time bins), but
+this temporal result was sensitive to ANN initialization and family-representative
+sampling. These conditional comparisons provide no consistent rate concordance;
+they do not test the general validity of image-derived morphology or ontophylo."
+
+Primary numerical evidence
+--------------------------
+All values below are TOTAL_VARIANCE, seed3407, lambda=1, fore_wing unless stated.
+
+Dataset                  Scope                  n     rho     Positive P  Two-tail P
+77 tips                  All branches          152    0.0679    0.895        0.22
+77 tips                  Exclude root branches 150    0.0838    0.895        0.22
+77 tips                  Interfamily branches   50    0.0829    0.955        0.10
+77 tips                  Full-width time bins   28   -0.4635    0.995        0.02
+48 first representatives All branches           94    0.1702    0.385        0.77
+48 first representatives Interfamily branches   46    0.1896    0.365        0.73
+48 first representatives Full-width time bins   28   -0.5175    0.685        0.64
+
+These empirical probabilities use 199 validated null replicates and the +1
+correction. The two-tail statistic doubles the smaller empirical tail. They are
+unadjusted exploratory probabilities under a fitted homogeneous multivariate-BM
+null, conditional on the tree, retained PCA coordinates, family assignment and
+ontophylo summary. They are not a general test of independence between arbitrary
+heterogeneous rate histories, a joint posterior probability, or a test of ANN
+accuracy. Shared phylogenetic geometry and proxy copying are retained by the null.
+
+The 77-tip temporal result is relatively unusual under that particular null:
+its observed rho is -0.4635, compared with null median 0.6611 and central 95%
+range [-0.2173, 0.8673]. However, the 48-tip representative analysis has null
+median -0.4407 and central range [-0.6758, 0.5059]; its observed rho=-0.5175 is
+ordinary under this alternative sampling design. The change in the null itself
+shows why a single negative correlation is insufficient evidence for biological
+decoupling. Do not describe the 0.02 result as a sampling-robust discovery.
+
+Temporal comparison
+-------------------
+In the primary 77-tip fit, ontophylo's largest full-bin mean is at 230-240 Ma:
+6.50 times its own lineage-duration-weighted treewide mean, with map quantiles
+4.97-8.05. HAIKA is 0.65 times its own mean in that bin. Its largest full-bin
+value is 1.35 at 240-250 Ma. Thus HAIKA does not reproduce the pronounced primary
+ontophylo peak in the same bin. This does not establish a precisely dated lag
+or a difference in absolute biological rates: the methods measure different
+quantities, and branch rates have been averaged into 10-Myr bins.
+
+Across the five ANN seeds at lambda=1, 77-tip temporal rho ranges from -0.4635
+to +0.1963 (seed values: -0.4635, +0.0851, -0.0370, +0.1963, -0.3430). Therefore
+"all HAIKA models show the opposite history" would be false. Across those same
+seeds, all-branch rho ranges from 0.0523 to 0.2154, while interfamily rho ranges
+from 0.0829 to 0.4821. Some embeddings show moderate interfamily association;
+only seed3407 has the present conditional-null calibration.
+
+Other completed sensitivities
+-----------------------------
+For seed3407 full77, changing lambda from 0.1 to 1 to 10 gives temporal rho
+-0.1235, -0.4635 and -0.6200, and all-branch rho 0.0771, 0.0679 and -0.0418.
+The 48 first/last representative choices at lambda=1 give temporal rho -0.5175
+and -0.3391. Original-segment versus contracted-branch marginalization also
+changes the 48-tip temporal result; these are separately exported estimands.
+
+Removing the forewing muscle character produces an eight-character sensitivity
+with all-branch rho=0.1566, interfamily rho=0.0902, and time rho=-0.4552 in the
+primary 77-tip fit. The principal qualitative result is therefore not solely
+caused by the muscle character, although character representation still matters.
+
+All 18 additional bound/stronger-smoothing fits passed convergence and likelihood
+checks. At the default lower offset of 10 log units, the selected 77-tip fits
+have 184 lower-bound node-by-axis parameters out of 459; the 48-tip fits have
+11 out of 285. These count parameters in the selected fits across three axes,
+not unique branches or repeated optimizer starts. All bound gradients point
+toward still smaller unconstrained rates. Optimizer convergence consequently
+does not establish uniquely identified biological rates.
+
+Moving the lower offset to 5 or 15 preserves most TOTAL_VARIANCE branch rankings.
+For 77 tips, rank agreement with the default is 0.9713 and 0.9747, and correlation
+with ontophylo changes from 0.0679 to 0.0919 and 0.0599. For 48 tips, agreement is
+0.9956 and 0.9996, with ontophylo correlation 0.1746 and 0.1645 rather than 0.1702.
+The broader conclusion of weak branch concordance therefore persists in this
+bound range. It does not mean the lowest rates are resolved: even offset 15
+leaves 174 selected bound parameters in the 77-tip fits and one in the 48-tip
+fits. These are explicitly constrained rate estimates.
+
+The stronger smoothing sensitivity (lambda equal to root age, 280.0259) removes
+all bound hits but substantially changes detailed branch rankings: agreement
+with the default is only 0.4794 for 77 tips and 0.4030 for 48 tips. Ontophylo
+branch correlations become -0.1184 and -0.0862, respectively; these remain weak
+and do not establish positive concordance. The corresponding temporal
+correlations are -0.6534 and -0.5684. Thus the broad absence of consistent positive
+concordance survives the tested bound/smoothing alternatives, while precise
+branch-rate order is sensitive to smoothing. Stronger smoothing is a declared
+sensitivity, not an established preferable model; no new conditional-null
+probabilities were calibrated for it. The lambda=1 null probabilities above
+must not be transferred to these alternative fits.
+
+What is actually being compared
+------------------------------
+The authorized 77-tip alignment uses 48 family profiles derived from 112 source
+images. Forty-one families have one source image. It is not a 77-species matched
+measurement dataset; multiple study tips receive the same family profile. The
+48-tip analyses select one study representative per family and reduce this
+duplication, but do not supply missing within-family measurements. Three repeated
+families are nonmonophyletic on the tree, so selecting representatives is not
+equivalent to collapsing 48 monophyletic clades.
+
+The usable seed matrices are 64-dimensional archived embeddings. The comparison
+uses new centered, unscaled PCA of family means, retaining at least two axes and
+at least 90% variance. For seed3407 this is three axes and 96.94% variance.
+These new axes must not be labeled as the publication's identified "shape" and
+"venation" PC1/PC2. Provenance mismatches and duplicate profiles in the supplied
+Case3/published-PC products explain why those products were not used as direct
+species-level measurements; they do not establish their authors' intent or the
+cause of the discrepancies.
+
+Ontophylo measures mapped discrete-state transition counts divided by duration.
+HAIKA BM measures continuous-feature variance per duration. TOTAL_VARIANCE sums
+the separate fitted PC variance rates before normalization; it is an exploratory
+retained-feature trace, not a jointly fitted multivariate posterior. Dimensionless
+normalization makes relative patterns comparable without making absolute units
+equivalent.
+
+Anatomical correction
+--------------------
+The final character audit supersedes an earlier preliminary description in this
+reviewer's methods notes. CH353-CH359 describe seven forewing vein/stigma traits,
+CH360 describes nygmata, and CH294 describes a muscle. There is substantial
+anatomical overlap with HAIKA's forewing outline/venation images. "Sclerite" is
+the broad source ontology type for the eight nonmuscle characters, not evidence
+that they predominantly describe wing-base sclerites. The relevant differences
+are discrete states versus continuous image geometry, representation weighting,
+the muscle/nygmata content, and proxy versus exemplar sampling.
+
+Uncertainty and claims to avoid
+------------------------------
+The 1,000-map intervals describe ontophylo reconstruction-map variation conditional
+on its fixed model parameters and the HAIKA point estimate. They are not joint
+confidence/credible intervals on the cross-method association. In particular,
+the correlation of mean rates need not lie inside quantiles of correlations
+computed separately for each map; these are different nonlinear summaries.
+
+Avoid claims that HAIKA is inaccurate, that ontophylo is validated by disagreement,
+that all model variants yield negative correspondence, that weak association
+proves evolutionary independence, or that family duplication represents measured
+within-family stasis. The supported conclusion is limited concordance in the
+primary conditional comparison and substantial sensitivity in broader claims.
+
+Checked sources
+---------------
+results/association-summary.csv
+results/null-association-summary.csv and results/null-status.csv
+results/marginal-comparison.csv
+results/bound-sensitivity.csv
+audit-haika.txt and audit-ontophylo.txt
+data/ontophylo-wing-character-metadata.csv

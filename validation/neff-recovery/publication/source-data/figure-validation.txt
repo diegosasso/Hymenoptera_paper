@@ -1,0 +1,6 @@
+All scientific inputs and the shared style file are unchanged.
+Figure 2 includes all 200 trial-level r and p values; counts 78/100 and 0/100 verified; no values outside plotting limits.
+Figure 1 includes 60,000 Neff values: 100 trials x 300 time points x 2 scenarios; none outside plotting limits.
+figure-1-neff-and-diversification: single-page vector PDF; Page size:       518 x 481 pts; all fonts embedded; text within bounds; PDF render visually inspected.
+figure-2-correlations-and-p-values: single-page vector PDF; Page size:       518 x 317 pts; all fonts embedded; text within bounds; PDF render visually inspected.
+Rendering completed without warnings. PNG previews were rendered from the authoritative PDFs at 450 dpi.

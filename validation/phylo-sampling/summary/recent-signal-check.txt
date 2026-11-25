@@ -1,0 +1,37 @@
+ condition proportion  tree n_characters n_trials retained_mean retained_min
+         1       0.05  full           27      100          4.94            1
+         1       0.05 study           27      100          4.94            1
+         2       0.10  full           54      100          9.10            4
+         2       0.10 study           54      100          9.10            4
+         3       0.30  full          162      100         28.70           19
+         3       0.30 study          162      100         28.70           19
+         4       0.50  full          270      100         47.09           36
+         4       0.50 study          270      100         47.09           36
+         5       0.80  full          432      100         75.17           64
+         5       0.80 study          432      100         75.17           64
+ retained_max recent_higher mapping_interval_positive ratio_median ratio_lower
+           10            86                        84     1.595971   0.7642537
+           10            92                        86     1.801699   0.8424598
+           16            95                        95     1.596418   0.8962060
+           16            98                        97     1.746489   1.1235706
+           40           100                       100     1.600650   1.2369621
+           40           100                       100     1.857181   1.4689511
+           57           100                       100     1.613588   1.2925567
+           57           100                       100     1.794891   1.5174515
+           84           100                       100     1.589284   1.4229957
+           84           100                       100     1.792533   1.6457870
+ ratio_upper
+    5.217837
+    5.323860
+    3.021319
+    2.935401
+    2.222173
+    2.312153
+    1.937421
+    2.135354
+    1.791266
+    2.008773
+
+Intervals for each trial condition on fitted Q and the tree.
+No constant-rate null simulations or shift-model test were performed.
+These counts describe recovery under the imposed clade-origin design.

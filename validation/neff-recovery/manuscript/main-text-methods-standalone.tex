@@ -1,0 +1,44 @@
+\subsection*{Simulation-based recovery of phenomic diversity}
+\phantomsection
+\label{sec:neff-main}
+
+We tested whether the reconstruction pipeline recovers a known association
+between accelerated phenomic diversity ($N_{\mathrm{eff}}^{+}$) and lineage
+diversification. We generated 100 independent trees with a 100-Myr interval
+of elevated speciation and imposed character origins on ten contemporaneous
+branches within that interval. Each branch represented a different anatomical
+unit comprising 20 binary characters. Characters originated in state~1 and
+subsequently evolved slowly, allowing occasional losses and regains.
+Using only the simulated tree and terminal character states, we reconstructed
+character histories with \texttt{ontophylo} and compared the resulting
+$N_{\mathrm{eff}}^{+}$ trajectories with those calculated from the actual
+simulated histories. We used strict upper-tail branch-rate classifications
+to prevent zero-rate ties from being labelled accelerated, and examined the
+inclusive convention separately. The known generating diversification rate was used as
+the reference; diversification parameters were not re-estimated.
+Detailed procedures and diagnostic figures are provided in
+\hyperref[sec:neff-supplement]{Supplementary Methods}.
+
+Across the 100 trials, the median correlation between true and reconstructed
+$N_{\mathrm{eff}}^{+}$ trajectories was 0.996, with a median
+root-mean-square error of 0.089.
+Positive correlations between reconstructed $N_{\mathrm{eff}}^{+}$ and
+known diversification met the nominal two-sided $p<0.05$ threshold in
+78 of 100 trials (78\%; exact 95\%
+binomial interval, 68.6--85.7\%).
+The corresponding frequency for $N_{\mathrm{eff}}^{+}$ calculated from
+true histories was 71 of 100 trials
+(Figures~\ref{fig:neff-recovery} and~\ref{fig:neff-detection}).
+Reconstruction retained all 71 true-history detections and yielded 7
+additional nominal detections, showing that accurate recovery of trajectory
+shape does not guarantee identical significance. The inclusive-cutoff
+variant produced constant diversity in all trials, so its correlations
+were undefined; the recovery results above refer to the strict definition.
+
+This experiment evaluates recovery under an imposed association and the
+specified tree and character-generating processes. The detection frequencies
+are based on the manuscript's Pearson comparison of matched 20-Myr bins;
+they do not adjust for temporal autocorrelation. They therefore describe
+nominal detection under this design, rather than power calibrated against a
+null false-positive rate. Recovery of this positive control does not establish
+that phenomic diversification caused the empirical diversification pattern.

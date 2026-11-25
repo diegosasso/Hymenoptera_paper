@@ -1,0 +1,735 @@
+"character","status","reason","q","boundary"
+"N0773","ok","",9.42868789401124e-05,FALSE
+"N0774","ok","",9.37855217596508e-05,FALSE
+"N0775","ok","",9.40077613193472e-05,FALSE
+"N0776","ok","",9.58224971283816e-05,FALSE
+"N0777","ok","",9.57507065209784e-05,FALSE
+"N0778","ok","",9.62200696424705e-05,FALSE
+"N0779","ok","",9.50896855793956e-05,FALSE
+"N0780","ok","",9.66574670206727e-05,FALSE
+"N0781","ok","",9.44903507476151e-05,FALSE
+"N0782","ok","",9.93912061898885e-05,FALSE
+"N0783","ok","",9.40308816513925e-05,FALSE
+"N0784","ok","",9.40295377807552e-05,FALSE
+"N0785","ok","",9.40329617731281e-05,FALSE
+"N0786","ok","",9.40368553447114e-05,FALSE
+"N0787","ok","",9.40301900161421e-05,FALSE
+"N0788","ok","",0.000108160927894959,FALSE
+"N0789","ok","",9.36497962184841e-05,FALSE
+"N0790","ok","",9.36497339323175e-05,FALSE
+"N0791","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N0792","ok","",9.36421286727091e-05,FALSE
+"N0793","ok","",9.36569084205938e-05,FALSE
+"N0794","ok","",9.36499689389393e-05,FALSE
+"N0795","ok","",9.36480961209206e-05,FALSE
+"N0796","ok","",9.36526210765467e-05,FALSE
+"N0797","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N0798","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N0799","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N0800","ok","",9.40689808005093e-05,FALSE
+"N0801","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N0802","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N0803","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N0804","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N0805","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N0806","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N0807","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N0808","ok","",9.40642098549959e-05,FALSE
+"N0809","ok","",0.000112531100737889,FALSE
+"N0810","ok","",9.36874365798549e-05,FALSE
+"N0811","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N0812","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N0813","ok","",9.36838692065453e-05,FALSE
+"N0814","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N0815","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N0816","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N0817","ok","",9.36898972642709e-05,FALSE
+"N0818","ok","",9.36845846566612e-05,FALSE
+"N0819","ok","",9.36902421833466e-05,FALSE
+"N0820","ok","",0.000101104680439765,FALSE
+"N0821","ok","",0.000101104609828129,FALSE
+"N0822","ok","",9.37352817130165e-05,FALSE
+"N0823","ok","",9.3738735971179e-05,FALSE
+"N0824","ok","",9.37400992678435e-05,FALSE
+"N0825","ok","",9.37393150674517e-05,FALSE
+"N0826","ok","",9.37404498761953e-05,FALSE
+"N0827","ok","",9.37381662425773e-05,FALSE
+"N0828","ok","",9.374510163718e-05,FALSE
+"N0829","ok","",9.37417622663948e-05,FALSE
+"N0830","ok","",9.37381551514679e-05,FALSE
+"N0831","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N0832","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N0833","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N0834","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N0835","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N0836","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N0837","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N0838","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N0839","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N0840","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N0841","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N0842","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N0843","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N0844","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N0845","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N0846","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N0847","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N0848","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N0849","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N0850","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N0851","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N0852","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N0853","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N0854","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N0855","ok","",9.3739262168119e-05,FALSE
+"N0856","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N0857","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N0858","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N0859","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N0860","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N0861","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N0862","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N0863","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N0864","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N0865","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N0866","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N0867","ok","",9.36589596665376e-05,FALSE
+"N0868","ok","",9.36539411034322e-05,FALSE
+"N0869","ok","",9.36522648591482e-05,FALSE
+"N0870","ok","",9.36485752757921e-05,FALSE
+"N0871","ok","",9.36558034239782e-05,FALSE
+"N0872","ok","",9.36540266296056e-05,FALSE
+"N0873","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N0874","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N0875","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N0876","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N0877","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N0878","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N0879","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N0880","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N0881","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N0882","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N0883","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N0884","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N0885","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N0886","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N0887","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N0888","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N0889","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N0890","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N0891","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N0892","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N0893","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N0894","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N0895","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N0896","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N0897","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N0898","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N0899","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N0900","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N0901","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N0902","ok","",9.36565758198045e-05,FALSE
+"N0903","ok","",9.36520746058524e-05,FALSE
+"N0904","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N0905","ok","",9.64596939405652e-05,FALSE
+"N0906","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N0907","ok","",9.64643192519555e-05,FALSE
+"N0908","ok","",9.36777906289627e-05,FALSE
+"N0909","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N0910","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N0911","ok","",9.36695730042766e-05,FALSE
+"N0912","ok","",9.36766438108029e-05,FALSE
+"N0913","ok","",9.36798573690289e-05,FALSE
+"N0914","ok","",9.36790662765122e-05,FALSE
+"N0915","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N0916","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N0917","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N0918","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N0919","ok","",9.70410986454461e-05,FALSE
+"N0920","ok","",9.39319394182324e-05,FALSE
+"N0921","ok","",9.92052399969103e-05,FALSE
+"N0922","ok","",9.3911728234828e-05,FALSE
+"N0923","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N0924","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N0925","ok","",9.44472924858401e-05,FALSE
+"N0926","ok","",9.62493801972706e-05,FALSE
+"N0927","ok","",0.000102662082827403,FALSE
+"N0928","ok","",9.37683435211687e-05,FALSE
+"N0929","ok","",9.37704441887909e-05,FALSE
+"N0930","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N0931","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N0932","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N0933","ok","",9.36862158225902e-05,FALSE
+"N0934","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N0935","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N0936","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N0937","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N0938","ok","",9.36855073388546e-05,FALSE
+"N0939","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N0940","ok","",9.581600414661e-05,FALSE
+"N0941","ok","",9.58634906286232e-05,FALSE
+"N0942","ok","",9.68339083274546e-05,FALSE
+"N0943","ok","",9.47885995925896e-05,FALSE
+"N0944","ok","",9.41146710197143e-05,FALSE
+"N0945","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N0946","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N0947","ok","",9.78842561995933e-05,FALSE
+"N0948","ok","",9.40208504563613e-05,FALSE
+"N0949","ok","",9.71086387414129e-05,FALSE
+"N0950","ok","",9.71190140658701e-05,FALSE
+"N0951","ok","",9.39582699050647e-05,FALSE
+"N0952","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N0953","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N0954","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N0955","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N0956","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N0957","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N0958","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N0959","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N0960","ok","",9.39657994788905e-05,FALSE
+"N0961","ok","",9.39693332328694e-05,FALSE
+"N0962","ok","",9.39626810762855e-05,FALSE
+"N0963","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N0964","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N0965","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N0966","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N0967","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N0968","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N0969","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N0970","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N0971","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N0972","ok","",9.3962050985974e-05,FALSE
+"N0973","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N0974","ok","",9.39654400846634e-05,FALSE
+"N0975","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N0976","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N0977","ok","",9.850519403017e-05,FALSE
+"N0978","ok","",9.3902985886673e-05,FALSE
+"N0979","ok","",9.39091334145091e-05,FALSE
+"N0980","ok","",9.37907790795337e-05,FALSE
+"N0981","ok","",9.3787181060726e-05,FALSE
+"N0982","ok","",0.000104495143853547,FALSE
+"N0983","ok","",0.000104502176479076,FALSE
+"N0984","ok","",9.36586017930225e-05,FALSE
+"N0985","ok","",9.36581647155232e-05,FALSE
+"N0986","ok","",9.36630110127607e-05,FALSE
+"N0987","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N0988","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N0989","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N0990","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N0991","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N0992","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N0993","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N0994","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N0995","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N0996","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N0997","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N0998","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N0999","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1000","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1001","ok","",9.36527682963923e-05,FALSE
+"N1002","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1003","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1004","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1005","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1006","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1007","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1008","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1009","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1010","ok","",9.57034844230513e-05,FALSE
+"N1011","ok","",9.48422382200775e-05,FALSE
+"N1012","ok","",9.48465173474652e-05,FALSE
+"N1013","ok","",9.48384691168112e-05,FALSE
+"N1014","ok","",9.36565948300625e-05,FALSE
+"N1015","ok","",9.36542341536767e-05,FALSE
+"N1016","ok","",9.36620244861027e-05,FALSE
+"N1017","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1018","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1019","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1020","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1021","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1022","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1023","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1024","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1025","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1026","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1027","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1028","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1029","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1030","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1031","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1032","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1033","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1034","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1035","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1036","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1037","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1038","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1039","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1040","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1041","ok","",0.000106428468705301,FALSE
+"N1042","ok","",9.36887122039876e-05,FALSE
+"N1043","ok","",9.36911613648803e-05,FALSE
+"N1044","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1045","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1046","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1047","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1048","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1049","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1050","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1051","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1052","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1053","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1054","ok","",9.37139063838806e-05,FALSE
+"N1055","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1056","ok","",9.37861197231313e-05,FALSE
+"N1057","ok","",9.47714225727538e-05,FALSE
+"N1058","ok","",9.4488269532698e-05,FALSE
+"N1059","ok","",9.65095463980914e-05,FALSE
+"N1060","ok","",9.65071706999191e-05,FALSE
+"N1061","ok","",0.000109065788511166,FALSE
+"N1062","ok","",9.56575934239851e-05,FALSE
+"N1063","ok","",9.56626201118019e-05,FALSE
+"N1064","ok","",9.56612829395194e-05,FALSE
+"N1065","ok","",9.56618034003994e-05,FALSE
+"N1066","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1067","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1068","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1069","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1070","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1071","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1072","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1073","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1074","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1075","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1076","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1077","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1078","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1079","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1080","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1081","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1082","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1083","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1084","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1085","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1086","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1087","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1088","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1089","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1090","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1091","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1092","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1093","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1094","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1095","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1096","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1097","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1098","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1099","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1100","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1101","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1102","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1103","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1104","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1105","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1106","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1107","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1108","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1109","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1110","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1111","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1112","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1113","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1114","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1115","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1116","ok","",9.56648398465018e-05,FALSE
+"N1117","ok","",9.56617130177045e-05,FALSE
+"N1118","ok","",9.39528022942363e-05,FALSE
+"N1119","ok","",9.39581702693511e-05,FALSE
+"N1120","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1121","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1122","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1123","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1124","ok","",9.39559577397967e-05,FALSE
+"N1125","ok","",9.39563478847255e-05,FALSE
+"N1126","ok","",9.39514060495685e-05,FALSE
+"N1127","ok","",9.39552476605982e-05,FALSE
+"N1128","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1129","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1130","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1131","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1132","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1133","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1134","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1135","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1136","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1137","ok","",9.36525604826623e-05,FALSE
+"N1138","ok","",9.36500580993984e-05,FALSE
+"N1139","ok","",9.36537672030958e-05,FALSE
+"N1140","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1141","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1142","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1143","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1144","ok","",9.3652843692172e-05,FALSE
+"N1145","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1146","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1147","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1148","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1149","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1150","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1151","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1152","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1153","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1154","ok","",9.36534566075011e-05,FALSE
+"N1155","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1156","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1157","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1158","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1159","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1160","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1161","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1162","ok","",0.000100805107517331,FALSE
+"N1163","ok","",9.37754176580275e-05,FALSE
+"N1164","ok","",9.37766776921898e-05,FALSE
+"N1165","ok","",9.37799393515254e-05,FALSE
+"N1166","ok","",9.37773421232089e-05,FALSE
+"N1167","ok","",9.37759345351012e-05,FALSE
+"N1168","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1169","ok","",9.37838335716859e-05,FALSE
+"N1170","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1171","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1172","ok","",9.36954601327479e-05,FALSE
+"N1173","ok","",9.36941366219789e-05,FALSE
+"N1174","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1175","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1176","ok","",9.36969755117802e-05,FALSE
+"N1177","ok","",9.36985232562417e-05,FALSE
+"N1178","ok","",9.63715568217067e-05,FALSE
+"N1179","ok","",9.41487325370515e-05,FALSE
+"N1180","ok","",9.47002229103131e-05,FALSE
+"N1181","ok","",0.000101847264983495,FALSE
+"N1182","ok","",9.48497362079135e-05,FALSE
+"N1183","ok","",9.39755235015049e-05,FALSE
+"N1184","ok","",9.75840161051195e-05,FALSE
+"N1185","ok","",9.75847501327633e-05,FALSE
+"N1186","ok","",9.38476353736784e-05,FALSE
+"N1187","ok","",9.38393559445529e-05,FALSE
+"N1188","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1189","ok","",9.56919288369859e-05,FALSE
+"N1190","ok","",9.38017203836412e-05,FALSE
+"N1191","ok","",9.52054039830297e-05,FALSE
+"N1192","ok","",9.36479745631476e-05,FALSE
+"N1193","ok","",9.4332221142962e-05,FALSE
+"N1194","ok","",9.89245459696527e-05,FALSE
+"N1195","ok","",9.39492031002688e-05,FALSE
+"N1196","ok","",9.39497261391637e-05,FALSE
+"N1197","ok","",9.39504800241709e-05,FALSE
+"N1198","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1199","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1200","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1201","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1202","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1203","ok","",9.37834247333542e-05,FALSE
+"N1204","ok","",9.37830833878142e-05,FALSE
+"N1205","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1206","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1207","ok","",9.37816476591934e-05,FALSE
+"N1208","ok","",9.37821529129578e-05,FALSE
+"N1209","ok","",9.37819344503483e-05,FALSE
+"N1210","ok","",9.378698899972e-05,FALSE
+"N1211","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1212","ok","",9.44694971921758e-05,FALSE
+"N1213","ok","",9.37429240563545e-05,FALSE
+"N1214","ok","",9.37387011647149e-05,FALSE
+"N1215","ok","",9.86722238612616e-05,FALSE
+"N1216","ok","",9.86724552756032e-05,FALSE
+"N1217","ok","",9.86713869862127e-05,FALSE
+"N1218","ok","",9.38504506373824e-05,FALSE
+"N1219","ok","",9.38545791550569e-05,FALSE
+"N1220","ok","",9.38488943335229e-05,FALSE
+"N1221","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1222","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1223","ok","",9.38513607087241e-05,FALSE
+"N1224","ok","",9.38480671095349e-05,FALSE
+"N1225","ok","",9.38488696551699e-05,FALSE
+"N1226","ok","",9.38544003977002e-05,FALSE
+"N1227","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1228","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1229","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1230","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1231","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1232","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1233","ok","",9.3850288173152e-05,FALSE
+"N1234","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1235","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1236","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1237","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1238","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1239","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1240","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1241","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1242","ok","",9.38517477259158e-05,FALSE
+"N1243","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1244","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1245","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1246","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1247","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1248","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1249","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1250","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1251","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1252","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1253","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1254","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1255","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1256","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1257","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1258","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1259","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1260","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1261","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1262","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1263","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1264","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1265","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1266","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1267","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1268","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1269","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1270","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1271","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1272","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1273","ok","",9.38517425681095e-05,FALSE
+"N1274","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1275","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1276","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1277","ok","",9.38532140554712e-05,FALSE
+"N1278","ok","",9.68321159934404e-05,FALSE
+"N1279","ok","",0.000110930353084637,FALSE
+"N1280","ok","",9.37200272118742e-05,FALSE
+"N1281","ok","",9.37179582900981e-05,FALSE
+"N1282","ok","",9.37191206519738e-05,FALSE
+"N1283","ok","",9.37163194892779e-05,FALSE
+"N1284","ok","",9.37169172809222e-05,FALSE
+"N1285","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1286","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1287","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1288","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1289","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1290","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1291","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1292","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1293","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1294","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1295","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1296","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1297","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1298","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1299","ok","",9.37159705515895e-05,FALSE
+"N1300","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1301","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1302","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1303","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1304","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1305","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1306","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1307","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1308","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1309","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1310","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1311","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1312","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1313","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1314","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1315","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1316","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1317","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1318","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1319","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1320","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1321","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1322","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1323","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1324","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1325","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1326","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1327","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1328","ok","",9.37142704809257e-05,FALSE
+"N1329","ok","",9.37123134645085e-05,FALSE
+"N1330","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1331","ok","",9.37134821858808e-05,FALSE
+"N1332","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1333","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1334","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1335","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1336","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1337","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1338","ok","",9.37131407011704e-05,FALSE
+"N1339","ok","",9.3717837109416e-05,FALSE
+"N1340","ok","",9.37168631776107e-05,FALSE
+"N1341","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1342","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1343","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1344","ok","",9.37176048646438e-05,FALSE
+"N1345","ok","",9.37154294648821e-05,FALSE
+"N1346","ok","",9.37148503852156e-05,FALSE
+"N1347","ok","",9.37162602623228e-05,FALSE
+"N1348","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1349","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1350","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1351","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1352","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1353","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1354","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1355","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1356","ok","",9.36499608832537e-05,FALSE
+"N1357","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1358","ok","",0.000100089980190995,FALSE
+"N1359","ok","",9.37196347569854e-05,FALSE
+"N1360","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1361","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1362","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1363","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1364","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1365","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1366","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1367","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1368","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1369","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1370","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1371","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1372","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1373","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1374","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1375","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1376","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1377","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1378","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1379","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1380","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1381","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1382","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1383","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1384","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1385","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1386","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1387","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1388","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1389","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1390","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1391","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1392","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1393","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1394","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1395","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1396","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1397","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1398","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1399","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1400","ok","",9.372152687599e-05,FALSE
+"N1401","ok","",9.37221385575757e-05,FALSE
+"N1402","ok","",9.37187630237938e-05,FALSE
+"N1403","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1404","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1405","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1406","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1407","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1408","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1409","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1410","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1411","ok","",9.37213603315878e-05,FALSE
+"N1412","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1413","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1414","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1415","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1416","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1417","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1418","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1419","ok","",9.42629689414012e-05,FALSE
+"N1420","ok","",9.42648034165199e-05,FALSE
+"N1421","ok","",9.42699545790834e-05,FALSE
+"N1422","ok","",9.42629224947189e-05,FALSE
+"N1423","ok","",0.000107575768295827,FALSE
+"N1424","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1425","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1426","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1427","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1428","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1429","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1430","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1431","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1432","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1433","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1434","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1435","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1436","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1437","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1438","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1439","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1440","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1441","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1442","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1443","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1444","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1445","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1446","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1447","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1448","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1449","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1450","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1451","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1452","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1453","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1454","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1455","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1456","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1457","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1458","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1459","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1460","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1461","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1462","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1463","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1464","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1465","ok","",0.000107574798436703,FALSE
+"N1466","ok","",9.37600345214822e-05,FALSE
+"N1467","ok","",9.37631196647144e-05,FALSE
+"N1468","ok","",9.37608594116017e-05,FALSE
+"N1469","ok","",9.37620072951575e-05,FALSE
+"N1470","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1471","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1472","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1473","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1474","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1475","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1476","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1477","ok","",9.37574506991016e-05,FALSE
+"N1478","ok","",9.3731698301367e-05,FALSE
+"N1479","ok","",9.37335066380792e-05,FALSE
+"N1480","ok","",9.37355069950535e-05,FALSE
+"N1481","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1482","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1483","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1484","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1485","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1486","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1487","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1488","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1489","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1490","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1491","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1492","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1493","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1494","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1495","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1496","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1497","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1498","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1499","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1500","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1501","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1502","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1503","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1504","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1505","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE
+"N1506","skipped","Constant observations: insufficient observed state space for fitting.",NA,FALSE

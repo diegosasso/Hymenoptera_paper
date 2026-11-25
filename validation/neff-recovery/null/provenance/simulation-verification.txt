@@ -1,0 +1,4 @@
+All 100 trees, groups and diversification curves identical to paired associated inputs.
+Trial 001 replay reproduced all 200 simulated character counts and terminal observations.
+Constant control characters: 0 / 20000
+Transitions: observed 859249; expected 859370.159

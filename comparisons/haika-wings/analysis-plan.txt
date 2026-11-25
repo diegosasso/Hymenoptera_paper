@@ -1,0 +1,130 @@
+HAIKA and ontophylo wing rate comparison
+
+Objective
+Compare where and when wing-associated morphological evolution is relatively
+fast in the ontophylo reconstruction and in the continuous HAIKA image traits.
+The fixed reference is the study's dated 77-tip topology. Raw rates have
+different units and are not estimates of the same anatomical character set.
+
+1. Establish the actual inputs
+Freeze source hashes and repository commits. Extract released Case 3 features
+and published PC1/PC2, check their agreement, and record the discrepancy between
+the paper's stated 64-dimensional representation and the released workbook.
+Audit the 77 molecular exemplars, morphological exemplars, and HAIKA labels
+separately. Do not silently substitute taxa, copy family means to tips, or infer
+missing image traits from ontophylo rates.
+
+2. Define comparable samples
+Use exact molecular-species overlap as a strict sensitivity. Use justified
+same-genus image exemplars as an explicitly labeled broader comparison where
+necessary. Where HAIKA coverage is incomplete, fit on the induced subtree of
+the 77-tip tree; do not describe prior-only rates at unobserved tips as inferred
+image evidence. Export every taxon assignment and exclusion. Preserve original
+node ages when branches are contracted.
+
+3. Reconstruct continuous rates on Roihu
+Start with the published PC1 and PC2 separately, preserving their biological
+interpretation and avoiding an assumption that all latent dimensions are
+independent traits. Fit homogeneous BM and phytools multirateBM penalized ML
+models with a prespecified penalty grid (0.1, 1, 10). Record convergence and
+optimization sensitivity; do not choose the penalty using correlation with
+ontophylo or ordinary AIC with the nominal parameter count. Extract the
+likelihood's logarithmic mean of parent and child node rates for each branch.
+Joint modeling or a feature-based PCA sensitivity depends on the data audit;
+it must not be presented as equivalent to separately fitted axes.
+
+4. Put both reconstructions on the same branches
+Primary ontophylo comparison: fore-wing transition counts / Myr, with the
+cuticular-only subset as an anatomical sensitivity. All-wings and hind-wing
+rates are secondary complementary comparisons. Sum original map counts along
+each retained path before dividing by its total duration. Keep all 1,000
+existing map replicates. Document that these onto histories condition on the
+full original sample; assess matched-tip refitting when feasible.
+
+5. Compare rates and marginalize through time
+Compare branch ranks, log-relative rates where defined, and branch categories.
+Normalize each realization by its tree-length-weighted mean, separately for
+each representation, so the common scale is relative evolutionary activity.
+Marginal rates average over lineages alive at each time. For finite bins use
+rate times overlapping branch duration divided by total lineage exposure.
+Use the same branches, times, weights and bins for HAIKA and ontophylo. Show
+sampling coverage alongside trajectories. Exclude or separately report the
+two basal edges whose individual BM variances are weakly identifiable.
+
+6. Quantify limits and robustness
+Ontophylo map intervals condition on the fitted discrete model; they are not
+BM uncertainty. For HAIKA, use appropriate simulation/refitting uncertainty
+and penalty sensitivity. Calibrate branch association against homogeneous-BM
+tip simulations refitted through the same pipeline on the same tree; naive
+branch shuffling or treating time bins as independent replicates is inadequate.
+Report the null tested and Monte Carlo resolution. Assess exact versus proxy
+taxon matching, anatomy partition, PC axis and penalty. Avoid interpreting
+agreement as validation of character homology or disagreement as method error.
+
+Deliverables
+Auditable source and taxon tables; readable scripts and Roihu job manifests;
+branch estimates and marginal curves; editable scientific figures; a numerical
+report with convergence, sensitivity, uncertainty and interpretive limits.
+
+Execution status
+2026-11-20: Completed with three agents auditing HAIKA, ontophylo, and
+statistical design. All 51 planned fits, 18 diagnostic fits and 199 conditional
+null replicates completed successfully on Roihu. Tables, four editable figure
+sets, numerical checks and interpretation are saved here; see analysis-report.txt.
+
+Resolved alignment and analysis scope
+The user explicitly authorized family-level image proxies as sensitivity and
+then requested alignment as close as possible to the original 77-tip tree.
+All 77 tips can be aligned using literal source-image family labels, covering
+48 historical morphology families and 112 images. Forty-one families have
+only one source image. No species identity is inferred from those labels.
+The main requested 77-tip comparison is therefore explicitly conditional on
+family proxies; it is not a species-resolved empirical comparison.
+
+The published Case 3 species matrix has cross-taxon profile inconsistencies,
+and its published PC scores cannot be reproduced from the released raw matrix.
+It is excluded from the primary inference. Genus labels in the S4 matrix also
+replicate family templates and do not solve this problem. Use original
+image-labelled matrices, preserving all source assignments instead.
+
+The primary input is the archived 64-dimensional embedding from seed 3407.
+Compute family means, then center (without unit-variance rescaling) and fit PCA
+to the 48 family means with equal family weight. Retain at least two axes and
+enough to explain 90% of variance (three axes, 96.94%, for seed 3407). Assign
+these family scores to the existing 77 tip positions. These new PC axes must
+not be called the published wing-shape and venation axes.
+
+Fit each retained axis separately. Sum raw axis diffusivities as an exploratory
+total variance rate before relative normalization; this sum does not assume
+independent uncertainty between fitted axes. Compare all77, two deterministic
+48-family representative subsets, four additional ANN seeds, and released28D
+inputs. The 51-fit manifest is fixed before inspecting rate associations.
+
+Interpret within-family slow rates in the full77 analysis as potentially imposed
+by duplicated profiles. Report interfamily branches and the48-family analyses
+separately. Three historical morphology families are nonmonophyletic on this
+tree, so representative selection is itself a sensitivity.
+
+For the conditional association null, estimate a homogeneous multivariate BM
+covariance on the48-family representative tree, retaining cross-PC covariance.
+Simulate family profiles on that tree and duplicate each profile to the same77
+tip assignments before refitting. Also refit the48-family tree. This tests
+association beyond shared phylogenetic geometry and family-proxy duplication,
+conditional on the fixed PCA, estimated null covariance and selected tree.
+Use199 simulations (one-tail probability grid0.005; doubled-minimum-tail
+grid0.010); no naive branch shuffling.
+
+Roihu location: /scratch/project_2004996/haika-wings
+Completed primary/null batch: 3285454 (eight CPUs, interactive partition).
+Completed numerical sensitivity batch: 3285525 (one CPU, interactive partition).
+Initial pending arrays were superseded by these completed allocations.
+
+Additional numerical diagnostic
+Boundary behavior in the completed primary fits prompted 18 additional fits:
+three PCs on the 77-tip and first 48-family trees, with lower log-rate offsets
+5 and 15 (versus the original 10), and a strong-smoothing penalty equal to the
+original root age. This diagnostic was selected before inspecting its own
+associations, but after examining the primary numerical behavior. It is not
+part of the original 51-fit manifest. See results/bound-sensitivity.csv.
+The existing 199-replicate null applies only to lambda 1, not to the strong
+smoothing diagnostic. Sensitivity figures distinguish these configurations.

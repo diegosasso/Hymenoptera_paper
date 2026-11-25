@@ -1,0 +1,181 @@
+"method","analysis","statistic","lower","upper","count","percent"
+"PyRate","Raw Pearson","r",-1,-0.96,0,0
+"PyRate","Raw Pearson","r",-0.96,-0.92,0,0
+"PyRate","Raw Pearson","r",-0.92,-0.88,0,0
+"PyRate","Raw Pearson","r",-0.88,-0.84,0,0
+"PyRate","Raw Pearson","r",-0.84,-0.8,0,0
+"PyRate","Raw Pearson","r",-0.8,-0.76,0,0
+"PyRate","Raw Pearson","r",-0.76,-0.72,0,0
+"PyRate","Raw Pearson","r",-0.72,-0.68,0,0
+"PyRate","Raw Pearson","r",-0.68,-0.64,2,1e-04
+"PyRate","Raw Pearson","r",-0.64,-0.6,1,5e-05
+"PyRate","Raw Pearson","r",-0.6,-0.56,1,5e-05
+"PyRate","Raw Pearson","r",-0.56,-0.52,8,4e-04
+"PyRate","Raw Pearson","r",-0.52,-0.48,21,0.00105
+"PyRate","Raw Pearson","r",-0.48,-0.44,48,0.0024
+"PyRate","Raw Pearson","r",-0.44,-0.4,87,0.00435
+"PyRate","Raw Pearson","r",-0.4,-0.36,117,0.00585
+"PyRate","Raw Pearson","r",-0.36,-0.32,170,0.0085
+"PyRate","Raw Pearson","r",-0.32,-0.28,297,0.01485
+"PyRate","Raw Pearson","r",-0.28,-0.24,427,0.02135
+"PyRate","Raw Pearson","r",-0.24,-0.2,688,0.0344
+"PyRate","Raw Pearson","r",-0.2,-0.16,1003,0.05015
+"PyRate","Raw Pearson","r",-0.16,-0.12,1411,0.07055
+"PyRate","Raw Pearson","r",-0.12,-0.08,2043,0.10215
+"PyRate","Raw Pearson","r",-0.08,-0.04,2832,0.1416
+"PyRate","Raw Pearson","r",-0.04,0,3908,0.1954
+"PyRate","Raw Pearson","r",0,0.04,5336,0.2668
+"PyRate","Raw Pearson","r",0.04,0.0800000000000001,6944,0.3472
+"PyRate","Raw Pearson","r",0.0800000000000001,0.12,9267,0.46335
+"PyRate","Raw Pearson","r",0.12,0.16,12285,0.61425
+"PyRate","Raw Pearson","r",0.16,0.2,16008,0.8004
+"PyRate","Raw Pearson","r",0.2,0.24,20961,1.04805
+"PyRate","Raw Pearson","r",0.24,0.28,26517,1.32585
+"PyRate","Raw Pearson","r",0.28,0.32,33281,1.66405
+"PyRate","Raw Pearson","r",0.32,0.36,40680,2.034
+"PyRate","Raw Pearson","r",0.36,0.4,50844,2.5422
+"PyRate","Raw Pearson","r",0.4,0.44,62782,3.1391
+"PyRate","Raw Pearson","r",0.44,0.48,75439,3.77195
+"PyRate","Raw Pearson","r",0.48,0.52,91666,4.5833
+"PyRate","Raw Pearson","r",0.52,0.56,110205,5.51025
+"PyRate","Raw Pearson","r",0.56,0.6,129954,6.4977
+"PyRate","Raw Pearson","r",0.6,0.64,150327,7.51635
+"PyRate","Raw Pearson","r",0.64,0.68,169175,8.45875
+"PyRate","Raw Pearson","r",0.68,0.72,184316,9.2158
+"PyRate","Raw Pearson","r",0.72,0.76,192105,9.60525
+"PyRate","Raw Pearson","r",0.76,0.8,187918,9.3959
+"PyRate","Raw Pearson","r",0.8,0.84,169845,8.49225
+"PyRate","Raw Pearson","r",0.84,0.88,132537,6.62685
+"PyRate","Raw Pearson","r",0.88,0.92,79594,3.9797
+"PyRate","Raw Pearson","r",0.92,0.96,27220,1.361
+"PyRate","Raw Pearson","r",0.96,1,1730,0.0865
+"PyRate","Raw Pearson","log10_p",-10,-9.75,0,0
+"PyRate","Raw Pearson","log10_p",-9.75,-9.5,2,1e-04
+"PyRate","Raw Pearson","log10_p",-9.5,-9.25,4,2e-04
+"PyRate","Raw Pearson","log10_p",-9.25,-9,3,0.00015
+"PyRate","Raw Pearson","log10_p",-9,-8.75,9,0.00045
+"PyRate","Raw Pearson","log10_p",-8.75,-8.5,14,7e-04
+"PyRate","Raw Pearson","log10_p",-8.5,-8.25,28,0.0014
+"PyRate","Raw Pearson","log10_p",-8.25,-8,48,0.0024
+"PyRate","Raw Pearson","log10_p",-8,-7.75,83,0.00415
+"PyRate","Raw Pearson","log10_p",-7.75,-7.5,163,0.00815
+"PyRate","Raw Pearson","log10_p",-7.5,-7.25,248,0.0124
+"PyRate","Raw Pearson","log10_p",-7.25,-7,381,0.01905
+"PyRate","Raw Pearson","log10_p",-7,-6.75,589,0.02945
+"PyRate","Raw Pearson","log10_p",-6.75,-6.5,947,0.04735
+"PyRate","Raw Pearson","log10_p",-6.5,-6.25,1562,0.0781
+"PyRate","Raw Pearson","log10_p",-6.25,-6,2236,0.1118
+"PyRate","Raw Pearson","log10_p",-6,-5.75,3426,0.1713
+"PyRate","Raw Pearson","log10_p",-5.75,-5.5,5028,0.2514
+"PyRate","Raw Pearson","log10_p",-5.5,-5.25,7306,0.3653
+"PyRate","Raw Pearson","log10_p",-5.25,-5,10246,0.5123
+"PyRate","Raw Pearson","log10_p",-5,-4.75,14490,0.7245
+"PyRate","Raw Pearson","log10_p",-4.75,-4.5,20117,1.00585
+"PyRate","Raw Pearson","log10_p",-4.5,-4.25,26958,1.3479
+"PyRate","Raw Pearson","log10_p",-4.25,-4,35935,1.79675
+"PyRate","Raw Pearson","log10_p",-4,-3.75,47330,2.3665
+"PyRate","Raw Pearson","log10_p",-3.75,-3.5,60289,3.01445
+"PyRate","Raw Pearson","log10_p",-3.5,-3.25,76008,3.8004
+"PyRate","Raw Pearson","log10_p",-3.25,-3,93124,4.6562
+"PyRate","Raw Pearson","log10_p",-3,-2.75,111376,5.5688
+"PyRate","Raw Pearson","log10_p",-2.75,-2.5,129671,6.48355
+"PyRate","Raw Pearson","log10_p",-2.5,-2.25,148703,7.43515
+"PyRate","Raw Pearson","log10_p",-2.25,-2,163390,8.1695
+"PyRate","Raw Pearson","log10_p",-2,-1.75,172939,8.64695
+"PyRate","Raw Pearson","log10_p",-1.75,-1.5,176205,8.81025
+"PyRate","Raw Pearson","log10_p",-1.5,-1.25,170652,8.5326
+"PyRate","Raw Pearson","log10_p",-1.25,-1,155038,7.7519
+"PyRate","Raw Pearson","log10_p",-1,-0.75,133031,6.65155
+"PyRate","Raw Pearson","log10_p",-0.75,-0.5,105279,5.26395
+"PyRate","Raw Pearson","log10_p",-0.5,-0.25,76246,3.8123
+"PyRate","Raw Pearson","log10_p",-0.25,0,50896,2.5448
+"BAMM","Linear detrending (partial Pearson)","r",-1,-0.96,0,0
+"BAMM","Linear detrending (partial Pearson)","r",-0.96,-0.92,2,1.11104938614521e-05
+"BAMM","Linear detrending (partial Pearson)","r",-0.92,-0.88,271,0.00150547191822677
+"BAMM","Linear detrending (partial Pearson)","r",-0.88,-0.84,3496,0.0194211432698183
+"BAMM","Linear detrending (partial Pearson)","r",-0.84,-0.8,21708,0.120593300372202
+"BAMM","Linear detrending (partial Pearson)","r",-0.8,-0.76,73207,0.406682962057663
+"BAMM","Linear detrending (partial Pearson)","r",-0.76,-0.72,152263,0.845858563413144
+"BAMM","Linear detrending (partial Pearson)","r",-0.72,-0.68,238727,1.32618743403144
+"BAMM","Linear detrending (partial Pearson)","r",-0.68,-0.64,326766,1.81526581856564
+"BAMM","Linear detrending (partial Pearson)","r",-0.64,-0.6,415400,2.30764957502361
+"BAMM","Linear detrending (partial Pearson)","r",-0.6,-0.56,467267,2.59578356757958
+"BAMM","Linear detrending (partial Pearson)","r",-0.56,-0.52,483352,2.68513971446031
+"BAMM","Linear detrending (partial Pearson)","r",-0.52,-0.48,491418,2.72994833620354
+"BAMM","Linear detrending (partial Pearson)","r",-0.48,-0.44,479320,2.66274095883562
+"BAMM","Linear detrending (partial Pearson)","r",-0.44,-0.4,462337,2.5683962002111
+"BAMM","Linear detrending (partial Pearson)","r",-0.4,-0.36,436264,2.42355424698628
+"BAMM","Linear detrending (partial Pearson)","r",-0.36,-0.32,416001,2.31098827842898
+"BAMM","Linear detrending (partial Pearson)","r",-0.32,-0.28,394265,2.19023943114271
+"BAMM","Linear detrending (partial Pearson)","r",-0.28,-0.24,364285,2.02369312815955
+"BAMM","Linear detrending (partial Pearson)","r",-0.24,-0.2,333669,1.85361368812844
+"BAMM","Linear detrending (partial Pearson)","r",-0.2,-0.16,310680,1.72590411643798
+"BAMM","Linear detrending (partial Pearson)","r",-0.16,-0.12,290699,1.61490472751514
+"BAMM","Linear detrending (partial Pearson)","r",-0.12,-0.08,274282,1.52370423865341
+"BAMM","Linear detrending (partial Pearson)","r",-0.08,-0.04,262450,1.45797455696906
+"BAMM","Linear detrending (partial Pearson)","r",-0.04,0,258582,1.43648686184101
+"BAMM","Linear detrending (partial Pearson)","r",0,0.04,260467,1.44695850230543
+"BAMM","Linear detrending (partial Pearson)","r",0.04,0.0800000000000001,267865,1.48805621909894
+"BAMM","Linear detrending (partial Pearson)","r",0.0800000000000001,0.12,275286,1.52928170657186
+"BAMM","Linear detrending (partial Pearson)","r",0.12,0.16,284974,1.58310093883673
+"BAMM","Linear detrending (partial Pearson)","r",0.16,0.2,294754,1.63743125381923
+"BAMM","Linear detrending (partial Pearson)","r",0.2,0.24,313783,1.74314204766402
+"BAMM","Linear detrending (partial Pearson)","r",0.24,0.28,342999,1.90544414199211
+"BAMM","Linear detrending (partial Pearson)","r",0.28,0.32,380878,2.11587134048108
+"BAMM","Linear detrending (partial Pearson)","r",0.32,0.36,419331,2.32948725070829
+"BAMM","Linear detrending (partial Pearson)","r",0.36,0.4,464922,2.58275651352703
+"BAMM","Linear detrending (partial Pearson)","r",0.4,0.44,507616,2.81993222598745
+"BAMM","Linear detrending (partial Pearson)","r",0.44,0.48,551748,3.06509638353425
+"BAMM","Linear detrending (partial Pearson)","r",0.48,0.52,586127,3.25608021776568
+"BAMM","Linear detrending (partial Pearson)","r",0.52,0.56,617663,3.43127048497306
+"BAMM","Linear detrending (partial Pearson)","r",0.56,0.6,645982,3.58858952280429
+"BAMM","Linear detrending (partial Pearson)","r",0.6,0.64,672181,3.73413143714238
+"BAMM","Linear detrending (partial Pearson)","r",0.64,0.68,684664,3.80347758457863
+"BAMM","Linear detrending (partial Pearson)","r",0.68,0.72,678166,3.76737959002278
+"BAMM","Linear detrending (partial Pearson)","r",0.72,0.76,645208,3.58428976167991
+"BAMM","Linear detrending (partial Pearson)","r",0.76,0.8,605771,3.36520748847286
+"BAMM","Linear detrending (partial Pearson)","r",0.8,0.84,563529,3.13054274762513
+"BAMM","Linear detrending (partial Pearson)","r",0.84,0.88,486050,2.70012777067941
+"BAMM","Linear detrending (partial Pearson)","r",0.88,0.92,340997,1.8943225376368
+"BAMM","Linear detrending (partial Pearson)","r",0.92,0.96,142394,0.791033831453808
+"BAMM","Linear detrending (partial Pearson)","r",0.96,1,10934,0.0607410699405589
+"BAMM","Linear detrending (partial Pearson)","log10_p",-10,-9.75,0,0
+"BAMM","Linear detrending (partial Pearson)","log10_p",-9.75,-9.5,1,5.55524693072607e-06
+"BAMM","Linear detrending (partial Pearson)","log10_p",-9.5,-9.25,8,4.44419754458086e-05
+"BAMM","Linear detrending (partial Pearson)","log10_p",-9.25,-9,14,7.7773457030165e-05
+"BAMM","Linear detrending (partial Pearson)","log10_p",-9,-8.75,27,0.000149991667129604
+"BAMM","Linear detrending (partial Pearson)","log10_p",-8.75,-8.5,59,0.000327759568912838
+"BAMM","Linear detrending (partial Pearson)","log10_p",-8.5,-8.25,81,0.000449975001388812
+"BAMM","Linear detrending (partial Pearson)","log10_p",-8.25,-8,150,0.000833287039608911
+"BAMM","Linear detrending (partial Pearson)","log10_p",-8,-7.75,248,0.00137770123882007
+"BAMM","Linear detrending (partial Pearson)","log10_p",-7.75,-7.5,331,0.00183878673407033
+"BAMM","Linear detrending (partial Pearson)","log10_p",-7.5,-7.25,441,0.0024498638964502
+"BAMM","Linear detrending (partial Pearson)","log10_p",-7.25,-7,688,0.00382200988833954
+"BAMM","Linear detrending (partial Pearson)","log10_p",-7,-6.75,1110,0.00616632409310594
+"BAMM","Linear detrending (partial Pearson)","log10_p",-6.75,-6.5,1905,0.0105827454030332
+"BAMM","Linear detrending (partial Pearson)","log10_p",-6.5,-6.25,3297,0.0183156491306039
+"BAMM","Linear detrending (partial Pearson)","log10_p",-6.25,-6,5586,0.0310316093550358
+"BAMM","Linear detrending (partial Pearson)","log10_p",-6,-5.75,8554,0.0475195822454308
+"BAMM","Linear detrending (partial Pearson)","log10_p",-5.75,-5.5,13183,0.0732348202877618
+"BAMM","Linear detrending (partial Pearson)","log10_p",-5.5,-5.25,20237,0.112421532137103
+"BAMM","Linear detrending (partial Pearson)","log10_p",-5.25,-5,30748,0.170812732625965
+"BAMM","Linear detrending (partial Pearson)","log10_p",-5,-4.75,43937,0.244080884395311
+"BAMM","Linear detrending (partial Pearson)","log10_p",-4.75,-4.5,60293,0.334942503194267
+"BAMM","Linear detrending (partial Pearson)","log10_p",-4.5,-4.25,81634,0.453497027942892
+"BAMM","Linear detrending (partial Pearson)","log10_p",-4.25,-4,109479,0.60818287872896
+"BAMM","Linear detrending (partial Pearson)","log10_p",-4,-3.75,142130,0.789567246264096
+"BAMM","Linear detrending (partial Pearson)","log10_p",-3.75,-3.5,181480,1.00816621298817
+"BAMM","Linear detrending (partial Pearson)","log10_p",-3.5,-3.25,229151,1.27299038942281
+"BAMM","Linear detrending (partial Pearson)","log10_p",-3.25,-3,283165,1.57305149713905
+"BAMM","Linear detrending (partial Pearson)","log10_p",-3,-2.75,350061,1.9446752958169
+"BAMM","Linear detrending (partial Pearson)","log10_p",-2.75,-2.5,438372,2.43526470751625
+"BAMM","Linear detrending (partial Pearson)","log10_p",-2.5,-2.25,564437,3.13558691183823
+"BAMM","Linear detrending (partial Pearson)","log10_p",-2.25,-2,741058,4.11676017999
+"BAMM","Linear detrending (partial Pearson)","log10_p",-2,-1.75,964040,5.35548025109716
+"BAMM","Linear detrending (partial Pearson)","log10_p",-1.75,-1.5,1245374,6.91836009110605
+"BAMM","Linear detrending (partial Pearson)","log10_p",-1.5,-1.25,1548331,8.60136103549803
+"BAMM","Linear detrending (partial Pearson)","log10_p",-1.25,-1,1823591,10.1304983056497
+"BAMM","Linear detrending (partial Pearson)","log10_p",-1,-0.75,2065528,11.4745180823288
+"BAMM","Linear detrending (partial Pearson)","log10_p",-0.75,-0.5,2203097,12.2387478473418
+"BAMM","Linear detrending (partial Pearson)","log10_p",-0.5,-0.25,2271784,12.6203210932726
+"BAMM","Linear detrending (partial Pearson)","log10_p",-0.25,0,2567390,14.2624854174768

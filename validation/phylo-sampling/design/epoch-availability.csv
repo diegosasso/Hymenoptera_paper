@@ -1,0 +1,4 @@
+"epoch","lower_ma","upper_ma","n_nodes","n_variable_study","n_nodes_preserved"
+1,0,80,540,94,6
+2,80,160,177,110,37
+3,160,280,17,17,16

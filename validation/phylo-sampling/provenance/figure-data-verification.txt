@@ -1,0 +1,6 @@
+PASS: all final marginal and recovery figure summaries verified.
+16,860 marginal points and 60 recovery points; 100 trial estimates per point.
+Maximum marginal-summary disagreement: 5.03069808033274e-17
+Maximum recovery-summary disagreement: 6.3948846218409e-14
+Matched and all-character study curves agree exactly.
+Ribbons and bars are empirical central 95% ranges across trial means.

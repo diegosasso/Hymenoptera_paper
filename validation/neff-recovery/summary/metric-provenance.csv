@@ -1,0 +1,10 @@
+quantity,simulation_truth,reconstruction
+Tree,Simulated pure birth tree,Same fixed tree supplied
+Tip states,Terminal states from simulated histories,Observed data supplied
+Diversification,Known generating lambda minus mu,Same known trajectory; not re-estimated
+Character Q,Forced origin then slow ER at q=0.0001,One homogeneous ER model fitted per variable character
+Histories,Actual simulated event histories,100 conditional stochastic maps per variable character
+Branch rates,Actual counts summed by unit divided by branch length,Reconstructed counts summed by unit divided by branch length
+Acceleration,Strict relative 95th percentile classification,Same classification separately within each map
+Neff,Joint pattern diversity from actual histories,Joint pattern diversity per map then mean
+Correlation,True Neff versus known diversification,Reconstructed Neff versus known diversification

@@ -1,0 +1,7 @@
+53ad5a1ece5e50a45fc421e26f1f246413f09fddece033e8e33a63aa5ac32144  scripts/00-prepare-design.R
+9697b6c4fa831c8843f83526a1f5aaedadef061434836e3f9a9d4ad5626f6135  scripts/01-fit-node-bank.R
+4a4f547c592551171392080f356034242fbf5ec7f68e011fc9c1a7b0a18a53d4  scripts/02-collect-node-bank.R
+23f63fa91195ad695772a82203ac36b11cae6a7378b23524afb9bbee50b5aa95  scripts/03-run-trial.R
+7a148632a4aa391dcfa8abb2f277f0ada368cd161c1fefd68de85693612118c7  scripts/rate-summaries.R
+26b307be17cf112acd5277a644716d32f5505284fb607caf47e820a12cdc5bb0  scripts/load-packages.R
+a48a700c3ce1da2c40ac4833141de4a34f79f46ecfeac37a6aff9d81b822f0b1  scripts/select-worker-port.py

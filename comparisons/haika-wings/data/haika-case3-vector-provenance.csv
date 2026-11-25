@@ -1,0 +1,170 @@
+case3_species,n_identical_case2_rows,identical_case2_labels
+Tetragonula_carbonaria,1,Apocrita-Trigonalidae
+Bombus_rupestris,1,Aculeata-Bombini_Bombus
+Apis_mellifera,1,Aculeata-Apini_Apis
+Euglossa_dilemma,1,Aculeata-Euglossini_Euglossa
+Xylocopa_violacea,2,Aculeata-Megachile_Megachile;Aculeata-Xylocopini_Xylocopa
+Ceratina_chalybea,1,Aculeata-Ceratinini_Ceratina
+Eucera_plumigera,1,Aculeata-Eucerini_Eucera
+Eucera_nigrescens,1,Aculeata-Eucerini_Eucera
+Eucera_syriaca,1,Aculeata-Eucerini_Eucera
+Tetralonia_malvae,1,Aculeata-Eucerini_Thygater
+Tetraloniella_nigriceps,1,Aculeata-Eucerini_Thygater
+Tetraloniella_sp,1,Aculeata-Eucerini_Thygater
+Nomada_lathburiana,1,Aculeata-Nomadini_Nomada
+Epeolus_variegatus,1,Aculeata-Epeolini_Epeolus
+Ammobates_syriacus,1,Aculeata-Ammobatoidini_Holcopasites
+Thyreus_orbatus,1,Aculeata-Melectini_Zacosmia
+Anthophora_plumipes,1,Aculeata-Anthophorini_Anthophora
+Osmia_cornuta,1,Aculeata-Osirini_Osiris
+Heriades_truncorum,1,Aculeata-Osirini_Osiris
+Chelostoma_florisomne,1,Aculeata-Osmiini_Chelostoma
+Megachile_willughbiella,2,Aculeata-Megachile_Megachile;Aculeata-Xylocopini_Xylocopa
+Coelioxys_conoidea,2,Aculeata-Megachile_Megachile;Aculeata-Xylocopini_Xylocopa
+Anthidium_manicatum,1,Aculeata-Anthidiini_Anthidium
+Stelis_punctulatissima,1,Aculeata-Anthidiini_Anthidium
+Dioxys_cincta,1,Aculeata-Dioxyini_Dioxys
+Lithurgus_chrysurus,1,Aculeata-Megachilidae
+Halictus_quadricinctus,1,Aculeata-Halictini_Lasioglossum_1
+Lasioglossum_xanthopus,1,Aculeata-Halictini_Lasioglossum_1
+Sphecodes_albilabris,1,Aculeata-Halictini_Sphecodes
+Nomioides_sp,1,Aculeata-Nomioidinae_Nomioides
+Nomia_diversipes,1,Aculeata-Nomiinae_Nomia
+Systropha_curvicornis,1,Aculeata-Rophitinae_Systropha
+Dufourea_dentiventris,1,Aculeata-Rophitinae_Dufourea
+Colletes_cunicularius,1,Aculeata-Colletes_sp.
+Hylaeus_variegatus,1,Aculeata-Hylaeinae_Hylaeus_2
+Andrena_vaga,1,Aculeata-Andreninae_Andrena_2
+Camptopoeum_sacrum,2,Aculeata-Stenotritus_Camptopoeum;Aculeata-Stenotritus_Panurginus
+Panurgus_dentipes,2,Aculeata-Stenotritus_Camptopoeum;Aculeata-Stenotritus_Panurginus
+Macropis_fulvipes,1,Aculeata-Melittidae_Melittinae_1
+Melitta_haemorrhoidalis,1,Aculeata-Melittidae_Melittinae_2
+Dasypoda_hirtipes,1,Aculeata-Melittidae_Dasypodainae_2
+Psenulus_fuscipennis,1,Aculeata-Crabronidae Crabroninae
+Pemphredon_lugens,1,Aculeata-Pemphredonidae Pemphredoninae
+Diodontus_minutus,1,Aculeata-Pemphredonidae Pemphredoninae
+Passaloecus_eremita,1,Aculeata-Pemphredonidae Pseninae
+Spilomena_beata,1,Aculeata-Pemphredonidae Pemphredoninae
+Pseudoscolia_sinaitica,1,Aculeata-Crabronidae Crabroninae
+Cerceris_arenaria,1,Aculeata-Crabronidae Crabroninae
+Philanthus_triangulum,1,Aculeata-Philanthidae Philanthinae
+Sphecius_convallis,1,Aculeata-Sphecidae Sphecinae
+Bembix_rostrata,1,Aculeata-Nyssonidae Bembicinae
+Stizoides_tridentatus,1,Aculeata-Nyssonidae Stizinae
+Stizus_continuus,1,Aculeata-Nyssonidae Stizinae
+Harpactus_elegans,1,Aculeata-Nyssonidae Gorytinae
+Gorytes_laticinctus,1,Aculeata-Nyssonidae Gorytinae
+Nysson_niger,1,Aculeata-Nyssonidae Nyssoninae
+Alysson_spinosus,1,Aculeata-Nyssonidae Alyssoninae
+Dryudella_pinguis,1,Aculeata-Astatidae Dinetinae
+Astata_minor,1,Aculeata-Astatidae Astatinae
+Mellinus_arvensis,1,Aculeata-Mellininae
+Liris_sp,1,Aculeata-Sphecidae Larrinae
+Tachysphex_fulvitarsis,1,Aculeata-Sphecidae Larrinae
+Trypoxylon_figulus,1,Aculeata-Sphecidae Larrinae
+Pison_atrum,1,Aculeata-Sphecidae Larrinae
+Palarus_histrio,1,Aculeata-Sphecidae Larrinae
+Nitela_sp,1,Aculeata-Sphecidae Larrinae
+Lestica_clypeata,1,Aculeata-Crabronidae Crabroninae
+Crossocerus_quadrimaculatus,1,Aculeata-Crabronidae Crabroninae
+Crabro_peltarius,1,Aculeata-Crabronidae Crabroninae
+Oxybelus_bipunctatus,1,Aculeata-Crabronidae Crabroninae
+Dinetus_pictus,1,Aculeata-Astatidae Dinetinae
+Chlorion_hirtum,1,Aculeata-Sphecidae Sphecinae
+Chalybion_californicum,1,Aculeata-Sphecidae Sphecinae
+Sceliphron_curvatum,1,Aculeata-Sphecidae scelipbrinae
+Ammophila_sabulosa,1,Aculeata-Sphecidae Arnmophilinae
+Podalonia_hirsuta,1,Aculeata-Sphecidae Arnmophilinae
+Isodontia_mexicana,1,Aculeata-Sphecidae Sphecinae
+Prionyx_kirbii,1,Aculeata-Sphecidae Sphecinae
+Sphex_funerarius,1,Aculeata-Sphecidae Sphecinae
+Dolichurus_corniculus,1,Aculeata-Ampulicidae Dolichurinae
+Ampulex_fasciata,1,Aculeata-Ampulicidae Dolichurinae
+Ampulex_compressa,1,Aculeata-Ampulicidae Dolichurinae
+Camponotus_floridanus,1,Aculeata-Formicidae Formicinae Camponotini 2
+Acromyrmex_echinatior,1,Aculeata-Formicidae Formicinae Camponotini 2
+Harpegnathos_saltator,1,Aculeata-Formicidae Ponerinae Ectatommini
+Colpa_sexmaculata,1,Aculeata-Scoliidae Scoliinae
+Scolia_hirta,1,Aculeata-Scoliidae Scoliinae
+Sapgya_quinquepunctata,1,Aculeata-Sapygidae Sapyginae
+Monosapyga_clavicornis,1,Aculeata-Sapygidae Sapyginae
+Sapygina_decemguttata,1,Aculeata-Sapygidae Sapyginae
+Dasymutilla_gloriosa,1,Aculeata-Melittidae_Dasypodainae_2
+Smicromyrme_rufipes,1,Aculeata-Mutillidae Rhopalomutillinae (male)
+Episyron_rufipes,1,Aculeata-Pompilidae Pompilinae
+Pompilus_cinereus,1,Aculeata-Pompilidae Pompilinae
+Auplopus_ablifrons,1,Aculeata-Pompilidae Pepsinae
+Heterodontonyx_sp,1,Aculeata-Pompilidae Pepsinae
+Chyphotes_sp,1,Aculeata-Bradynobaenidae Chyphotinae
+Methocha_articulata,1,Aculeata-Tiphiidae Methocinae (male)
+Meria_tripunctata,1,Aculeata-Tiphiidae Methocinae (male)
+Tiphia_femorata,1,Aculeata-Tiphiidae Tiphiinae
+Vespula_germanica,1,Aculeata-Vespidae Vespinae
+Vespa_crabro,1,Aculeata-Vespidae Vespinae
+Polistes_dominula,1,Aculeata-Vespidae Polistinae
+Eumenes_papillarius,1,Aculeata-Vespidae Eumeninae
+Masaris_aegyptiacus,1,Aculeata-Vespidae Masarinae
+Parischnogaster_nigricans,1,Aculeata-Vespidae Stenogastrinae
+Chrysis_viridula,1,Aculeata-Chrysididae Chrysidinae
+Parnopes_grandior,1,Aculeata-Chrysididae Chrysidinae
+Elampus_spina,1,Aculeata-Chrysididae Chrysidinae
+Cleptes_nitidulus,1,Aculeata-Chrysididae Cleptinae
+Cephalonomia_tarsalis,1,Aculeata-Bethylidae Pristocerinae (male)
+Plumarius_gradifrons,1,Aculeata-Plumariidae
+Pseudogonalos_hahnii,1,Apocrita-Trigonalidae
+Stephanus_serrator,1,Apocrita-Stephanidae
+Gasteruption_tournieri,1,Apocrita-Gasteruptiidae
+Aulacus_burquei,1,Apocrita-Aulacidae
+Brachygaster_minuta,1,Apocrita-Evaniidae
+Ibalia_leucospoides,1,Apocrita-Ibaliidae
+Leptopilina_clavipes,1,Apocrita-Figitidae Eucoilinae
+Andricus_quercuscalicis,1,Apocrita-Cynipidae
+Synergus_umbraculus,1,Apocrita-Cynipidae
+Pediaspis_aceris,1,Apocrita-Cynipidae
+Trissolcus_semistriatus,1,Apocrita-Platygastridae
+Telenomus_sp,1,Apocrita-Platygastridae
+Inostemma_sp,1,Apocrita-Platygastridae
+Nasonia_vitripennis,1,Apocrita-Pteromalidae
+Torymus_bedeguaris,1,Apocrita-Torymidae
+Brachymeria_minuta,1,Apocrita-Chalcididae
+Orasema_simulatrix,1,Apocrita-Eucharitidae
+Diglyphus_isaea,1,Apocrita-Eulophidae
+Cosmocomoidea_morrilli,1,Apocrita-Mymaridae
+Trichopria_drosophilae,1,Apocrita-Diapriidae
+Pelecinus_polyturator,1,Apocrita-Pelecinidae
+Brachyserphus_parvulus,1,Apocrita-Proctotrupidae
+Dendrocerus_carpenteri_1,0,
+Dendrocerus_carpenteri_2,0,
+Ceraphron_sp,1,Apocrita-Ceraphronidae
+Cotesia_vestalis,1,Apocrita-Braconidae Macrocentrinae
+Macrocentrus_marginator,1,Apocrita-Braconidae Macrocentrinae
+Diaeretus_essigellae,1,Apocrita-Braconidae Aphidiinae
+Aphidius_colemani,1,Apocrita-Braconidae Aphidiinae
+Aleiodes_testaceus,1,Apocrita-Braconidae Rogadinae
+Dacnusa_sibirica,1,Apocrita-Braconidae Rogadinae
+Hyposoter_didymator,1,Apocrita-Ichneumonidae Campopleginae
+Heteropelma_amictum,1,Apocrita-Ichneumonidae Campopleginae
+Netelia_sp,1,Apocrita-Ichneumonidae Tryphoninae
+Netelia_testacea,1,Apocrita-Ichneumonidae Tryphoninae
+Pimpla_flavicoxis,1,Apocrita-Ichneumonidae Oxytorinae
+Syrphophilus_tricinctorius,1,Apocrita-Ichneumonidae Oxytorinae
+Ichneumon_albiger,1,Apocrita-Ichneumonidae Ichneumoninae
+Buathra_laborator,1,Apocrita-Ichneumonidae Ichneumoninae
+Orussus_unicolor,1,Symphyta-Orussidae
+Orussus_abietinus,1,Symphyta-Orussidae
+Cephus_spinipes,1,Symphyta-Cephidae
+Sirex_noctilio,1,Symphyta-Siricidae
+Urocerus_augur,1,Symphyta-Siricidae
+Tremex_magus,1,Symphyta-Siricidae
+Xiphydria_camelus,1,Symphyta-Xiphydriidae
+Tenthredo_koehleri,1,Symphyta-Tenthredinidae
+Nematus_ribesii,1,Symphyta-Tenthredinidae
+Diprion_pini,1,Symphyta-Diprionidae 1
+Cimbex_rubida,1,Symphyta-Tenthredinidae
+Pergagrapta_polita,1,Symphyta-Pergidae
+Aproceros_leucopoda,1,Symphyta-Argidae
+Arge_berberidis,1,Symphyta-Argidae
+Blasticotoma_filiceti,1,Symphyta-Blasticotomidae
+Xyela_alpigena,1,Symphyta-Xyelidae
+Megalodontes_cephalotes,1,Symphyta-Megalodontesidae
+Acantholyda_hieroglyphica,1,Symphyta-Pamphiliidae

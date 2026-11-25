@@ -1,0 +1,5 @@
+Fitted characters inspected: 20000
+Warnings: 0
+Boundary flags: 0
+Errors: 0
+Optimizer convergence codes are not exposed by the fitting wrapper.

@@ -1,0 +1,7 @@
+{
+  "summary/neff-curves.csv": "122d156fa0c93df02bcc5cebdf7c7e392acfc4c37ae5dc3d2c7e1c68a067ebe8",
+  "null/summary/neff-curves.csv": "55c042455308499413d8a96ee27bd06a890bb74730c7f0df16b8bcd968f2d24d",
+  "null/summary/comparison-correlations.csv": "ba8a3eb08559f20b90c5bcfe656e00ce89a69acfcd8443e4a15d0d59dc537f07",
+  "simulated/trial-001/simulation.rds": "830340792abb732a4f70f6a846edded00d1770ff1c5257c29692fdf5186184d5",
+  "scripts/nature-style.R": "7369eacd8db4b13bcbdb56c3a4e0bc50c30e14af775eac6bcd4b43409c6b6f88"
+}

@@ -1,0 +1,9 @@
+PASS: all 1500 paired trials independently audited.
+Full-tree maps: 12870000
+Study-tree maps: 3895800
+Maximum per-map marginal disagreement: 0
+Maximum 95% quantile disagreement: 0
+No failed fits or mappings; constants explicitly tracked.
+All 734 node patterns and the Apocrita-only origin restriction checked independently.
+All saved raw maps, selected-node epochs, origins, unit scaling and map counts checked.
+Every saved branch/marginal 95% interval and every per-map marginal curve checked.

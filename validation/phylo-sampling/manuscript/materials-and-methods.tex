@@ -1,0 +1,43 @@
+% Concise manuscript text; implementation and checks are archived with the analysis.
+\subsection{Simulations of phylogenetic sampling bias}
+
+We tested whether the 77-taxon study sample could recover a period of increased
+phenomic change. We simulated single-origin binary characters on the 765-taxon
+phylogeny of \citet{blaimer2023} and reconstructed their rates before and after
+pruning to the study taxa.
+
+Within Apocrita, excluding its stem, the 0--80, 80--160 and 160--280~Ma
+intervals contained 540, 177 and 17 eligible nodes. We randomly selected
+5\%, 10\%, 30\%, 50\% or 80\% of nodes in each interval without replacement,
+rounding to the nearest whole node (minimum one). Each selected node defined
+one character: descendants were coded~1 and all other taxa~0. We generated
+100 trials per combination, giving 1,500 paired datasets.
+
+On both trees, we fitted each variable character with a homogeneous equal-rates
+Mk model in \texttt{ontophylo} (development version 0.3.0), using five
+optimization starts and the \texttt{maddfitz} root treatment
+\citep{fitzjohn2009}. We generated 100 \texttt{phytools} stochastic maps per
+character per trial \citep{revell2024}, holding the fitted model fixed.
+Characters made constant by pruning were omitted.
+
+We summed mapped changes across characters on each branch and divided by its
+duration. We then averaged these combined branch rates across lineages present
+at each age to obtain marginal curves at 1~Myr intervals. We compared all
+simulated characters and, separately, the same surviving characters on both
+trees.
+
+To summarize recovery of recent change, we compared average rates in 0--80 and
+80--160~Ma, weighting branches by their duration within each interval. We
+counted trials with a higher recent mean and those whose conditional 95\%
+mapping interval for the difference lay above zero. These counts describe
+recovery under the imposed changes; they are not calibrated detection power.
+
+\paragraph{Recovery of recent change.}
+At the lowest intensity (5\% of recent nodes; 27 characters), only 4.94
+characters remained variable on average: approximately 82\% were lost.
+Nevertheless, the study tree recovered a higher recent rate in 92 of 100
+trials, with a median 1.80-fold increase over 80--160~Ma. The conditional 95\%
+mapping interval supported an increase in 86 trials. Recovery reached
+98 of 100 trials at 10\% intensity and all 300 trials at 30--80\%.
+Thus, a recent increase remained recoverable in almost all trials under this
+design (490/500; 98\%), including most trials with sparse change.

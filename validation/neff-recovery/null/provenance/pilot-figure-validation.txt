@@ -1,0 +1,2 @@
+trial-001-overview: embedded fonts verified; PDF render inspected.
+trial-001-unit-acceleration: embedded fonts verified; PDF render inspected.

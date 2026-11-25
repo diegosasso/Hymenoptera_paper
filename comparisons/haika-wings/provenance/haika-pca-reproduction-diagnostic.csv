@@ -1,0 +1,5 @@
+feature_scaling,axis,variance_fraction,correlation_with_published_axis_sign_arbitrary
+center_only,1,0.4919186658160328,0.4293417468594502
+center_only,2,0.39158723183329164,-0.4627774150630265
+center_and_unit_variance,1,0.44026952141664766,0.6096304147480417
+center_and_unit_variance,2,0.31662439477335286,-0.5883682399356163

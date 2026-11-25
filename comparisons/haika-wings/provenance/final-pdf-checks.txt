@@ -1,0 +1,104 @@
+comparisons/haika-wings/figures/haika-ontophylo-comparison.pdf
+pdfinfo
+Producer:        cairo 1.17.6 (https://cairographics.org)
+CreationDate:    Fri Nov 20 19:17:48 2026 EET
+Custom Metadata: no
+Metadata Stream: no
+Tagged:          no
+UserProperties:  no
+Suspects:        no
+Form:            none
+JavaScript:      no
+Pages:           1
+Encrypted:       no
+Page size:       518 x 481 pts
+Page rot:        0
+File size:       38691 bytes
+Optimized:       no
+PDF version:     1.7
+
+comparisons/haika-wings/figures/haika-ontophylo-comparison.pdf
+pdffonts
+name                                 type              encoding         emb sub uni object ID
+------------------------------------ ----------------- ---------------- --- --- --- ---------
+OCSWUZ+ArialMT                       TrueType          WinAnsi          yes yes yes      6  0
+AETMAY+Arial-BoldMT                  TrueType          WinAnsi          yes yes yes      7  0
+
+comparisons/haika-wings/figures/haika-ontophylo-paired-rate-trees.pdf
+pdfinfo
+Producer:        cairo 1.17.6 (https://cairographics.org)
+CreationDate:    Fri Nov 20 19:17:50 2026 EET
+Custom Metadata: no
+Metadata Stream: no
+Tagged:          no
+UserProperties:  no
+Suspects:        no
+Form:            none
+JavaScript:      no
+Pages:           1
+Encrypted:       no
+Page size:       935 x 935 pts
+Page rot:        0
+File size:       49821 bytes
+Optimized:       no
+PDF version:     1.7
+
+comparisons/haika-wings/figures/haika-ontophylo-paired-rate-trees.pdf
+pdffonts
+name                                 type              encoding         emb sub uni object ID
+------------------------------------ ----------------- ---------------- --- --- --- ---------
+FTVIFR+Arial-ItalicMT                TrueType          WinAnsi          yes yes yes      6  0
+WZWPYM+ArialMT                       TrueType          WinAnsi          yes yes yes      7  0
+MUXCWS+Arial-BoldMT                  TrueType          WinAnsi          yes yes yes      8  0
+
+comparisons/haika-wings/figures/haika-ontophylo-sensitivity-correlations.pdf
+pdfinfo
+Producer:        cairo 1.17.6 (https://cairographics.org)
+CreationDate:    Fri Nov 20 19:17:49 2026 EET
+Custom Metadata: no
+Metadata Stream: no
+Tagged:          no
+UserProperties:  no
+Suspects:        no
+Form:            none
+JavaScript:      no
+Pages:           1
+Encrypted:       no
+Page size:       518 x 453 pts
+Page rot:        0
+File size:       29993 bytes
+Optimized:       no
+PDF version:     1.7
+
+comparisons/haika-wings/figures/haika-ontophylo-sensitivity-correlations.pdf
+pdffonts
+name                                 type              encoding         emb sub uni object ID
+------------------------------------ ----------------- ---------------- --- --- --- ---------
+FHKTDA+ArialMT                       TrueType          WinAnsi          yes yes yes      6  0
+MUXCWS+Arial-BoldMT                  TrueType          WinAnsi          yes yes yes      7  0
+
+comparisons/haika-wings/figures/haika-sensitivity-trajectories.pdf
+pdfinfo
+Producer:        cairo 1.17.6 (https://cairographics.org)
+CreationDate:    Fri Nov 20 19:17:50 2026 EET
+Custom Metadata: no
+Metadata Stream: no
+Tagged:          no
+UserProperties:  no
+Suspects:        no
+Form:            none
+JavaScript:      no
+Pages:           1
+Encrypted:       no
+Page size:       518 x 481 pts
+Page rot:        0
+File size:       32115 bytes
+Optimized:       no
+PDF version:     1.7
+
+comparisons/haika-wings/figures/haika-sensitivity-trajectories.pdf
+pdffonts
+name                                 type              encoding         emb sub uni object ID
+------------------------------------ ----------------- ---------------- --- --- --- ---------
+EUMMVN+ArialMT                       TrueType          WinAnsi          yes yes yes      6  0
+MUXCWS+Arial-BoldMT                  TrueType          WinAnsi          yes yes yes      7  0

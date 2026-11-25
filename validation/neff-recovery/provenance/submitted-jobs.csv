@@ -1,0 +1,9 @@
+stage,job_id,notes
+setup_initial,3311448,Failed with 4 GB memory limit; diversitree library also missing
+simulate_initial,3311455,Dependency cancelled before simulations started
+setup,3311494,32 GB test job; succeeded
+simulate,3311511,100 prespecified draws
+pilot,3311542,Full depth trial 001 included in the 100
+pilot_audit,3311669,Technical completion and independent Neff checks passed
+reconstruct,3311674,Trials 002-100; at most 50 concurrent jobs
+final_audit_and_collection,3311847,All 100 trials passed; independent audit and collector completed

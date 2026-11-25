@@ -1,0 +1,342 @@
+[
+  {
+    "file": "DESCRIPTION",
+    "sha256": "c8ff50f6df65dd9cf5d22f0a9536852a4597017c9ab703fa4d88fdce0d5ccd9b"
+  },
+  {
+    "file": "LICENSE",
+    "sha256": "5f680afe2446918c6434f51d3b155d65f36dda63dd9c498389fd416ae86a982d"
+  },
+  {
+    "file": "NAMESPACE",
+    "sha256": "2842e90f75da5098b2cfaae53c596c50d6e503f720b09984db04780395335032"
+  },
+  {
+    "file": "R/asr-common.R",
+    "sha256": "8621622c2d74bbd6b4e32400d1026ed1eea101e8e321c9c98657f9ef4234dc04"
+  },
+  {
+    "file": "R/branch_rate_pipeline.R",
+    "sha256": "4d55aec9c60b595fd21387177532502148a03dfcbc9ead3723f4e857d00ea4cd"
+  },
+  {
+    "file": "R/branch_rates.R",
+    "sha256": "e575693f2c4a8f219a27ebc8bf1e1a7e371f27b194e1a947be833fe1e31eb5ea"
+  },
+  {
+    "file": "R/fit_models.R",
+    "sha256": "8e65d14a9e04acf7a9aac54a1f33f908ff60d690c61b0d96430aaf12a1e23a4a"
+  },
+  {
+    "file": "R/graphics_functions.R",
+    "sha256": "9a6a33e4b97544e1841eeb4fe424e531d53d1259609747048a1c72b02f6635f4"
+  },
+  {
+    "file": "R/morphospace_functions.R",
+    "sha256": "039e65c3d073934f3c59f529b9ec036ab409fc4bec133d906d4a5fa0b6189064"
+  },
+  {
+    "file": "R/nhpp_functions.R",
+    "sha256": "79bf8b8c0e533ed767adc54f4071982ead72d9830167a3acc656ad77f794ecef"
+  },
+  {
+    "file": "R/paramo_functions.R",
+    "sha256": "ff4fd6a398a91b245d52fd21f055d2b1d9b632842ae23b81daa1fd532ccb62bc"
+  },
+  {
+    "file": "R/paramo_stm.R",
+    "sha256": "4eb6d2c93ee5b74f5bfb57a7b03d28638b9ba0f168e9fe3c97874c58d395f06f"
+  },
+  {
+    "file": "data/HAO.rda",
+    "sha256": "3feaaecb07852defdd225d186c583ac16ad76a65d031f5ee7993f3180bab8fb7"
+  },
+  {
+    "file": "data/hym_annot.rda",
+    "sha256": "fa8ad5501f9ef3b7f8fa88c3ba3cce76b88aab81fede625bb3c54a9831512828"
+  },
+  {
+    "file": "data/hym_graph.rda",
+    "sha256": "111ba1101315896f91ed4cdf9e8a38efebe7e9fa76f2defd3c11a82f80d70bef"
+  },
+  {
+    "file": "data/hym_hm.rda",
+    "sha256": "9fb2263c813ce0dec9864c4cc54e3868c6280931e7af7fdc28d7ebf00dcaaddd"
+  },
+  {
+    "file": "data/hym_img.rda",
+    "sha256": "4b09b2a9d6cd321adf97b15a3a3701b19630cef927407b23fd370cb49be8dc8a"
+  },
+  {
+    "file": "data/hym_kde.rda",
+    "sha256": "35e04bb9a04d35990a594b7b8f46e58659a4d8149486a271c259e2b40cfcde0f"
+  },
+  {
+    "file": "data/hym_matrix.rda",
+    "sha256": "35d4c1181cb5629290dbde9aac3681002a4ea23cb419d79543d95e069626c808"
+  },
+  {
+    "file": "data/hym_nhpp.rda",
+    "sha256": "026e596226dda7582ec32bbc350b075e7db3f7971a667c0628d6248f886c2ca4"
+  },
+  {
+    "file": "data/hym_stm.rda",
+    "sha256": "4efac48cffa8fee24dd0be4b1fd1357db1c9056cc26988c065ceaae5165b42c4"
+  },
+  {
+    "file": "data/hym_stm_amalg.rda",
+    "sha256": "55e1f3bc94594b58ab128190f5dce5a1e2a776b96daee8f93cb9f2c6196d9b1d"
+  },
+  {
+    "file": "data/hym_stm_mds.rda",
+    "sha256": "f6743db7f11e6b63a375c68c4be117ab80653dbf8eefb2cd2c51fc7ad5fd804b"
+  },
+  {
+    "file": "data/hym_tree.rda",
+    "sha256": "dd30c0e7915917a7800fa79a95c1bded484b6c2e2a7ebdb197ebb6452359e46b"
+  },
+  {
+    "file": "man/KDE_unnorm_trunc_Markov.Rd",
+    "sha256": "cc540d6ba6032ef51e2bbd8463f8c0de005c12c27bb38ee1f22840fc45184611"
+  },
+  {
+    "file": "man/KDE_unnormalized_scalar_Markov_kernel.Rd",
+    "sha256": "882cb37d1b88bb793b091768dbd514abf1e22e12c13b249347f0acdbf3c0a0e4"
+  },
+  {
+    "file": "man/MultiScale.simmap.Rd",
+    "sha256": "f16b168386bdb1bc2a5489d3b4c86223b3e20638ece4d9cbe97b31788df1b9bb"
+  },
+  {
+    "file": "man/RAC_query.Rd",
+    "sha256": "2c6b77e17cc2fe79e31aa516e5373985199d4e75707dc651044d009085beefa9"
+  },
+  {
+    "file": "man/add_noise_MD.Rd",
+    "sha256": "267ad444ab07fa7da2ba6fcee0619add63f4f34fb729bcb3a5a0d0c37bf99857"
+  },
+  {
+    "file": "man/add_pseudodata.Rd",
+    "sha256": "f33a41c4d6021622ec9402c9519c7daed75c5fcb74278e902dd6b347fc9e2c6c"
+  },
+  {
+    "file": "man/ama_branches_multi_char.Rd",
+    "sha256": "d96ee3974b8a740d58d4363b27b7cbdcfb188f9ffe9f28892318a613fa44a852"
+  },
+  {
+    "file": "man/anat_plot.Rd",
+    "sha256": "91bb6731597005ee5a42af090cd4b6bc83b437b9a5542c7d25fa90c8fe136bd6"
+  },
+  {
+    "file": "man/branch_rate_contrast.Rd",
+    "sha256": "ff338a7b2f3e657b392a46b17c942b3539b519673b6f28ba10fc60e2d963eedb"
+  },
+  {
+    "file": "man/branch_rate_pipeline.Rd",
+    "sha256": "ae1ac4d6a1dc2fa6852a98850722f8456c0ce3df59dc44d24fbb4096a815e8d6"
+  },
+  {
+    "file": "man/branch_rate_thru_time.Rd",
+    "sha256": "28f44848cd82e42d2f9fb786b46e017379b888f1ca6e64cc856a881312b1c85a"
+  },
+  {
+    "file": "man/branch_rate_thru_time_Multi.Rd",
+    "sha256": "ab3f34bfe57c050667ec5b960e2ffab7a78f74eadb0ae721935c3c5d47973ad8"
+  },
+  {
+    "file": "man/branch_rates.Rd",
+    "sha256": "d36ac415e2d110f54803fd603032543e1b2703a70320cdeb9d61d2f1b2234992"
+  },
+  {
+    "file": "man/color.bar.Rd",
+    "sha256": "e7cd6b11cda634d062a22ec4d84138ca190a54b63398f08e1b4b8600190fbccc"
+  },
+  {
+    "file": "man/count_branch_changes.Rd",
+    "sha256": "43983f86e2e1543da4e83a960d8f36bf1470104d96e85d1086d0a969cb4ed3f5"
+  },
+  {
+    "file": "man/derivative_KDE.Rd",
+    "sha256": "31dad4db71028b9803582de509fe674539dfc28020c270abcaa494a2972465be"
+  },
+  {
+    "file": "man/discr_Simmap.Rd",
+    "sha256": "abdbe5503c0f56f7b408888129dc6d0bbfe4f06d2befb04d55c9cfc11d0f636d"
+  },
+  {
+    "file": "man/discr_Simmap_all.Rd",
+    "sha256": "edcb593ddaefcb2367c80b126687578b8c1f8ad208ff0877887eb64869c48b66"
+  },
+  {
+    "file": "man/edge_profiles4plotting.Rd",
+    "sha256": "c9a5b77101571c71b035e786ec5cac6227fdee6fc777a03ba43c4a3195c7402d"
+  },
+  {
+    "file": "man/edgeplot.Rd",
+    "sha256": "e2877883d351a5237267a822b33de102039b76a8c583d1572117cb86c692663a"
+  },
+  {
+    "file": "man/estimate_band_W.Rd",
+    "sha256": "cdcacce55155de0fd5965f8748d4b34451c1b8593583d787c9555e0d62027447"
+  },
+  {
+    "file": "man/estimate_edge_KDE.Rd",
+    "sha256": "4d943016dcb2a690c605ca8f95791dc7eccfd39076c725b58040f360d5898b1a"
+  },
+  {
+    "file": "man/estimate_edge_KDE_Markov_kernel_unnorm.Rd",
+    "sha256": "79860b1b57a935709bd3ac3af6e643df33e8c8d33732b30060f8f7d3fd06df68"
+  },
+  {
+    "file": "man/fit_models.Rd",
+    "sha256": "e10caa1fc4f14a9fe498b8601f4f1cea9bca1c014871be7a903f213979ccd225"
+  },
+  {
+    "file": "man/get_branch_rate_sample_smaps.Rd",
+    "sha256": "f74397a37ab2816ef850318b068753f9989196387bade28660a57416c6ff6ea2"
+  },
+  {
+    "file": "man/get_descendants_chars.Rd",
+    "sha256": "1c15de00f6dbcc7f5272157dcd09ce90b23acb52f3dd65c5f6ff1eabd08212fc"
+  },
+  {
+    "file": "man/get_path_edges.Rd",
+    "sha256": "ac10cf4bc6e23a275386b1db81234d316cae1bee7ae85c737f66257779eca9a1"
+  },
+  {
+    "file": "man/get_rough_state_cols.Rd",
+    "sha256": "e4b1a4c9a76e8ab2ec3657252be2d7a9bebb8e2c7097adc8ca3916803b47bdd3"
+  },
+  {
+    "file": "man/get_states_path.Rd",
+    "sha256": "c1ef860405fc459e2195b262b8671df068359ac78d0bc2fe3765fdc5614945bf"
+  },
+  {
+    "file": "man/get_vector_ids_list.Rd",
+    "sha256": "a8314391e664efde8191e579f2845d86fbb941a70d8cecf638399fcbbde293aa"
+  },
+  {
+    "file": "man/get_vector_ids_per_term.Rd",
+    "sha256": "5b3b25616de1f102229fe59e813af733b020cb12e696e3c32ae60c6412ccc434"
+  },
+  {
+    "file": "man/integrate_edge_KDE.Rd",
+    "sha256": "958286e550b07f2b5f8a13846b368a91235e529499c1f6f22329b2aa5507005f"
+  },
+  {
+    "file": "man/join_edges.Rd",
+    "sha256": "00ed386c192165589a0c2c355af0c814d4d27cf20dd508e29e5d3374fd432d74"
+  },
+  {
+    "file": "man/list2edges.Rd",
+    "sha256": "4c6819ed9cefa862fd5a1ae41c8ab3f3b03f39507bbad46d266c8c3ca677e732"
+  },
+  {
+    "file": "man/loess_smoothing_KDE.Rd",
+    "sha256": "7ea6fada5652213cd42aaa3031abdceee3380030eb57d3f30a4c13a1f0a19703"
+  },
+  {
+    "file": "man/make_colors.Rd",
+    "sha256": "bf58736e2d6712368095346e61f1d51e1bdccfcd236e92784f7e242d03182f8a"
+  },
+  {
+    "file": "man/make_colors_relative_scale.Rd",
+    "sha256": "4187a07f4d4e5ed38285dced5808378067955539db165958c0be465373b1057d"
+  },
+  {
+    "file": "man/make_contMap_KDE.Rd",
+    "sha256": "0448ec473c7b65e6f7d7076ba28efc927a874fcc487ef6f076462f8088c8f78d"
+  },
+  {
+    "file": "man/make_data_NHPP_KDE_Markov_kernel.Rd",
+    "sha256": "ec4b1be16252620224d410a96a3d80ef15eb8b1977cdd33a693d44478bbce6bc"
+  },
+  {
+    "file": "man/make_data_NHPP_over_edge_MarkovKDE.Rd",
+    "sha256": "6966a4fdabd08b6fc0d335fc523246a34aee78f4978a396642a0123fdd512f8f"
+  },
+  {
+    "file": "man/make_pic.Rd",
+    "sha256": "ebfd4700d90213d3b81602219533460eb58e963f604ae3482055a004d01789f4"
+  },
+  {
+    "file": "man/make_postPois_KDE.Rd",
+    "sha256": "3e90d66d130663337c7034e39b5740a273928e0f96fad5c6165e88479a6523ac"
+  },
+  {
+    "file": "man/mds_plot.Rd",
+    "sha256": "4e8e91358871a24c80f6f168d362267e478b1738afe253be8afdc0bc4c9038da"
+  },
+  {
+    "file": "man/merge_branch_cat.Rd",
+    "sha256": "24f7f9cab9680448902a6ab9ecd0708cccb7bae1993d00c8a86c486f1dbbb7e1"
+  },
+  {
+    "file": "man/merge_tree_cat.Rd",
+    "sha256": "8dfb26c98ea750b8c1f511ff1513918c5f99728e70519d02d38ce9a163708c25"
+  },
+  {
+    "file": "man/merge_tree_cat_list.Rd",
+    "sha256": "6f8703e2b2ec0f8012fd1e2491b50859c736fc64804af4816819b4c94e0ee2ed"
+  },
+  {
+    "file": "man/normalize_KDE.Rd",
+    "sha256": "d1ef129d7464bdcb2e60d08243f8547a4d2b0373cc8c5e2775d8bdbf97dc8214"
+  },
+  {
+    "file": "man/paramo.Rd",
+    "sha256": "3460363e032e0dd8cc306faa406f228f8fac011d7843f7529d3228f5cdec83b1"
+  },
+  {
+    "file": "man/paramo.list.Rd",
+    "sha256": "717996bf53ff3f33108ea276ddebefab8f9516530e235fe39d529b2a1760464c"
+  },
+  {
+    "file": "man/paramo_stm.Rd",
+    "sha256": "2c04b9705d43f1c22e6b61b76e8a82cebc87e24faf7942830130645c2392fc43"
+  },
+  {
+    "file": "man/path_hamming.Rd",
+    "sha256": "8f3e6dca963968f70ac876e7ff5eda861b55db4ab12f08919a6928f19a961969"
+  },
+  {
+    "file": "man/path_hamming_over_all_edges.Rd",
+    "sha256": "196a1799b38bda2bc4cc787799adfe333f48ce02f68133afb7cce691825c468b"
+  },
+  {
+    "file": "man/path_hamming_over_trees_KDE.Rd",
+    "sha256": "be26a88998cba60b159d811ee4f5adccee829f2e791534d3dd1a9fa5345845f6"
+  },
+  {
+    "file": "man/plot_branch_colored_tree.Rd",
+    "sha256": "9a0f8a88b62a88e1bffba0fe982cd2469119874bb2db16bd992dfccb8140277f"
+  },
+  {
+    "file": "man/plot_marginal_rates.Rd",
+    "sha256": "7f82b2c19641397a4dfe3ffe2ceb06769bac76f70afd4eae56ab02f8c5668cac"
+  },
+  {
+    "file": "man/posterior_lambda_KDE.Rd",
+    "sha256": "e52439600c6212fc282ed2c9dd898e6ab64a4fed04be481b040f502b90f4bc75"
+  },
+  {
+    "file": "man/posterior_lambda_KDE_Distr.Rd",
+    "sha256": "c77a5f5cb0e691e4c89fdc6aed1006682f7cb1ea182492711794b8ec0afd1584"
+  },
+  {
+    "file": "man/read_stm.Rd",
+    "sha256": "88eb090f7a1ff9946d6aa9941814e30d13433117ef682266d32e08762628deb0"
+  },
+  {
+    "file": "man/stack2.Rd",
+    "sha256": "10a8bb15e09e66e269739e0b63845b38587c787c294abecb0314656853b8ec18"
+  },
+  {
+    "file": "man/stack_stm.Rd",
+    "sha256": "f7d271d0543b0b8e7c091c300d440d8bb54d07c5cf43b93e0f301030e61ff56f"
+  },
+  {
+    "file": "man/summarize_branch_rates.Rd",
+    "sha256": "59f745948c7132ddd3f22026b15f53d65cd9bb0d333d902319e278b5696d4834"
+  }
+]

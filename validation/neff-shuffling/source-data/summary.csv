@@ -1,0 +1,2 @@
+"n_shuffles","observed_r","observed_pearson_p_two_sided","median_null_r","lower_null_r","upper_null_r","maximum_null_r","n_at_least_observed","permutation_p_positive","n_nominal_p_below_005","percent_nominal_p_below_005","n_positive_and_nominal_p_below_005","n_negative_and_nominal_p_below_005"
+9999,0.950066367837083,6.7069332060483e-07,-0.474269197861625,-0.571086467572193,-0.296409850172471,-0.0646373415727583,0,1e-04,658,6.58065806580658,0,658

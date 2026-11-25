@@ -161,6 +161,7 @@ cor.test(neff_r, py_div, method = 'pearson')
 ### Plot publication
 
 ```{r}
+library("ggpubr")
 
 df_neff_py <- tibble(
     neff_r = neff_r, 

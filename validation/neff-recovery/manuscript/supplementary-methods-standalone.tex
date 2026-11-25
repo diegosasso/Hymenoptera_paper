@@ -1,0 +1,162 @@
+\subsection*{Design and evaluation of the phenomic-diversity recovery simulations}
+\phantomsection
+\label{sec:neff-supplement}
+
+This section describes the experiment summarized in
+\hyperref[sec:neff-main]{Simulation-based recovery of phenomic diversity}.
+The simulation design, seeds, complete per-trial outputs, and figure scripts
+are provided in \texttt{validation/}\allowbreak\texttt{neff-recovery}.
+
+\paragraph{Tree-generating process and conditioning.}
+We simulated 100 independent, fully sampled, bifurcating pure-birth trees,
+each starting with two lineages at a crown age of 300~Ma. Speciation rates
+were $0.010$, $0.028$, and $0.010~\mathrm{Myr}^{-1}$ during the intervals
+300--180, 180--80, and 80--0~Ma, respectively; extinction was zero throughout.
+The elevated rate applied to every lineage in the middle interval.
+Thus the model is a time-dependent, state-independent special case of BiSSE,
+with equal speciation rates for the two states within each epoch. The binary
+low/high regime indicator was determined by time, not simulated as an
+independently evolving character. We generated trees by exact exponential
+waiting times within epochs. \texttt{diversitree::make.bisse.td} was used to
+verify a finite likelihood under the generating parameters, not to generate
+trees or estimate diversification parameters.
+
+Tree proposals were retained if they contained 120--250 tips, all branch
+lengths exceeded $10^{-5}$~Myr, and the focal-branch design could be realized.
+Candidate temporal anchors were spaced 1~Myr apart within the elevated-rate
+interval, leaving a 3-Myr margin at either end. A valid anchor intersected
+at least 20 lineages and had at least ten eligible branches spanning the
+6-Myr interval centred on the anchor. Eligible branches subtended at least
+six tips, left at least five tips outside their descendant clade, and spent
+at least half their duration in the elevated-rate interval. We selected a
+valid anchor uniformly, then selected ten eligible branches without
+replacement. Proposals with more than 250 tips were discarded in full;
+other proposals failing the stated conditions were also discarded, with a
+maximum of 1,000 proposals per trial. These conditions depend only on the
+tree and focal-branch geometry. No acceptance criterion used character
+states, reconstructed rates, $N_{\mathrm{eff}}^{+}$, or correlation results.
+The experiment is consequently conditional on these size and geometry criteria.
+
+\paragraph{Character origins and subsequent evolution.}
+Each focal branch defined one anatomical unit with 20 separately generated
+binary characters, giving 200 characters in ten units per tree. For each
+character, the origin was drawn uniformly within the portion of its focal
+branch lying between 180 and 80~Ma. At that instant, the character changed
+from 0 to 1. Evolution then continued along the remaining focal branch and
+all descendant branches under an equal-rates continuous-time Markov model,
+$q_{01}=q_{10}=10^{-4}~\mathrm{Myr}^{-1}$, including after the elevated
+speciation interval ended. States before the origin and outside its
+descendant clade remained~0. We retained exact event times, branch identities,
+and simulated histories, including the forced origin and all subsequent
+losses or regains. Each character was generated once, without rejection
+based on its terminal state frequencies. Conditional on the tree and origin,
+the expected number of subsequent transitions is the common transition rate
+multiplied by the total descendant branch duration exposed after origin.
+
+\paragraph{Reconstruction and constant observations.}
+Reconstruction received the fixed tree and terminal observations only.
+It did not receive focal-branch identities, origin times, generating transition
+rates, or simulated internal histories. Each variable character was fitted
+with an equal-rates Mk model using \texttt{ontophylo} development version~0.3.0,
+with three optimization restarts and the \texttt{maddfitz} root treatment
+\citep{fitzjohn2009}. The package fits models through \texttt{corHMM} and
+passes the fitted transition matrix and root treatment to \texttt{phytools}
+for conditional stochastic mapping \citep{corHMM,revell2024}.
+We generated 100 maps per variable character, holding its fitted model and
+transition matrix fixed. Map intervals therefore describe conditional
+history uncertainty and exclude parameter, model-selection, and tree uncertainty.
+
+Some characters can lose state~1 from all surviving tips despite having
+undergone a true origin. As in the taxon-sampling experiment, constant
+observations were recorded and omitted from reconstruction because the
+available observed-state fitting implementation cannot estimate their
+binary model. They were not replaced by zero-change maps or redrawn.
+All ten units were retained; character retention was reported per unit and
+trial. Primary recovery comparisons used the complete simulated histories
+as truth. A second comparison used only the simulated histories of characters
+retained for reconstruction, separating the effect of lost terminal
+variation from reconstruction error. The batch contained
+34 constant characters in 28
+trials; 100 trials yielded reconstructed trajectories.
+All prespecified trials remain in the reported denominators.
+
+\begin{samepage}
+\paragraph{Rates, acceleration patterns, and effective diversity.}
+For anatomical unit $u$, branch $b$, and mapping replicate $m$, we summed
+mapped transitions across its retained characters and divided by branch
+duration $\ell_b$:
+\[
+  r_{bum}=\frac{\sum_{c\in u}n_{bcm}}{\ell_b}.
+\]
+\end{samepage}
+We did not divide by character number. These are realized branch change
+rates, not independently fitted branch-specific transition matrices.
+For each unit and mapping replicate separately, a branch was classified as
+accelerated if its rate was strictly greater than the 95th percentile of
+that unit's rates across all branches, using R's type-7 quantile.
+Constant rate vectors were left unclassified. This strict rule avoids
+classifying zero-change branches as accelerated when the percentile is zero.
+We also calculated the original inclusive-cutoff variant as a secondary
+sensitivity analysis, retaining undefined correlations when its trajectory
+was constant. In this batch, all 100 true-history and all 100 reconstructed
+inclusive-cutoff trajectories were constant, giving no estimable
+correlations for that variant.
+
+At each 1-Myr midpoint from 299.5 to 0.5~Ma, we selected all extant branches
+and represented each by its joint binary acceleration pattern across the
+ten units. If $f_{tm}$ is the fraction with at least one accelerated unit and
+$p_{ktm}$ is the frequency of nonzero pattern $k$ among these branches,
+\[
+  N_{\mathrm{eff},tm}^{+}
+  = f_{tm}\exp\left(-\sum_k p_{ktm}\log p_{ktm}\right).
+\]
+The metric was zero when no branch was accelerated. We calculated it within
+each mapping replicate before averaging across maps; thresholding averaged
+rates or treating marginal unit frequencies as independent patterns would
+not reproduce this calculation. Applying the same operations to the actual
+simulated histories provided the true-history reference.
+Because rates summarize whole branches, even the true-history rate metric
+can extend outside the precise interval containing individual origin events.
+
+Marginal character rates were means across branches present at each time
+slice. Marginal diversification was the corresponding mean of the known
+generating $\lambda-\mu$; with equal rates among contemporaneous lineages,
+it equals the specified epoch rate. The simulation therefore tests recovery
+of the phenomic component against known diversification, rather than joint
+recovery of two estimated trajectories. Figure~\ref{fig:neff-example} shows
+these distinct sources for prespecified trial~001, and
+Figure~\ref{fig:neff-unit} links unit-level branch classifications to the
+reconstructed diversity trajectory.
+
+\paragraph{Recovery and correlation summaries.}
+We quantified true--reconstructed agreement by the trajectory correlation,
+root-mean-square error, mean bias, and peak age on the 300-point time grid.
+These are descriptive recovery measures. For association tests, we averaged
+$N_{\mathrm{eff}}^{+}$ and diversification within the same 15 complete,
+non-overlapping 20-Myr bins and used a two-sided Pearson correlation test.
+We tabulated the numbers and percentages with $p<0.05$, $p<0.01$, and
+$p<0.001$, both irrespective of sign and requiring a positive correlation.
+Percentages use all 100 prespecified trials; the accompanying tables also
+provide denominators restricted to estimable correlations and explicitly
+list unavailable results. Exact 95\% binomial intervals quantify Monte Carlo
+uncertainty in these frequencies. They do not correct the individual
+correlation tests for dependence among time bins.
+
+Across-trial trajectory bands show the central 95\% range of trial means,
+not confidence intervals for the grand mean. Within-trial bands show the
+central 95\% range across conditional stochastic maps. This experiment
+contains an imposed-association scenario only: it does not estimate null
+false-positive rates, address extinct lineages or incomplete sampling, or
+establish a causal effect of character evolution on diversification.
+
+\paragraph{Computation and verification.}
+Calculations ran on CSC Roihu with fixed trial-specific seeds and a frozen
+\texttt{ontophylo} source snapshot. Each tree and dataset was independent;
+trial~001 served as a technical preflight and remained part of the 100-trial
+batch. The gate checked computation and metric correctness, not the size or
+significance of correlations. Character fits and mapping batches were
+checkpointed. Independent checks reconstructed the strict acceleration
+patterns and effective-diversity formula directly from branch-rate arrays,
+verified true rates against simulated event counts, and recalculated the
+reported Pearson tests. Package versions, source checksums, fitting and
+mapping statuses, and cluster accounting are retained with the analysis.

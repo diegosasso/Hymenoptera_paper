@@ -1,0 +1,5 @@
+PASS: epoch metrics and single-origin references independently verified.
+Paired trials: 1500 ; tree/character groups: 4500
+Maximum numerical disagreement: 1.4210854715202e-13
+Branch overlap with each target epoch was computed directly from node ages.
+Checked changes, epoch rates/fractions, mean ages, references and branch-count errors.

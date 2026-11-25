@@ -1,0 +1,15 @@
+figures/all-trial-diagnostics.pdf: Pages:           100; Page size:       518 x 666 pts; fonts embedded
+figures/all-trial-neff-curves.pdf: Pages:           10; Page size:       518 x 666 pts; fonts embedded
+figures/neff-through-time.pdf: Pages:           1; Page size:       518 x 354 pts; fonts embedded
+figures/p-value-distribution.pdf: Pages:           1; Page size:       518 x 425 pts; fonts embedded
+figures/p-value-percentages.pdf: Pages:           1; Page size:       518 x 354 pts; fonts embedded
+figures/recovery-summary.pdf: Pages:           1; Page size:       518 x 481 pts; fonts embedded
+figures/scenario-neff-through-time.pdf: Pages:           1; Page size:       518 x 481 pts; fonts embedded
+figures/scenario-p-value-distribution.pdf: Pages:           1; Page size:       518 x 481 pts; fonts embedded
+figures/scenario-p-value-percentages.pdf: Pages:           1; Page size:       518 x 481 pts; fonts embedded
+figures/trial-001-overview.pdf: Pages:           1; Page size:       518 x 666 pts; fonts embedded
+figures/trial-001-unit-acceleration.pdf: Pages:           10; Page size:       518 x 666 pts; fonts embedded
+All nine methods-preview pages rendered and visually inspected.
+Comparison percentages and trajectories inspected; trial 001 overview and unit panels inspected.
+Tree endpoints within 1e-8 Ma of the plotting limits are squished for display only.
+No final plotting warnings or LaTeX warnings/overfull boxes.

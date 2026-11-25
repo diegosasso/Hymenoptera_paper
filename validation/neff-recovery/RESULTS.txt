@@ -1,0 +1,17 @@
+NEFF RECOVERY: 100 PRESPECIFIED INDEPENDENT TRIALS
+
+Reconstructed trials: 100 / 100
+Characters: 20000 simulated; 34 constant observations omitted; 19966 variable fitted
+Mapping histories completed: 1996600
+Median Neff trajectory recovery r: 0.996353
+Median Neff trajectory RMSE: 0.089488
+Positive reconstructed Neff/diversification correlations with nominal p<.05: 78/100 (78.0%; exact 95% CI 68.6-85.7%)
+Corresponding true-history detections: 71/100
+
+All p-value thresholds, directions and denominators: summary/p-value-percentages.csv
+Nominal Pearson tests use 15 matched 20-Myr bins and do not correct temporal autocorrelation.
+This imposed-association experiment does not estimate null false-positive rates or causality.
+
+Truth uses all 200 characters/trial. Matched truth retains only characters used for ASR.
+No character or completed tree was redrawn because of its p-value or reconstruction outcome.
+The inclusive cutoff is a secondary sensitivity analysis; all 100 true and reconstructed trajectories were constant and their correlations undefined.
