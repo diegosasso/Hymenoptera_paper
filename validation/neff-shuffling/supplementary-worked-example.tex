@@ -13,24 +13,26 @@
 
 Consider a time slice crossing the three terminal branches in each scenario of Extended Data Figure~4. Code each lineage in the order \emph{wings, thorax, head}, with 1 for accelerated and 0 otherwise. Each complete combination is one pattern: \texttt{111} is a single pattern even though all three units accelerate.
 
-\paragraph{1. Calculate \(N_{\mathrm{eff}}^{+}\).}
-Let \(N\) be the number of lineages and \(n^{+}\) the number containing at least one 1. Among these \(n^{+}\) lineages, calculate the frequency \(p_i\) of each distinct pattern. Using natural logarithms,
+\paragraph{1. Calculating phenomic diversity, \(N_{\mathrm{eff}}^{+}\).}
+At time slice \(t\), let \(N_t\) be the number of branches crossing the slice and \(N_t^{+}\) the number containing at least one accelerated unit. Among these \(N_t^{+}\) branches, calculate the relative frequency \(p_i(t)\) of each distinct acceleration pattern. Using natural logarithms,
 \[
-f^{+}=\frac{n^{+}}{N},\qquad
-H^{+}=-\sum_i p_i\ln p_i,\qquad
-N_{\mathrm{eff}}^{+}=f^{+}e^{H^{+}}.
+f^{+}(t)=\frac{N_t^{+}}{N_t},\qquad
+H^{+}(t)=-\sum_i p_i(t)\ln p_i(t),\qquad
+N_{\mathrm{eff}}^{+}(t)=f^{+}(t)e^{H^{+}(t)}.
 \]
-In Scenario~3, the patterns \texttt{001}, \texttt{010} and \texttt{100} each occur once. Thus \(f^{+}=3/3=1\) and each \(p_i=1/3\), giving
+All-zero patterns are excluded from \(H^{+}\), but their branches remain in the denominator of \(f^{+}\).
+
+In Scenario~3, the patterns \texttt{001}, \texttt{010} and \texttt{100} each occur once. Thus \(f^{+}(t)=3/3=1\) and each \(p_i(t)=1/3\), giving
 \[
-H^{+}=-3\left(\frac13\ln\frac13\right)=\ln3,
-\qquad N_{\mathrm{eff}}^{+}=1\times e^{\ln3}=3.
+H^{+}(t)=-3\left(\frac13\ln\frac13\right)=\ln3,
+\qquad N_{\mathrm{eff}}^{+}(t)=1\times e^{\ln3}=3.
 \]
-If no lineage is accelerated (Scenario~4), set \(N_{\mathrm{eff}}^{+}=0\) without evaluating \(H^{+}\).
+If no branch contains an accelerated unit (Scenario~4), define \(H^{+}(t)=0\) and \(N_{\mathrm{eff}}^{+}(t)=0\).
 
 \paragraph{2. Calculate phenomic coordination, \(P_c\).}
-For each lineage, divide its number of accelerated units, \(a_j\), by the total number of units, \(L\), then average across \emph{all} lineages. In Scenario~3, each lineage has one accelerated unit out of three:
+For each branch, divide its number of accelerated units, \(a_b\), by the total number of units, \(L\), then average across \emph{all} branches crossing time slice \(t\). In Scenario~3, each branch has one accelerated unit out of three:
 \[
-P_c=\frac{1}{N}\sum_{j=1}^{N}\frac{a_j}{L}
+P_c(t)=\frac{1}{N_t}\sum_{b=1}^{N_t}\frac{a_b}{L}
 =\frac{1/3+1/3+1/3}{3}=\frac13.
 \]
 
@@ -42,7 +44,7 @@ Scenario & Lineage patterns & \(f^{+}\) & \(H^{+}\) & \(N_{\mathrm{eff}}^{+}\) &
 1 & \texttt{111, 111, 111} & 1 & 0 & 1 & 1 \\
 2 & \texttt{100, 100, 100} & 1 & 0 & 1 & \(1/3\) \\
 3 & \texttt{001, 010, 100} & 1 & \(\ln3\) & 3 & \(1/3\) \\
-4 & \texttt{000, 000, 000} & 0 & --- & 0 & 0 \\
+4 & \texttt{000, 000, 000} & 0 & 0 & 0 & 0 \\
 \bottomrule
 \end{tabular}
 \end{center}

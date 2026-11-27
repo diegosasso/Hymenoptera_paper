@@ -31,7 +31,7 @@ permutations; their original cross-unit co-occurrence is not held fixed.
 
 Two null models were specified before the full run:
 
-1. **Unrestricted:** exchange profiles among all branches, as requested.
+1. **Unrestricted:** exchange profiles among all branches.
 2. **Within length quartiles:** exchange profiles only among branches in the same
    quartile of the empirical branch-length distribution. The four groups contain
    38, 39, 37 and 38 branches, respectively, because tied lengths are kept together.

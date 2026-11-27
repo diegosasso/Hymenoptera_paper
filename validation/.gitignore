@@ -1,0 +1,27 @@
+# Local system, editor and R state
+.DS_Store
+.Rproj.user/
+.Rhistory
+.RData
+.Renviron
+.Rprofile
+.env
+.env.*
+Rlib/
+__pycache__/
+*.pyc
+
+# Execution logs and temporary output
+logs/
+tmp/
+*.tmp
+*.log
+
+# LaTeX build products (keep the source and final PDFs)
+*.aux
+*.bbl
+*.blg
+*.fls
+*.fdb_latexmk
+*.synctex.gz
+**/manuscript/*.out

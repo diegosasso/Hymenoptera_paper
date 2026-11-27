@@ -1,6 +1,0 @@
-Task: 35 Dataset: seed91507_full77 Axis: PC2 Lambda: 1 Tips: 77 
-Started: 2026-11-20 17:07:36 UTC 
-  task_id          dataset axis lambda   seed success elapsed_seconds
-1      35 seed91507_full77  PC2      1 200035    TRUE           1.272
-              started_utc               ended_utc error
-1 2026-11-20 17:07:36 UTC 2026-11-20 17:07:37 UTC      

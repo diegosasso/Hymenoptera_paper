@@ -1,6 +1,0 @@
-Task: 19 Dataset: seed3407_family48_last Axis: PC1 Lambda: 0.1 Tips: 48 
-Started: 2026-11-20 17:07:33 UTC 
-  task_id                dataset axis lambda   seed success elapsed_seconds
-1      19 seed3407_family48_last  PC1    0.1 200019    TRUE           1.229
-              started_utc               ended_utc error
-1 2026-11-20 17:07:33 UTC 2026-11-20 17:07:35 UTC      

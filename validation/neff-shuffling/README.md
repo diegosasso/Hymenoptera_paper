@@ -29,18 +29,13 @@ shuffling creates no correlation, or that the empirical association is causal.
 
 `figure-caption.tex` and `methods.tex` are LaTeX snippets for the manuscript.
 `materials-and-methods.tex` is the main-text section covering recovery, threshold
-sensitivity, component analyses and randomization. It follows the supplied narrative
-and explains the purpose and interpretation of each test. The file includes a
-minimal wrapper for the current editor's preview; copy the subsection into the
-manuscript. The initial five drafts are retained in
-`provenance/materials-methods-five-iterations.txt`; the five narrative revisions are
-in `provenance/materials-methods-narrative-five-iterations-2026-11-24.txt`.
-Supplementary Note numbering follows the supplied draft.
+sensitivity, component analyses and randomization, explaining the purpose and
+interpretation of each test. The file includes a standalone preview wrapper;
+copy the subsection into the manuscript and update the Supplementary Note numbers.
 
 `supplementary-worked-example.tex` explains how to calculate Neff+ and Pc from
 the four scenarios in Extended Data Figure 4. It includes a small comparison table
-and one modified example with an unaccelerated lineage. Five writing passes are
-saved in `provenance/worked-example-five-iterations-2026-11-24.txt`. Run
+and one modified example with an unaccelerated lineage. Run
 `Rscript validation/neff-shuffling/scripts/check-worked-example.R` from the
 repository root to reproduce all values and verify them against the existing
 metric functions; results are in `source-data/worked-example-values.csv`.

@@ -1,5 +1,0 @@
-Concise figure-caption.tex verified with the built-in LaTeX compiler using a temporary standalone wrapper containing the exact saved caption.
-methods.tex was previously verified with pdflatex.
-No additional manuscript PDF is distributed.
-materials-and-methods.tex verified successfully with the built-in LaTeX compiler using a temporary wrapper containing the exact saved section.
-2026-11-24: narrative revision of materials-and-methods.tex compiled successfully IN PLACE with the built-in editor compiler. A minimal document wrapper was added to the same source for its live preview; no replacement document or separate PDF was created.

@@ -1,6 +1,0 @@
-Repository: https://github.com/diegosasso/Hymenoptera_paper.git
-HEAD: c22dfaa65726162f2e3e6100149a4f5acc3de46e
-Working-tree status at extraction:
- M .DS_Store
-?? comparisons/
-?? validation/

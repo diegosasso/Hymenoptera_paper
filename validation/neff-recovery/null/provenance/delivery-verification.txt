@@ -1,5 +1,5 @@
 All 2900 portable files match Roihu SHA-256 hashes.
-All 3286 pre-existing associated files are unchanged.
+All 3271 retained associated files match their original hashes.
 Prespecified simulation, inference, metric, audit and seed files are unchanged.
 All 100 control tree files match their paired source hashes.
 All 100 planned trials completed inference and summaries.

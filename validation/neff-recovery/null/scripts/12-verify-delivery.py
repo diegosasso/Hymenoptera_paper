@@ -29,11 +29,11 @@ for name, expected in hashes.items():
     assert digest(root / name) == expected, name
 messages.append(f'All {len(hashes)} portable files match Roihu SHA-256 hashes.')
 
-preserved = (root / 'provenance/associated-before-sha256.txt').read_text().splitlines()
+preserved = (root / 'provenance/associated-inputs-sha256.txt').read_text().splitlines()
 for line in preserved:
     expected, name = line.split('  ', 1)
     assert digest(root.parent / name) == expected, name
-messages.append(f'All {len(preserved)} pre-existing associated files are unchanged.')
+messages.append(f'All {len(preserved)} retained associated files match their original hashes.')
 
 for line in (root / 'provenance/analysis-sha256.txt').read_text().splitlines():
     expected, name = line.split('  ', 1)

@@ -1,4 +1,4 @@
-Reference workflow: Taxon-sampling-sim chat; validation/phylo-sampling.
+Reference implementation: validation/phylo-sampling.
 FitzJohn et al. 2009: https://www.zoology.ubc.ca/~fitzjohn/pubs/FitzJohn-2009-595.pdf
 phytools citation: https://cran.r-project.org/web/packages/phytools/citation.html
 corHMM manual: https://cran.r-project.org/web/packages/corHMM/refman/corHMM.html

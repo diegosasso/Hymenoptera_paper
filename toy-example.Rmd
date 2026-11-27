@@ -243,16 +243,17 @@ se_metric <- function(x) {
 
 
 ```{r}
-s1 <- c('0000', '0000', '0000', '0000') # low Se and low  Neff
-s2 <- c('1000', '1000', '1000', '1000')
-s3 <- c('1000', '0100', '0010', '0001')
-s4 <- c('1111', '1111', '1111', '1111')
+# s1 <- c('0000', '0000', '0000', '0000') # low Se and low  Neff
+# s2 <- c('1000', '1000', '1000', '1000')
+# s3 <- c('1000', '0100', '0010', '0001')
+# s4 <- c('1111', '1111', '1111', '1111')
 
 
-s1 <- c('000', '000', '000') 
+s1 <- c('111', '111', '111') 
 s2 <- c('100', '100', '100') 
-s3 <- c('100', '010', '001') 
-s4 <- c('111', '111', '111') 
+s3 <- c('001', '010', '100') 
+s4 <- c('000', '000', '000') 
+
 
 diversity_metric(s1, type="Neff_scaled", base=exp(1))
 se_metric(s1)
@@ -264,6 +265,12 @@ diversity_metric(s3, type="Neff_scaled", base=exp(1))
 se_metric(s3)
 
 diversity_metric(s4, type="Neff_scaled", base=exp(1))
+se_metric(s4)
+
+
+ss <-  c('001', '000', '000') 
+
+diversity_metric(ss, type="Neff_scaled", base=exp(1))
 se_metric(s4)
 
 ```

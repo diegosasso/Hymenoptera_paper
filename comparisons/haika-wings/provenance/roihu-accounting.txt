@@ -1,8 +1,0 @@
-JobID           JobName      State    Elapsed  AllocCPUS     MaxRSS ExitCode 
------------- ---------- ---------- ---------- ---------- ---------- -------- 
-3285454      haika-com+  COMPLETED   00:01:02          8                 0:0 
-3285454.bat+      batch  COMPLETED   00:01:02          8   2529100K      0:0 
-3285454.ext+     extern  COMPLETED   00:01:03          8                 0:0 
-3285525      haika-bou+  COMPLETED   00:00:04          1                 0:0 
-3285525.bat+      batch  COMPLETED   00:00:04          1    397388K      0:0 
-3285525.ext+     extern  COMPLETED   00:00:04          1                 0:0 
